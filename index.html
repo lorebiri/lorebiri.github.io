@@ -145,6 +145,13 @@ h2 .serif{color:var(--pink);font-size:1.1em}
 .when{font-weight:700;font-size:14px;border:2px solid var(--line);border-radius:999px;padding:5px 12px;text-align:center;background:var(--card)}
 .tl li.now .when{background:var(--lime);color:#14101f}
 .tl li.hl .when{background:var(--pink);color:#14101f}
+.ev{display:grid;grid-template-columns:1fr 190px;gap:24px;align-items:start}
+.evdesc{color:var(--muted);margin-bottom:10px}
+.evlink{display:inline-block;margin-top:12px;font-weight:700;text-decoration:underline wavy var(--pink) 2px;text-underline-offset:5px}
+.poster{position:relative;display:block;transform:rotate(2deg);transition:transform .2s}
+.poster:hover{transform:rotate(0) scale(1.03)}
+.poster img{width:100%;height:auto;display:block;border:2px solid var(--line);border-radius:10px;box-shadow:4px 4px 0 var(--line)}
+.poster .sticker{bottom:-12px;left:-14px;transform:rotate(-6deg);background:var(--lime);color:#14101f;font-size:12px}
 .tl li.hl .card{box-shadow:5px 5px 0 var(--pink),5px 5px 0 2px var(--line)}
 .tl h3{font-size:19px;line-height:1.25}
 .tl .where{color:var(--muted);font-weight:500;margin:2px 0 8px}
@@ -215,6 +222,8 @@ html[lang="en"] [data-en]{display:revert}
   .when{justify-self:start}
   .pub{grid-template-columns:1fr;gap:6px}
   .arrow{display:none}
+  .ev{grid-template-columns:1fr}
+  .poster{width:min(220px,70%);margin:6px auto 10px}
   section{padding:56px 0}
 }
 </style>
@@ -356,9 +365,12 @@ html[lang="en"] [data-en]{display:revert}
     <ol class="tl">
       <li class="hl rv">
         <span class="when"><span data-it>ott 2026</span><span data-en>Oct 2026</span></span>
-        <div class="card">
-          <h3 data-it>Comitato organizzatore — DSCTM 26 ✨</h3><h3 data-en>Organizing committee — DSCTM 26 ✨</h3>
-          <p class="where"><span data-it>CNR · 27–29 ottobre 2026</span><span data-en>CNR · 27–29 October 2026</span></p>
+        <div class="card ev">
+          <div>
+          <h3 data-it>Comitato organizzatore — Giornate Scientifiche DSCTM 2026 ✨</h3><h3 data-en>Organizing committee — DSCTM 2026 Department Days ✨</h3>
+          <p class="where"><span data-it>Area della Ricerca CNR di Pisa · 27–29 ottobre 2026</span><span data-en>CNR Research Area, Pisa · 27–29 October 2026</span></p>
+          <p class="evdesc" data-it>Il convegno annuale del Dipartimento di Scienze Chimiche e Tecnologie dei Materiali del CNR, <em>“From Molecules to Materials: Innovative Chemistry for Shaping the Future”</em>, con oltre 150 contributi tra talk, flash e poster.</p>
+          <p class="evdesc" data-en>The annual conference of CNR's Department of Chemical Sciences and Materials Technology, <em>“From Molecules to Materials: Innovative Chemistry for Shaping the Future”</em>, with 150+ talks, flash talks and posters.</p>
           <ul data-it>
             <li>Selezionato per il comitato organizzatore dell'evento</li>
             <li>Ideazione e grafica della locandina ufficiale</li>
@@ -371,6 +383,12 @@ html[lang="en"] [data-en]{display:revert}
             <li>Designed an interactive HTML experience for the info totems</li>
             <li>Built an HTML tool to plan content across the auditorium screens</li>
           </ul>
+          <a class="evlink" href="https://www.dsctm.cnr.it/it/giornate-di-dipartimento-2026.html" target="_blank" rel="noopener"><span data-it>pagina dell'evento</span><span data-en>event page</span> ↗</a>
+          </div>
+          <a class="poster" href="dsctm26-locandina.jpg" target="_blank" rel="noopener">
+            <img src="dsctm26-locandina.jpg" alt="Locandina Giornate Scientifiche DSCTM 2026" width="701" height="989" loading="lazy">
+            <span class="sticker"><span data-it>🎨 locandina by me</span><span data-en>🎨 poster by me</span></span>
+          </a>
         </div>
       </li>
       <li class="now rv">
