@@ -7,7 +7,11 @@
 <meta name="description" content="Lorenzo Birindelli — CTER @ CNR-ICCOM Pisa. Microalghe, laboratorio, dati, video.">
 <meta property="og:title" content="Lorenzo Birindelli">
 <meta property="og:description" content="CTER @ CNR-ICCOM Pisa · microalghe, lab, dati & video">
-<meta property="og:image" content="lorenzo.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lorebiri.github.io/">
+<meta property="og:image" content="https://lorebiri.github.io/lorenzo.jpg">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://lorebiri.github.io/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦠</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -111,7 +115,7 @@ h1 .serif{font-size:1.08em;letter-spacing:-.01em;color:var(--pink)}
 @keyframes scroll{to{transform:translateX(-50%)}}
 
 /* ---------- sezioni ---------- */
-section{padding:72px 0}
+section{padding:72px 0;scroll-margin-top:64px}
 .kicker{font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 h2{font-family:Unbounded,sans-serif;font-weight:800;letter-spacing:-.03em;font-size:clamp(32px,5vw,54px);line-height:1;margin:8px 0 32px}
 h2 .serif{color:var(--pink);font-size:1.1em}
@@ -194,8 +198,6 @@ h2 .serif{color:var(--pink);font-size:1.1em}
 .mails .btn{background:#fff;color:#14101f;border-color:#14101f;box-shadow:5px 5px 0 #14101f;font-size:clamp(15px,2.4vw,19px)}
 .mails .btn:hover{box-shadow:7px 7px 0 #14101f}
 .mailnote{font-size:18px;font-weight:500;margin:-12px 0 22px}
-.copied{font-size:13px;opacity:0;transition:opacity .2s}
-.copied.show{opacity:1}
 footer{padding:28px 0;font-size:14px;color:var(--muted)}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
@@ -213,7 +215,10 @@ html[lang="en"] [data-en]{display:revert}
   .rv{opacity:1;transform:none}
 }
 @media (max-width:860px){
-  .links{display:none}
+  nav .wrap{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:10px;row-gap:8px}
+  .links{order:3;width:100%;gap:18px;overflow-x:auto;white-space:nowrap;font-size:15px;scrollbar-width:none;padding-bottom:2px}
+  .links::-webkit-scrollbar{display:none}
+  section{scroll-margin-top:104px}
   .hero{padding-top:36px}
   .hero .wrap,.about,.edu{grid-template-columns:1fr}
   .photo{order:-1;width:min(280px,72vw)}
@@ -231,7 +236,7 @@ html[lang="en"] [data-en]{display:revert}
 </head>
 <body>
 
-<nav>
+<nav aria-label="Sezioni">
   <div class="wrap">
     <a class="logo" href="#top">lorenzo<span>.</span>b</a>
     <div class="links">
@@ -243,7 +248,7 @@ html[lang="en"] [data-en]{display:revert}
     </div>
     <div class="ctrls">
       <button class="pill lang" id="langBtn" aria-label="Cambia lingua / Switch language"><b data-l="it">IT</b> / <b data-l="en">EN</b></button>
-      <button class="pill" id="themeBtn" aria-label="Tema chiaro/scuro">🌗</button>
+      <button class="pill" id="themeBtn" aria-label="Tema chiaro/scuro" title="Tema chiaro/scuro">🌗</button>
     </div>
   </div>
 </nav>
@@ -552,8 +557,8 @@ html[lang="en"] [data-en]{display:revert}
     <h2><span data-it>Scrivimi, <span class="serif">rispondo</span> 💌</span><span data-en>Drop me a <span class="serif">line</span> 💌</span></h2>
     <p class="mailnote"><span data-it>L'email è il modo migliore per raggiungermi: rispondo sempre ✌️</span><span data-en>Email is the best way to reach me: I always reply ✌️</span></p>
     <div class="mails">
-      <a class="btn" href="mailto:lorenzo.birindelli@cnr.it" data-copy="lorenzo.birindelli@cnr.it">🏛️ lorenzo.birindelli@cnr.it</a>
-      <a class="btn" href="mailto:lorenzo.birindelli@gmail.com" data-copy="lorenzo.birindelli@gmail.com">✉️ lorenzo.birindelli@gmail.com</a>
+      <a class="btn" href="mailto:lorenzo.birindelli@cnr.it">🏛️ lorenzo.birindelli@cnr.it</a>
+      <a class="btn" href="mailto:lorenzo.birindelli@gmail.com">✉️ lorenzo.birindelli@gmail.com</a>
       <a class="btn" href="https://scholar.google.com/citations?user=1BWAMFEAAAAJ" target="_blank" rel="noopener">🎓 Google Scholar ↗</a>
       <a class="btn" href="https://orcid.org/0009-0000-2529-6256" target="_blank" rel="noopener">🆔 ORCID ↗</a>
     </div>
