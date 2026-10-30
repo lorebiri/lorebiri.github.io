@@ -19,3 +19,6 @@ Se è un anno nuovo, aggiungi anche il bottone `<button class="chip" data-f="ANN
 
 ## Easter egg
 Scrivi `euglena` sulla tastiera. 🦠
+
+## Dopo ogni modifica a CSS/JS
+In `index.html` aumenta il numero in `styles.css?v=N` / `main.js?v=N`, così i browser non usano la versione vecchia in cache.

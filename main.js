@@ -60,7 +60,11 @@
     var so=new IntersectionObserver(function(es){
       es.forEach(function(e){
         if(!e.isIntersecting) return;
-        navLinks.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id)});
+        navLinks.forEach(function(a){
+          var on=a.getAttribute('href')==='#'+e.target.id;
+          a.classList.toggle('on',on);
+          if(on) a.setAttribute('aria-current','true'); else a.removeAttribute('aria-current');
+        });
       });
     },{rootMargin:'-45% 0px -50% 0px'});
     $$('main section[id], #top').forEach(function(s){so.observe(s)});
@@ -95,6 +99,12 @@
       papers.forEach(function(p){p.classList.toggle('hide',f!=='all'&&p.dataset.y!==f)});
       countPapers();
     });
+  });
+  // un link a un paper nascosto dal filtro anno riporta prima il filtro su "tutti"
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]'); if(!a) return;
+    var el=document.getElementById(a.getAttribute('href').slice(1));
+    if(el&&el.classList.contains('paper')&&el.classList.contains('hide')) $('.ptools .chip[data-f="all"]').click();
   });
 
   /* ---------- toast + copia email ---------- */
@@ -183,8 +193,15 @@
 
   addEventListener('resize',function(){var ow=W,oh=H;size();cells.forEach(function(c){c.x*=W/ow;c.y*=H/oh});if(!run)step(performance.now())});
   var hero=$('.hero');
-  hero.addEventListener('pointermove',function(e){var r=cv.getBoundingClientRect();light.x=e.clientX-r.left;light.y=e.clientY-r.top;light.on=true});
-  hero.addEventListener('pointerleave',function(){light.on=false});
+  // mouse: la luce segue il cursore; touch: un tocco accende la luce per qualche secondo
+  var lightOff;
+  function setLight(e){var r=cv.getBoundingClientRect();light.x=e.clientX-r.left;light.y=e.clientY-r.top;light.on=true;clearTimeout(lightOff)}
+  hero.addEventListener('pointermove',setLight);
+  hero.addEventListener('pointerdown',setLight);
+  hero.addEventListener('pointerleave',function(e){
+    if(e.pointerType==='mouse') light.on=false;
+    else lightOff=setTimeout(function(){light.on=false},4000);
+  });
   // clic su una cellula → si divide
   hero.addEventListener('click',function(e){
     if(e.target.closest('a,button')) return;
@@ -197,11 +214,11 @@
       if(reduce) step(performance.now());
     }
   });
-  var divisions=0;
+  var divisions=0, heroVis=true;
   if('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){if(reduce)return;es[0].isIntersecting?start():stop()}).observe(hero);
+    new IntersectionObserver(function(es){heroVis=es[0].isIntersecting;if(reduce)return;heroVis?start():stop()}).observe(hero);
   }
-  document.addEventListener('visibilitychange',function(){if(reduce)return;document.hidden?stop():start()});
+  document.addEventListener('visibilitychange',function(){if(reduce)return;(document.hidden||!heroVis)?stop():start()});
   new MutationObserver(function(){INK=ink()}).observe(root,{attributes:true,attributeFilter:['data-theme']});
   matchMedia('(prefers-color-scheme: dark)').addEventListener&&matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){INK=ink();themeLabel()});
 
