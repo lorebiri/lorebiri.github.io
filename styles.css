@@ -325,6 +325,41 @@ html:not(.js) .rv{opacity:1;transform:none}
   .rv{opacity:1;transform:none}
 }
 
+/* posizionamento + legenda euglene */
+.pos{font:600 clamp(13px,1.2vw,15px)/1.4 var(--mono);margin-top:16px;letter-spacing:.02em}
+.pos i{color:var(--eye);font-style:normal;margin:0 4px}
+.lead em{font-family:var(--serif);font-size:1.12em;color:var(--ink)}
+.legend{position:absolute;z-index:1;right:var(--pad);bottom:14px;display:flex;align-items:center;gap:8px;font:500 11px/1.3 var(--mono);color:var(--mute);background:color-mix(in srgb,var(--paper) 80%,transparent);padding:4px 8px;border:1px dashed color-mix(in srgb,var(--line) 40%,transparent);pointer-events:none}
+.legend i{width:8px;height:8px;border-radius:50%;background:var(--eye);animation:blink 1.6s steps(2) infinite}
+
+/* competenze del periodo IBF */
+.tag.past{border-style:dashed;opacity:.8;position:relative;padding-right:34px}
+.tag.past::after{content:"IBF";position:absolute;right:5px;top:50%;transform:translateY(-50%);font-size:9px;letter-spacing:.06em;background:var(--ink);color:var(--paper);padding:2px 3px;border-radius:3px}
+.xlegend{margin-top:18px;font:500 12px/1.6 var(--mono);color:var(--mute);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.xlegend .tag.past{padding:4px 30px 4px 8px;font-size:0}
+.xp>li:hover .tag.past::after{background:var(--on);color:var(--chl)}
+
+/* IBF → ICCOM */
+.switch{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.25fr);align-items:stretch;margin-bottom:clamp(40px,6vw,72px);border:1.5px solid var(--line)}
+.phase{padding:clamp(18px,3vw,32px);display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
+.phase b{font:800 clamp(56px,9vw,128px)/.82 var(--display);letter-spacing:-.06em}
+.phase .pk{font:600 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.phase .pn{font-size:15px;max-width:40ch}
+.phase.ibf{background:var(--card);color:var(--mute)}
+.phase.ibf b{-webkit-text-stroke:1.5px var(--ink);color:transparent}
+.phase.ibf::after{content:"";position:absolute;right:-30px;bottom:-14px;width:120px;height:44px;border-radius:50%;background:var(--chl);border:1.5px solid var(--line);transform:rotate(-18deg);opacity:.55}
+.phase.iccom{background:var(--ink);color:var(--paper)}
+.phase.iccom b{color:var(--chl)}
+.phase.iccom .pk{color:var(--chl)}
+.hop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 14px;background:var(--eye);color:var(--on);font:600 12px/1 var(--mono);text-transform:uppercase;border-inline:1.5px solid var(--line)}
+.hop i{font:800 34px/1 var(--display);font-style:normal;transition:transform .3s}
+.switch:hover .hop i{transform:translateX(6px)}
+.chap.past .when .yr{-webkit-text-stroke:1.5px var(--mute)}
+.when .was{display:inline-block;margin-top:12px;font:600 11px/1 var(--mono);border:1.5px dashed var(--line);padding:5px 8px}
+.ending{margin-top:16px!important;padding:12px 14px;border-left:4px solid var(--chl);background:var(--card);font-size:15px}
+.ending a{font-family:var(--mono);font-size:13px;font-weight:600}
+.ptag{margin-top:8px;font:500 12px/1.4 var(--mono);color:var(--eye)}
+
 /* desktop: il vetrino sale accanto al nome */
 @media (min-width:861px){
   .hero .wrap{position:relative}
@@ -361,6 +396,11 @@ html:not(.js) .rv{opacity:1;transform:none}
   .work.feat{grid-template-columns:1fr}
   .feat .wmedia{order:0;border-left:0;border-bottom:1.5px solid var(--line)}
   .chap{grid-template-columns:1fr;gap:14px}
+  .switch{grid-template-columns:1fr}
+  .hop{flex-direction:row;padding:10px;border-inline:0;border-block:1.5px solid var(--line)}
+  .hop i{transform:rotate(90deg)}
+  .switch:hover .hop i{transform:rotate(90deg) translateX(4px)}
+  .legend{position:relative;left:auto;right:auto;bottom:auto;margin:0 var(--pad) 18px;align-self:flex-start}
   .when{position:static}
   .withpic{grid-template-columns:1fr}
   .polaroid{width:min(220px,70%);margin:4px auto 0}
@@ -382,3 +422,4 @@ html:not(.js) .rv{opacity:1;transform:none}
   body{background:#fff}
   .rv{opacity:1;transform:none}
 }
+.paper{scroll-margin-top:110px}
