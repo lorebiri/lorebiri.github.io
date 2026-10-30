@@ -423,3 +423,9 @@ html:not(.js) .rv{opacity:1;transform:none}
   .rv{opacity:1;transform:none}
 }
 .paper{scroll-margin-top:110px}
+
+/* progetti: problema → soluzione → risultato */
+.brief{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 14px;font-size:15px;line-height:1.5;border-top:1.5px dashed color-mix(in srgb,var(--line) 35%,transparent);padding-top:12px}
+.brief dt{font:600 11px/1.9 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--eye)}
+.brief dd{color:var(--mute)}
+@media (max-width:520px){.brief{grid-template-columns:1fr;gap:2px}.brief dd{margin-bottom:8px}}
