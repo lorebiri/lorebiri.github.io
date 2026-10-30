@@ -429,3 +429,17 @@ html:not(.js) .rv{opacity:1;transform:none}
 .brief dt{font:600 11px/1.9 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--eye)}
 .brief dd{color:var(--mute)}
 @media (max-width:520px){.brief{grid-template-columns:1fr;gap:2px}.brief dd{margin-bottom:8px}}
+
+/* copertina libro */
+.art.book{height:auto;min-height:260px;padding:30px 20px;background:var(--chl);display:grid;place-items:center}
+.art.book a{display:block;width:min(200px,62%);transform:rotate(-3deg);transition:transform .3s}
+.work:hover .art.book a{transform:rotate(0) scale(1.03)}
+.art.book img{border:1.5px solid var(--line);box-shadow:8px 8px 0 var(--line)}
+.art.book .stk{position:absolute;bottom:14px;right:14px;font:600 12px/1 var(--mono);background:var(--paper);color:var(--ink);border:1.5px solid var(--line);padding:7px 10px;transform:rotate(4deg)}
+.addme.half{grid-column:span 5;display:flex;align-items:center;justify-content:center}
+
+/* mobile: prima il "chi sono e cosa faccio", poi il ritratto */
+@media (max-width:860px){
+  .scope{order:2;margin:34px auto 12px}
+  .addme.half{grid-column:auto}
+}
