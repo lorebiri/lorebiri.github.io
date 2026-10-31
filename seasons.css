@@ -2,7 +2,7 @@
    Temi stagionali e festività
    ---------------------------------------------------------
    main.js mette sul <body> l'attributo data-season
-   (halloween · christmas · spring · summer · autumn);
+   (birthday · halloween · christmas · spring · summer · autumn);
    senza attributo = tema standard.
    Qui si ridefiniscono SOLO le variabili: layout, testi e
    componenti restano quelli di styles.css.
@@ -10,6 +10,17 @@
    sia scelto col bottone sia da preferenza di sistema.
    Contrasti verificati WCAG AA (testo ≥ 4.5:1) in chiaro e scuro.
    ========================================================= */
+
+/* ---------- Compleanno di Lorenzo (23 marzo): i colori di sempre + rosa festa ---------- */
+body[data-season="birthday"]{
+  --paper:#f5f0e8; --card:#fffdf8; --mute:#5c5950;
+  --eye:#ff3d8b; --eye-t:#b0145a; --on-eye:#141412;
+  --grid:rgba(255,61,139,.07); --tick:"✦";
+  --cell-glow:rgba(255,61,139,.18); --cell-light:255,214,232;
+}
+html[data-dark] body[data-season="birthday"]{
+  --paper:#100d12; --card:#19141b; --mute:#aaa3ad; --eye-t:#ff7ab6;
+}
 
 /* ---------- Halloween: viola, arancio, nero ---------- */
 body[data-season="halloween"]{
@@ -74,3 +85,5 @@ html[data-dark] body[data-season="autumn"]{
 @media (max-width:860px){.season{max-width:3.4em;padding:7px 8px}}
 @media (hover:none){.season:hover{transform:none}}
 html:not(.js) .season{display:none}
+/* iOS Safari ingrandisce la pagina se un <select> ha testo < 16px: su touch lo portiamo a 16px */
+@media (hover:none) and (pointer:coarse){.season{font-size:16px;padding:5px 8px}}

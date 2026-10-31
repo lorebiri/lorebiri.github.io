@@ -38,6 +38,7 @@
      TEMI STAGIONALI
      Calendario (data di Pisa, Europe/Rome), estremi inclusi.
      Priorità: prima le festività, poi le stagioni; fuori da tutto = standard.
+       0. birthday    23 mar          (compleanno di Lorenzo: vince su tutto)
        1. halloween   24 ott → 2 nov
        2. christmas    1 dic → 6 gen   (attraversa il capodanno)
        3. spring      20 mar → 20 giu  (comprende Pasqua)
@@ -49,6 +50,7 @@
      Per provare una data: ?date=2026-12-25 nell'indirizzo (non viene salvata).
      ========================================================= */
   var SEASONS=[
+    {id:'birthday', from:[3,23], to:[3,23]},
     {id:'halloween',from:[10,24],to:[11,2]},
     {id:'christmas',from:[12,1], to:[1,6]},
     {id:'spring',   from:[3,20], to:[6,20]},
@@ -57,7 +59,7 @@
   ];
   var SEASON_LABEL={
     auto:['🗓 auto','🗓 auto'], standard:['◯ standard','◯ standard'],
-    halloween:['🎃 Halloween','🎃 Halloween'], christmas:['❄ Natale','❄ Christmas'],
+    birthday:['🎂 Compleanno','🎂 Birthday'], halloween:['🎃 Halloween','🎃 Halloween'], christmas:['❄ Natale','❄ Christmas'],
     spring:['✿ Primavera','✿ Spring'], summer:['☀ Estate','☀ Summer'], autumn:['❦ Autunno','❦ Autumn']
   };
   function md(d){ // [mese, giorno] a Pisa
@@ -74,7 +76,8 @@
     return 'standard';
   }
   var testDate=(function(){var m=/[?&]date=(\d{4}-\d{2}-\d{2})/.exec(location.search);return m?new Date(m[1]+'T12:00:00'):null})();
-  var seasonSel=$('#seasonSel'), seasonPick=get('season')||'auto';
+  var seasonSel=$('#seasonSel'), seasonPick=get('season');
+  if(!SEASON_LABEL.hasOwnProperty(seasonPick)) seasonPick='auto'; // valore vecchio o sconosciuto: si torna all'automatico
   function currentSeason(){return seasonPick==='auto'?seasonFor(testDate||new Date()):seasonPick}
   function applySeason(){
     var sz=currentSeason();
@@ -82,10 +85,19 @@
     if(seasonSel){
       seasonSel.value=seasonPick;
       $$('option',seasonSel).forEach(function(o){
+        if(!SEASON_LABEL[o.value]) return;
         var l=SEASON_LABEL[o.value][root.lang==='en'?1:0];
-        o.textContent=o.value==='auto'?l+' · '+SEASON_LABEL[sz][root.lang==='en'?1:0].split(' ')[0]:l;
+        var cur=SEASON_LABEL[sz]||SEASON_LABEL.standard;
+        o.textContent=o.value==='auto'?l+' · '+cur[root.lang==='en'?1:0].split(' ')[0]:l;
       });
     }
+  }
+  // il 23 marzo, in automatico, un saluto discreto una volta al giorno
+  function birthdayHello(){
+    if(seasonPick!=='auto'||currentSeason()!=='birthday') return;
+    var k='bday-'+(testDate||new Date()).getFullYear();
+    if(get(k)) return; set(k,'1');
+    setTimeout(function(){toast(t('🎂 Oggi è il compleanno di Lorenzo: le euglene festeggiano con lui.','🎂 It\'s Lorenzo\'s birthday today: the euglenas are celebrating with him.'))},1800);
   }
   if(seasonSel) seasonSel.addEventListener('change',function(){seasonPick=seasonSel.value;set('season',seasonPick);applySeason()});
   applySeason();
@@ -282,6 +294,7 @@
   })();
 
   applyLang(lang);
+  birthdayHello();
 
   /* =========================================================
      COLTURA DI EUGLENE — fototassi
@@ -319,6 +332,7 @@
       else if(SEASON==='halloween'){var a=.35+.35*Math.sin(now/500+m.ph);var g=ctx.createRadialGradient(0,0,0,0,0,m.r*3);g.addColorStop(0,'rgba(255,154,60,'+a+')');g.addColorStop(1,'rgba(255,154,60,0)');ctx.fillStyle=g;ctx.fillRect(-m.r*3,-m.r*3,m.r*6,m.r*6)}
       else if(SEASON==='spring'){ctx.rotate(m.rot);ctx.fillStyle='rgba(232,93,154,.55)';ctx.beginPath();ctx.ellipse(0,0,m.r*1.4,m.r*.7,0,0,7);ctx.fill()}
       else if(SEASON==='summer'){ctx.fillStyle='rgba(255,196,60,'+(.3+.3*Math.sin(now/700+m.ph))+')';ctx.beginPath();ctx.arc(0,0,m.r*.6,0,7);ctx.fill()}
+      else if(SEASON==='birthday'){ctx.rotate(m.rot*2);ctx.fillStyle=['#ff3d8b','#c5f03c','#ffd447','#5bc0eb','#ff8a3d'][i%5];ctx.fillRect(-m.r,-m.r*.45,m.r*2,m.r*.9)}
       else if(SEASON==='autumn'){ctx.rotate(m.rot);ctx.fillStyle=i%2?'rgba(201,111,40,.7)':'rgba(155,35,53,.6)';ctx.beginPath();ctx.moveTo(0,-m.r*1.6);ctx.quadraticCurveTo(m.r*1.3,0,0,m.r*1.6);ctx.quadraticCurveTo(-m.r*1.3,0,0,-m.r*1.6);ctx.fill()}
       ctx.restore();
     }
@@ -361,6 +375,12 @@
     for(var j=0;j<3;j++){ctx.beginPath();ctx.ellipse(-L*.22+j*L*.17,(j%2?1:-1)*w*.18,L*.06,w*.22,0,0,7);ctx.fill()}
     // macchia oculare
     ctx.beginPath(); ctx.arc(L*.3,-w*.28,2.4,0,7); ctx.fillStyle=EYE; ctx.fill();
+    // compleanno: cappellino da festa sulla parte anteriore
+    if(SEASON==='birthday'){
+      ctx.beginPath(); ctx.moveTo(L*.12,-w*.62); ctx.lineTo(L*.42,-w*.62); ctx.lineTo(L*.27,-w*2.1); ctx.closePath();
+      ctx.fillStyle='#ff3d8b'; ctx.fill(); ctx.strokeStyle=INK; ctx.lineWidth=1; ctx.stroke();
+      ctx.beginPath(); ctx.arc(L*.27,-w*2.1,1.8,0,7); ctx.fillStyle='#ffd447'; ctx.fill();
+    }
     ctx.restore();
   }
   function step(now){
@@ -395,7 +415,14 @@
   seed(W<700?9:18);
   if(reduce){run=false; step(performance.now())} else raf=requestAnimationFrame(step);
 
-  addEventListener('resize',function(){var ow=W,oh=H;size();measure();seedMotes();cells.forEach(function(c){c.x*=W/ow;c.y*=H/oh});if(!run)step(performance.now())});
+  function resized(){
+    var r=cv.getBoundingClientRect();
+    if(Math.abs(r.width-W)<1&&Math.abs(r.height-H)<1){measure();return} // stessa misura: niente reset del canvas
+    var ow=W,oh=H; size(); measure(); seedMotes();
+    if(ow&&oh) cells.forEach(function(c){c.x*=W/ow;c.y*=H/oh});
+    if(!run) step(performance.now());
+  }
+  if('ResizeObserver' in window) new ResizeObserver(resized).observe(cv); else addEventListener('resize',resized);
   var hero=$('.hero');
   // mouse: la luce segue il cursore; touch: un tocco accende la luce per qualche secondo
   var lightOff;
@@ -430,7 +457,8 @@
   /* ---------- easter egg: scrivi "euglena" ---------- */
   var buf='';
   addEventListener('keydown',function(e){
-    if(e.target.closest&&e.target.closest('input,textarea')) return;
+    if(e.ctrlKey||e.metaKey||e.altKey) return;
+    if(e.target.closest&&e.target.closest('input,textarea,select')) return;
     buf=(buf+(e.key||'')).slice(-12).toLowerCase();
     if(/euglena$/.test(buf)){
       buf='';
