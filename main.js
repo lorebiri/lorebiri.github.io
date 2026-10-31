@@ -113,25 +113,39 @@
   });
 
   /* ---------- filtri paper ---------- */
-  var papers=$$('.paper'), pcount=$('#pcount');
+  // con "tutti" si vedono i lavori in evidenza (.key); il bottone mostra il resto
+  var papers=$$('.paper'), pcount=$('#pcount'), pmore=$('#pmore'), pf='all', expanded=false;
+  function showPapers(){
+    papers.forEach(function(p){
+      p.classList.toggle('hide', pf!=='all' ? p.dataset.y!==pf : (!expanded && !p.classList.contains('key')));
+    });
+    if(pmore){
+      pmore.hidden = pf!=='all';
+      pmore.setAttribute('aria-expanded',expanded);
+      pmore.textContent = expanded ? t('Mostra solo quelli in evidenza ↑','Show highlights only ↑') : t('Mostra tutti i '+papers.length+' lavori ↓','Show all '+papers.length+' papers ↓');
+    }
+    countPapers();
+  }
   function countPapers(){
     if(!pcount) return;
     var vis=papers.filter(function(p){return !p.classList.contains('hide')}).length;
     pcount.textContent=t(vis+' di '+papers.length+' in archivio',vis+' of '+papers.length+' in the archive');
+    if(pmore && pf==='all') pmore.textContent = expanded ? t('Mostra solo quelli in evidenza ↑','Show highlights only ↑') : t('Mostra tutti i '+papers.length+' lavori ↓','Show all '+papers.length+' papers ↓');
   }
   $$('.ptools .chip').forEach(function(c){
     c.addEventListener('click',function(){
-      var f=c.dataset.f;
+      pf=c.dataset.f;
       $$('.ptools .chip').forEach(function(x){x.setAttribute('aria-pressed',x===c)});
-      papers.forEach(function(p){p.classList.toggle('hide',f!=='all'&&p.dataset.y!==f)});
-      countPapers();
+      showPapers();
     });
   });
-  // un link a un paper nascosto dal filtro anno riporta prima il filtro su "tutti"
+  if(pmore) pmore.addEventListener('click',function(){expanded=!expanded;showPapers()});
+  showPapers();
+  // un link a un paper nascosto (filtro anno o lista ridotta) prima lo rende visibile
   document.addEventListener('click',function(e){
     var a=e.target.closest&&e.target.closest('a[href^="#"]'); if(!a) return;
     var el=document.getElementById(a.getAttribute('href').slice(1));
-    if(el&&el.classList.contains('paper')&&el.classList.contains('hide')) $('.ptools .chip[data-f="all"]').click();
+    if(el&&el.classList.contains('paper')&&el.classList.contains('hide')){expanded=true;$('.ptools .chip[data-f="all"]').click()}
   });
 
   /* ---------- toast + copia email ---------- */
