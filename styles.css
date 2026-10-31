@@ -255,14 +255,6 @@ h2 .serif{font-size:1.05em;color:var(--eye);letter-spacing:-.02em}
 .polaroid{display:block;background:#fbfaf5;padding:10px 10px 34px;border:1.5px solid var(--line);box-shadow:5px 5px 0 var(--line);transform:rotate(3deg);transition:transform .25s;position:relative;text-decoration:none;color:#141412}
 .polaroid:hover{transform:rotate(0) scale(1.03)}
 .polaroid span{position:absolute;bottom:9px;left:0;right:0;text-align:center;font:400 18px/1 var(--serif);font-style:italic}
-.creds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(18px,3vw,40px);margin-top:clamp(36px,5vw,56px)}
-.cred{border:1.5px solid var(--line);padding:22px;background:var(--card)}
-.cred .k{font:600 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--mute);margin-bottom:12px;display:block}
-.cred h3{font:800 24px/1.05 var(--display);letter-spacing:-.03em}
-.cred .where{font:500 13px/1.4 var(--mono);color:var(--mute);margin:8px 0 10px}
-.cred ul{list-style:none;display:grid;gap:8px}
-.cred li{padding-left:24px;position:relative}
-.cred li::before{content:"✓";position:absolute;left:0;font:700 14px var(--mono);color:var(--eye)}
 
 /* ---------- pubblicazioni ---------- */
 .ptools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:-24px 0 24px}
@@ -404,8 +396,7 @@ html:not(.js) .rv{opacity:1;transform:none}
   .when{position:static}
   .withpic{grid-template-columns:1fr}
   .polaroid{width:min(220px,70%);margin:4px auto 0}
-  .creds{grid-template-columns:1fr}
-  .paper{grid-template-columns:auto 1fr;gap:4px 12px;padding:18px 2px}
+    .paper{grid-template-columns:auto 1fr;gap:4px 12px;padding:18px 2px}
   .paper .no{grid-column:1}
   .paper .y{grid-column:2;font-size:16px}
   .paper>div{grid-column:1/-1}
