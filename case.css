@@ -1,0 +1,61 @@
+/* =========================================================
+   Pagine "caso studio" (es. dsctm-2026.html)
+   usa le variabili e i componenti di styles.css
+   ========================================================= */
+.cs-links{margin-left:auto}
+.cs-hero{padding:clamp(32px,6vw,72px) 0 clamp(40px,6vw,80px);border-bottom:1.5px solid var(--line)}
+.cs-hero .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,72px);align-items:center}
+.cs-poster{position:relative;margin:0}
+.cs-poster a{display:block;transform:rotate(-1.5deg);transition:transform .3s}
+.cs-poster a:hover{transform:rotate(0) scale(1.01)}
+.cs-poster img{width:100%;border:1.5px solid var(--line);box-shadow:10px 10px 0 var(--eye),10px 10px 0 1.5px var(--line)}
+.cs-poster .stk{position:absolute;right:-10px;bottom:24px;font:600 12px/1 var(--mono);background:var(--chl);color:var(--on);border:1.5px solid var(--line);padding:7px 10px;transform:rotate(4deg)}
+.cs-intro h1{font:800 clamp(40px,6.4vw,92px)/.9 var(--display);letter-spacing:-.05em;margin:14px 0 16px}
+.cs-intro h1 .serif{display:block;color:var(--eye-t);font-size:1.08em;letter-spacing:-.02em}
+.cs-title{font:400 clamp(20px,2.2vw,28px)/1.2 var(--serif);font-style:italic;margin-bottom:12px}
+.cs-where{font:500 13px/1.5 var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--mute);margin-bottom:16px}
+.cs-intro .who{margin-bottom:18px}
+.cs-lead{max-width:60ch;font-size:clamp(16px,1.4vw,18px)}
+
+/* numeri */
+.cs-numbers{padding:0;border-bottom:1.5px solid var(--line);background:#141412;color:#f1eee5} /* sempre scura: i numeri restano leggibili anche in tema scuro */
+.nums{list-style:none;display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
+.nums li{padding:22px 16px;border-left:1px solid rgba(241,238,229,.25);display:flex;flex-direction:column;gap:6px}
+.nums li:first-child{border-left:0}
+.nums b{font:800 clamp(36px,4.4vw,60px)/.9 var(--display);letter-spacing:-.05em;color:var(--chl)}
+.nums span{font:500 12px/1.35 var(--mono)}
+
+/* cosa ho realizzato */
+.cs-group{font:600 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--mute);margin:36px 0 12px}
+.cs-group:first-of-type{margin-top:0}
+.cs-list{list-style:none;border-top:1.5px solid var(--line)}
+.cs-list>li{display:grid;grid-template-columns:56px minmax(0,.8fr) minmax(0,1.4fr);gap:8px 28px;padding:20px 4px;border-bottom:1.5px solid var(--line)}
+.cs-list .n{font:600 13px/1 var(--mono);color:var(--eye-t);padding-top:6px}
+.cs-list h4{font:800 clamp(22px,2.4vw,32px)/1 var(--display);letter-spacing:-.04em}
+.cs-list p{color:var(--mute);max-width:62ch}
+.cs-list ul{list-style:none;display:grid;gap:6px;color:var(--mute)}
+.cs-list ul li{padding-left:18px;position:relative}
+.cs-list ul li::before{content:"→";position:absolute;left:0;color:var(--eye-t);font-weight:700}
+.cs-work .wnote{margin-top:14px}
+
+/* programma */
+.cs-pages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:24px}
+.cs-pages figure{margin:0}
+.cs-pages img{border:1.5px solid var(--line);box-shadow:5px 5px 0 var(--line)}
+.cs-pages figcaption{font:500 12px/1.4 var(--mono);color:var(--mute);margin-top:8px}
+.cs-back{padding-top:0}
+.cs-back .wrap{display:flex;flex-wrap:wrap;gap:12px}
+
+@media (max-width:860px){
+  .cs-links{order:0;width:auto;margin-left:auto;-webkit-mask-image:none;mask-image:none;padding-right:0}
+  .cs-hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .cs-poster{width:min(420px,100%);margin:0 auto}
+  .nums{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nums li{border-left:0;border-top:1px solid rgba(241,238,229,.25)}
+  .nums li:nth-child(-n+2){border-top:0}
+  .nums li:nth-child(even){border-left:1px solid rgba(241,238,229,.25)}
+  .cs-list>li{grid-template-columns:minmax(0,1fr);gap:8px}
+  .cs-list .n{padding-top:0}
+  .cs-pages{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:420px){.cs-links a span{font-size:12px}}

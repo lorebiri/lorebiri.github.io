@@ -27,3 +27,6 @@ In `index.html` aumenta il numero in `styles.css?v=N` / `main.js?v=N`, così i b
 Automatici in base alla data (Pisa); il 23 marzo tema compleanno. Chi visita non può cambiarli.
 Calendario e priorità in `main.js` (cerca "TEMI STAGIONALI"); palette in `seasons.css`.
 Per provare una data: `https://lorebiri.github.io/?date=2026-12-25`.
+
+## Pagine caso studio
+`dsctm-2026.html` (stile in `case.css`, lingua/tema in `case.js`). Per aggiungere le pagine di esempio del programma: salva le immagini in `img/` e scommenta il blocco `cs-pages` nella sezione "Il programma".
