@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=18">
-<link rel="stylesheet" href="case.css?v=2">
+<link rel="stylesheet" href="case.css?v=3">
 </head>
 <body>
 <a class="skip" href="#main"><span data-it>Salta al contenuto</span><span data-en>Skip to content</span></a>
@@ -52,7 +52,7 @@
       <figcaption><span class="stk"><span data-it>🎨 locandina by me</span><span data-en>🎨 poster by me</span></span></figcaption>
     </figure>
     <div class="cs-intro">
-      <p class="fig"><b>CASE STUDY</b>Event &amp; Conference Design</p>
+      <p class="fig"><b><span data-it>IL PROGETTO</span><span data-en>CASE STUDY</span></b>Event &amp; Conference Design</p>
       <h1>Giornate Scientifiche <span class="serif">DSCTM 2026</span></h1>
       <p class="cs-title">«From Molecules to Materials: Innovative chemistry for shaping the future»</p>
       <p class="cs-where"><span data-it>27–29 ottobre 2026 · Auditorium dell'Area territoriale di Ricerca di Pisa</span><span data-en>27–29 October 2026 · Auditorium of the Area territoriale di Ricerca di Pisa</span></p>
@@ -155,24 +155,34 @@
 </section>
 
 <!-- ================= IL PROGRAMMA =================
-  Per aggiungere le pagine di esempio del programma (programma in breve, una giornata, mappa):
-  salva le immagini in img/ e scommenta il blocco <div class="cs-pages"> qui sotto.
+  Pagine di esempio estratte dal PDF del programma (img/dsctm-*.jpg). Per cambiarle: sostituisci le immagini.
 -->
 <section class="cs-program" aria-labelledby="prog-h">
   <div class="wrap">
     <div class="shead">
       <p class="fig"><b>02</b><span data-it>il programma</span><span data-en>the programme</span></p>
       <h2 id="prog-h"><span data-it>20 pagine, <span class="serif">una versione finale</span></span><span data-en>20 pages, <span class="serif">one final version</span></span></h2>
-      <p class="caption" data-it>Il libretto completo è sul sito del Dipartimento.</p>
-      <p class="caption" data-en>The full booklet is on the Department's website.</p>
+      <p class="caption" data-it>Quattro delle venti pagine, così come sono state stampate. Il libretto completo è sul sito del Dipartimento.</p>
+      <p class="caption" data-en>Four of the twenty pages, as they were printed. The full booklet is on the Department's website.</p>
     </div>
-    <!--
     <div class="cs-pages">
-      <figure><img src="img/dsctm-programma-breve.jpg" alt="Programma in breve" width="800" height="1131" loading="lazy"><figcaption>Programma in breve</figcaption></figure>
-      <figure><img src="img/dsctm-giornata.jpg" alt="Una giornata del programma" width="800" height="1131" loading="lazy"><figcaption>Una giornata</figcaption></figure>
-      <figure><img src="img/dsctm-mappa.jpg" alt="Mappa della sede" width="800" height="1131" loading="lazy"><figcaption>Mappa della sede</figcaption></figure>
+      <figure>
+        <a href="img/dsctm-programma-breve.jpg" target="_blank" rel="noopener"><img src="img/dsctm-programma-breve.jpg" alt="Pagina del programma: il programma in breve delle tre giornate" data-alt-en="Programme page: the three days at a glance" width="848" height="1200" loading="lazy"></a>
+        <figcaption><span data-it>Il programma in breve</span><span data-en>The programme at a glance</span> · p. 2/20</figcaption>
+      </figure>
+      <figure>
+        <a href="img/dsctm-giornata.jpg" target="_blank" rel="noopener"><img src="img/dsctm-giornata.jpg" alt="Pagina del programma: la giornata di martedì 27 ottobre" data-alt-en="Programme page: Tuesday 27 October" width="848" height="1200" loading="lazy"></a>
+        <figcaption><span data-it>Una giornata: martedì 27</span><span data-en>One day: Tuesday 27</span> · p. 5/20</figcaption>
+      </figure>
+      <figure>
+        <a href="img/dsctm-mappa.jpg" target="_blank" rel="noopener"><img src="img/dsctm-mappa.jpg" alt="Pagina del programma: mappa della sede in prospettiva, con percorsi, aule dei poster e servizi" data-alt-en="Programme page: perspective venue map with routes, poster rooms and facilities" width="848" height="1200" loading="lazy"></a>
+        <figcaption><span data-it>La mappa della sede</span><span data-en>The venue map</span> · p. 17/20</figcaption>
+      </figure>
+      <figure>
+        <a href="img/dsctm-cruciverba.jpg" target="_blank" rel="noopener"><img src="img/dsctm-cruciverba.jpg" alt="Pagina del programma: il cruciverba della pausa caffè" data-alt-en="Programme page: the coffee-break crossword" width="848" height="1200" loading="lazy"></a>
+        <figcaption><span data-it>Il cruciverba della pausa caffè</span><span data-en>The coffee-break crossword</span> · p. 19/20</figcaption>
+      </figure>
     </div>
-    -->
     <a class="btn go" href="https://www.dsctm.cnr.it/images/Eventi_img/Giornata_Dip_2026/DSCTM_2026_Programma.pdf" target="_blank" rel="noopener"><span data-it>Apri il programma ufficiale</span><span data-en>Open the official programme</span> <small>PDF · 5 MB</small> ↗</a>
   </div>
 </section>
@@ -188,7 +198,7 @@
 <footer>
   <div class="wrap">
     <span>© <span id="yr">2026</span> Lorenzo Birindelli</span>
-    <span data-it>Giornate Scientifiche DSCTM 2026 · caso studio</span><span data-en>Giornate Scientifiche DSCTM 2026 · case study</span>
+    <span data-it>Giornate Scientifiche DSCTM 2026 · il progetto nel dettaglio</span><span data-en>Giornate Scientifiche DSCTM 2026 · case study</span>
   </div>
 </footer>
 

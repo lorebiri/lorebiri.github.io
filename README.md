@@ -29,4 +29,4 @@ Calendario e priorità in `main.js` (cerca "TEMI STAGIONALI"); palette in `seaso
 Per provare una data: `https://lorebiri.github.io/?date=2026-12-25`.
 
 ## Pagine caso studio
-`dsctm-2026.html` (stile in `case.css`, lingua/tema in `case.js`). Per aggiungere le pagine di esempio del programma: salva le immagini in `img/` e scommenta il blocco `cs-pages` nella sezione "Il programma".
+`dsctm-2026.html` (stile in `case.css`, lingua/tema in `case.js`). Le pagine di esempio del programma sono `img/dsctm-*.jpg` (estratte dal PDF ufficiale).
