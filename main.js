@@ -10,7 +10,8 @@
   function t(it,en){return root.lang==='en'?en:it}
 
   /* ---------- lingua ---------- */
-  var lang=get('lang')||'en'; // inglese di default; la scelta IT/EN resta salvata
+  // lingua del sistema (italiano → IT, tutto il resto → EN); la scelta fatta col bottone resta salvata
+  var lang=get('lang')||((navigator.language||'en').slice(0,2).toLowerCase()==='it'?'it':'en');
   function applyLang(l){
     root.lang=l;
     $$('#langBtn b').forEach(function(b){b.classList.toggle('on',b.dataset.l===l)});
