@@ -512,3 +512,8 @@ html:not(.js) .rv{opacity:1;transform:none}
 .ptag.fig a{position:relative;z-index:1;color:var(--eye-t)}
 .pmore{margin-top:18px;font:600 13px/1 var(--mono);cursor:pointer;color:var(--ink);background:transparent;border:1.5px dashed var(--line);padding:12px 16px}
 .pmore:hover{background:var(--card)}
+
+/* frase-manifesto in Digital Development */
+.xquote{font:400 clamp(20px,2vw,26px)/1.2 var(--serif);font-style:italic;margin:4px 0 14px;padding-left:14px;border-left:3px solid var(--chl);max-width:40ch}
+.xp>li:hover .xquote{border-color:var(--on)}
+.spec dd.off{font-size:15px;line-height:1.35}
