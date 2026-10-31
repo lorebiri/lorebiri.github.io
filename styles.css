@@ -326,7 +326,7 @@ html:not(.js) .rv{opacity:1;transform:none}
 .pos{font:600 clamp(13px,1.2vw,15px)/1.4 var(--mono);margin-top:16px;letter-spacing:.02em}
 .pos i{color:var(--eye-t);font-style:normal;margin:0 4px}
 .lead em{font-family:var(--serif);font-size:1.12em;color:var(--ink)}
-.legend{position:absolute;z-index:1;right:var(--pad);bottom:14px;display:flex;align-items:center;gap:8px;font:500 11px/1.3 var(--mono);color:var(--mute);background:color-mix(in srgb,var(--paper) 80%,transparent);padding:4px 8px;border:1px dashed color-mix(in srgb,var(--line) 40%,transparent);pointer-events:none}
+.legend{background:var(--paper);position:absolute;z-index:1;right:var(--pad);bottom:14px;display:flex;align-items:center;gap:8px;font:500 11px/1.3 var(--mono);color:var(--mute);background:color-mix(in srgb,var(--paper) 80%,transparent);padding:4px 8px;border:1px dashed color-mix(in srgb,var(--line) 40%,transparent);pointer-events:none}
 .legend i{width:8px;height:8px;border-radius:50%;background:var(--eye);animation:blink 1.6s steps(2) infinite}
 
 /* competenze del periodo IBF */
