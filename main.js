@@ -45,8 +45,7 @@
        4. summer      21 giu → 22 set
        5. autumn      23 set → 30 nov  (Halloween ha la precedenza)
        —  inverno     7 gen → 19 mar  = tema standard
-     Scelta manuale nel selettore, salvata in localStorage ("season"):
-     "auto" (default) · "standard" · uno dei temi sopra.
+     Il tema dipende solo dalla data: chi visita non lo sceglie.
      Per provare una data: ?date=2026-12-25 nell'indirizzo (non viene salvata).
      ========================================================= */
   var SEASONS=[
@@ -57,11 +56,6 @@
     {id:'summer',   from:[6,21], to:[9,22]},
     {id:'autumn',   from:[9,23], to:[11,30]}
   ];
-  var SEASON_LABEL={
-    auto:['🗓 auto','🗓 auto'], standard:['◯ standard','◯ standard'],
-    birthday:['🎂 Compleanno','🎂 Birthday'], halloween:['🎃 Halloween','🎃 Halloween'], christmas:['❄ Natale','❄ Christmas'],
-    spring:['✿ Primavera','✿ Spring'], summer:['☀ Estate','☀ Summer'], autumn:['❦ Autunno','❦ Autumn']
-  };
   function md(d){ // [mese, giorno] a Pisa
     try{var p=d.toLocaleDateString('en-CA',{timeZone:'Europe/Rome'}).split('-');return [+p[1],+p[2]]}
     catch(e){return [d.getMonth()+1,d.getDate()]}
@@ -76,9 +70,8 @@
     return 'standard';
   }
   var testDate=(function(){var m=/[?&]date=(\d{4}-\d{2}-\d{2})/.exec(location.search);return m?new Date(m[1]+'T12:00:00'):null})();
-  var seasonSel=$('#seasonSel'), seasonPick=get('season');
-  if(!SEASON_LABEL.hasOwnProperty(seasonPick)) seasonPick='auto'; // valore vecchio o sconosciuto: si torna all'automatico
-  function currentSeason(){return seasonPick==='auto'?seasonFor(testDate||new Date()):seasonPick}
+  try{localStorage.removeItem('season')}catch(e){} // scelta manuale delle versioni precedenti: non serve più
+  function currentSeason(){return seasonFor(testDate||new Date())}
   /* ---------- decorazioni stagionali (solo HTML/SVG decorativo, aria-hidden) ----------
      christmas = lucine a festoni · birthday = bandierine · halloween = zucche intagliate */
   var SVGNS='http://www.w3.org/2000/svg', decoFor='';
@@ -127,27 +120,17 @@
     var sz=currentSeason();
     if(sz==='standard') delete document.body.dataset.season; else document.body.dataset.season=sz;
     decorate(sz);
-    if(seasonSel){
-      seasonSel.value=seasonPick;
-      $$('option',seasonSel).forEach(function(o){
-        if(!SEASON_LABEL[o.value]) return;
-        var l=SEASON_LABEL[o.value][root.lang==='en'?1:0];
-        var cur=SEASON_LABEL[sz]||SEASON_LABEL.standard;
-        o.textContent=o.value==='auto'?l+' · '+cur[root.lang==='en'?1:0].split(' ')[0]:l;
-      });
-    }
   }
   // il 23 marzo, in automatico, un saluto discreto una volta al giorno
   function birthdayHello(){
-    if(seasonPick!=='auto'||currentSeason()!=='birthday') return;
+    if(currentSeason()!=='birthday') return;
     var k='bday-'+(testDate||new Date()).getFullYear();
     if(get(k)) return; set(k,'1');
     setTimeout(function(){toast(t('🎂 Oggi è il compleanno di Lorenzo: le euglene festeggiano con lui.','🎂 It\'s Lorenzo\'s birthday today: the euglenas are celebrating with him.'))},1800);
   }
-  if(seasonSel) seasonSel.addEventListener('change',function(){seasonPick=seasonSel.value;set('season',seasonPick);applySeason()});
   applySeason();
-  setInterval(function(){if(seasonPick==='auto')applySeason()},60000);   // se cambia il giorno, cambia il tema
-  document.addEventListener('visibilitychange',function(){if(!document.hidden&&seasonPick==='auto')applySeason()});
+  setInterval(applySeason,60000);   // se cambia il giorno, cambia il tema
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)applySeason()});
   window.seasonFor=seasonFor; // per verifiche dalla console
 
   /* ---------- orologio di Pisa ---------- */
@@ -511,7 +494,7 @@
   var buf='';
   addEventListener('keydown',function(e){
     if(e.ctrlKey||e.metaKey||e.altKey) return;
-    if(e.target.closest&&e.target.closest('input,textarea,select')) return;
+    if(e.target.closest&&e.target.closest('input,textarea')) return;
     buf=(buf+(e.key||'')).slice(-12).toLowerCase();
     if(/euglena$/.test(buf)){
       buf='';
