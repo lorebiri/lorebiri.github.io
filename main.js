@@ -29,18 +29,34 @@
 
   /* ---------- orologio di Pisa ---------- */
   var clock=$('#clock');
+  // stato "probabile": palestra lun/mer/ven presto e sabato mattina, in orario di lavoro
+  // si alternano ufficio e vibe coding, altrimenti fuori servizio
+  var flip=false;
+  function status(wd,min){
+    var gym=(['Mon','Wed','Fri'].indexOf(wd)>=0 && min>=390 && min<540) || (wd==='Sat' && min>=510 && min<750);
+    if(gym) return t('probabilmente in palestra 🏋️','probably in the gym 🏋️');
+    var work=['Sat','Sun'].indexOf(wd)<0 && min>=540 && min<1020;
+    if(work) return flip ? t('probabilmente in vibe coding 💻','probably vibe coding 💻') : t('in ufficio 🧪','in the office 🧪');
+    return t('fuori servizio 🌙','off duty 🌙');
+  }
   function tick(){
     if(!clock) return;
-    var now=new Date(), hm, wd, h;
+    var now=new Date(), hm, wd;
     try{
-      hm=now.toLocaleTimeString('it-IT',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit'});
+      hm=now.toLocaleTimeString('it-IT',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit',hour12:false});
       wd=now.toLocaleDateString('en-GB',{timeZone:'Europe/Rome',weekday:'short'});
     }catch(e){hm=now.toTimeString().slice(0,5);wd='Mon'}
-    h=parseInt(hm,10);
-    var work=['Sat','Sun'].indexOf(wd)<0 && h>=8 && h<17;
-    clock.innerHTML='Pisa '+hm+'<br>'+(work?t('probabilmente in lab 🧪','probably in the lab 🧪'):t('fuori dal lab 🌙','off the bench 🌙'));
+    var min=parseInt(hm.slice(0,2),10)%24*60+parseInt(hm.slice(3,5),10);
+    var txt=status(wd,min);
+    if(clock.dataset.st!==txt){
+      clock.dataset.st=txt;
+      clock.textContent='Pisa '+hm;
+      clock.appendChild(document.createElement('br'));
+      var st=document.createElement('span'); st.className='st'; st.textContent=txt; clock.appendChild(st);
+    } else clock.firstChild.textContent='Pisa '+hm;
   }
   setInterval(tick,30000);
+  setInterval(function(){flip=!flip;tick()},4000);
 
   $('#yr').textContent=new Date().getFullYear();
 
@@ -122,6 +138,65 @@
       else location.href='mailto:'+v;
     });
   });
+
+
+  /* ---------- terminale "vibe coding" ---------- */
+  (function(){
+    var term=$('.vterm'); if(!term) return;
+    var SCRIPT={
+      it:[['serve un tool che trasformi gli spettri in grafici','acchiappaspettri/ online'],
+          ['e le etichette CLP per i reagenti?','etichette/ online'],
+          ['prepara gli standard per l\'ICP-OES','icp-tool/ online'],
+          ['a che ora esco oggi?','calcolatore-orario/ online'],
+          ['prossima idea…',null]],
+      en:[['I need a tool that turns spectra into plots','acchiappaspettri/ online'],
+          ['what about CLP labels for reagents?','etichette/ online'],
+          ['prepare the ICP-OES standards','icp-tool/ online'],
+          ['what time can I leave today?','calcolatore-orario/ online'],
+          ['next idea…',null]]
+    };
+    var SPIN='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏', timer=null, visible=false, run=0;
+    function el(cls,txt){var s=document.createElement('span');if(cls)s.className=cls;s.textContent=txt;return s}
+    function staticView(){
+      term.textContent='';
+      var L=SCRIPT[root.lang==='en'?'en':'it'];
+      L.forEach(function(r){
+        term.appendChild(el('pr','$ vibe "'+r[0]+'"\n'));
+        term.appendChild(r[1]?el('ok','✓ '+r[1]+'\n'):el('sp',t('⏳ compilando…','⏳ compiling…')));
+      });
+    }
+    function play(){
+      var my=++run, L=SCRIPT[root.lang==='en'?'en':'it'], i=0;
+      term.textContent='';
+      var cur=el('cur',' ');
+      function wait(ms,fn){timer=setTimeout(function(){if(my===run)fn()},ms)}
+      function line(){
+        if(i>=L.length){return wait(800,play)}
+        var r=L[i++], txt='$ vibe "'+r[0]+'"', k=0, pr=el('pr','');
+        term.appendChild(pr); term.appendChild(cur);
+        (function type(){
+          if(k<=txt.length){pr.textContent=txt.slice(0,k++);return wait(28+Math.random()*40,type)}
+          pr.textContent=txt+'\n';
+          var sp=el('sp',''), n=0, dur=r[1]?900:4200;
+          term.insertBefore(sp,cur);
+          (function spin(){
+            sp.textContent=SPIN[n++%SPIN.length]+' '+(r[1]?t('ci penso io…','on it…'):t('compilando la prossima idea…','compiling the next idea…'));
+            if(n*90<dur) return wait(90,spin);
+            if(r[1]){sp.className='ok';sp.textContent='✓ '+r[1]+'\n';return wait(500,line)}
+            wait(400,line);
+          })();
+        })();
+      }
+      line();
+    }
+    function stop(){run++;clearTimeout(timer)}
+    function refresh(){stop(); if(reduce) staticView(); else if(visible) play(); else staticView()}
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){visible=es[0].isIntersecting; if(reduce) return; visible?play():stop()}).observe(term);
+    }
+    new MutationObserver(refresh).observe(root,{attributes:true,attributeFilter:['lang']});
+    staticView();
+  })();
 
   applyLang(lang);
 

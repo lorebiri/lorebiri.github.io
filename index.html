@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=9">
+<link rel="stylesheet" href="styles.css?v=10">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Lorenzo Birindelli","url":"https://lorebiri.github.io/","image":"https://lorebiri.github.io/lorenzo.jpg","jobTitle":"Collaboratore Tecnico Enti di Ricerca (CTER)","description":"CTER at CNR-ICCOM, Pisa: lab and technical support, instrumentation, data, scientific graphics and digital tools.","worksFor":{"@type":"ResearchOrganization","name":"CNR — Istituto di Chimica dei Composti OrganoMetallici (ICCOM)","address":{"@type":"PostalAddress","addressLocality":"Pisa","addressCountry":"IT"},"parentOrganization":{"@type":"GovernmentOrganization","name":"Consiglio Nazionale delle Ricerche (CNR)"}},"alumniOf":{"@type":"EducationalOrganization","name":"ITIS \"Leonardo da Vinci\", Pisa"},"knowsLanguage":["it","en"],"identifier":{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0000-2529-6256"},"sameAs":["https://orcid.org/0009-0000-2529-6256","https://scholar.google.com/citations?user=1BWAMFEAAAAJ","https://github.com/lorebiri"]}
 </script>
@@ -230,7 +230,7 @@
       </li>
       <li class="rv">
         <span class="xn">CH.05</span>
-        <h3>Digital <span class="serif">Development</span></h3>
+        <h3 class="typing">Digital <span class="serif">Development</span></h3>
         <div>
           <p class="xdesc" data-it>Quando un'attività si ripete troppe volte, diventa un tool. Gira nel browser, senza installare nulla.</p>
           <p class="xdesc" data-en>When a task repeats too often, it becomes a tool. It runs in the browser, nothing to install.</p>
@@ -520,8 +520,11 @@
         </div>
       </article>
 
-      <p class="addme rv" data-it>// prossima idea in fase di compilazione… ⚙️</p>
-      <p class="addme rv" data-en>// next idea compiling… ⚙️</p>
+      <!-- terminale "vibe coding": il testo lo scrive main.js -->
+      <div class="vibe rv" role="img" aria-label="Vibe coding: next idea compiling">
+        <div class="vbar" aria-hidden="true"><i></i><i></i><i></i><span>~/lorebiri — vibe coding</span></div>
+        <pre class="vterm" aria-hidden="true"><span data-it>// prossima idea in fase di compilazione… ⚙️</span><span data-en>// next idea compiling… ⚙️</span></pre>
+      </div>
     </div>
   </div>
 </section>
@@ -636,8 +639,8 @@
             <p data-it>Poi due mesi a <strong>Belfast</strong> con una borsa Erasmus+, all'Agri-Food &amp; Biosciences Institute, tra analisi di laboratorio e campionamenti di acque dolci sul campo. Un'esperienza bellissima, con persone splendide e colleghi eccezionali che porterò sempre nel cuore. 💚</p>
             <p data-en>Then two months in <strong>Belfast</strong> on an Erasmus+ scholarship, at the Agri-Food &amp; Biosciences Institute, between lab analyses and freshwater sampling in the field. An amazing experience, with wonderful people and exceptional colleagues I'll always carry in my heart. 💚</p>
           </div>
-          <a class="polaroid" href="belfast-saluti.jpg" target="_blank" rel="noopener">
-            <img src="belfast-saluti.jpg" alt="Biglietto di saluti firmato dai colleghi di Belfast e un libro sulla città" width="750" height="1000" loading="lazy">
+          <a class="polaroid" href="belfast-saluti.jpg?v=2" target="_blank" rel="noopener">
+            <img src="belfast-saluti.jpg?v=2" alt="Biglietto di saluti dei colleghi di Belfast (dediche sfocate) e un libro sulla città" width="750" height="1000" loading="lazy">
             <span>sorry to see you go 💚</span>
           </a>
         </div>
@@ -800,6 +803,6 @@
 </footer>
 
 <div class="toast" role="status" aria-live="polite"></div>
-<script src="main.js?v=8" defer></script>
+<script src="main.js?v=10" defer></script>
 </body>
 </html>
