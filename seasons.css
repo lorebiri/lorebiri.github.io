@@ -87,3 +87,41 @@ html[data-dark] body[data-season="autumn"]{
 html:not(.js) .season{display:none}
 /* iOS Safari ingrandisce la pagina se un <select> ha testo < 16px: su touch lo portiamo a 16px */
 @media (hover:none) and (pointer:coarse){.season{font-size:16px;padding:5px 8px}}
+
+/* =========================================================
+   Decorazioni (create da main.js solo nel tema attivo, aria-hidden,
+   mai cliccabili: non coprono né bloccano i contenuti)
+   ========================================================= */
+.deco{position:absolute;left:0;right:0;pointer-events:none;z-index:2}
+/* --- lucine natalizie: filo a festoni + lampadine --- */
+.garland{top:0;height:58px}
+.garland svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.garland path{fill:none;stroke:var(--ink);stroke-width:1.6;opacity:.75}
+.bulb{position:absolute;width:11px;height:17px;margin-left:-5.5px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:var(--c);
+  box-shadow:0 0 10px 3px var(--c),0 0 22px 6px color-mix(in srgb,var(--c) 45%,transparent);
+  transform:rotate(var(--r,0deg));transform-origin:50% -4px;animation:twinkle var(--d,2.4s) ease-in-out infinite;animation-delay:var(--dl,0s)}
+.bulb::before{content:"";position:absolute;left:2.5px;top:-5px;width:6px;height:6px;border-radius:1.5px;background:var(--ink)}
+@keyframes twinkle{0%,100%{opacity:1;filter:brightness(1.15)}50%{opacity:.35;filter:brightness(.7);box-shadow:none}}
+/* compleanno: festoni di bandierine sullo stesso filo */
+.flag{position:absolute;width:0;height:0;margin-left:-11px;border-left:11px solid transparent;border-right:11px solid transparent;border-top:24px solid var(--c);transform:rotate(var(--r,0deg));transform-origin:50% 0}
+/* spazio sopra al contenuto dell'hero quando c'è un festone */
+body[data-season="christmas"] .hero .wrap,body[data-season="birthday"] .hero .wrap{padding-top:calc(clamp(24px,6vh,64px) + 34px)}
+.contact .garland path{stroke:var(--on)}
+.contact .bulb::before{background:var(--on)}
+
+/* --- zucche di Halloween --- */
+.pumpkins{bottom:-4px;right:var(--pad);left:auto;display:flex;align-items:flex-end;gap:2px}
+.pumpkins svg{display:block;overflow:visible}
+.pumpkins .glow{fill:#ffd447;animation:flicker 2.6s steps(1) infinite}
+.pumpkins svg:nth-child(2) .glow{animation-delay:-.9s}.pumpkins svg:nth-child(3) .glow{animation-delay:-1.7s}
+@keyframes flicker{0%,100%{fill:#ffd447}35%{fill:#ffb02e}52%{fill:#ffe9a3}70%{fill:#ffc43d}}
+.pumpkins .p-body{fill:#ff9a3c;stroke:var(--ink);stroke-width:1.6}
+.pumpkins .p-rib{fill:none;stroke:var(--ink);stroke-width:1.2;opacity:.55}
+.pumpkins .p-stem{fill:#5b7a2e;stroke:var(--ink);stroke-width:1.4}
+.pumpkins .p-face{fill:#2a1505}
+.hero .pumpkins{bottom:6px}
+.contact .pumpkins{bottom:0}
+@media (max-width:860px){.pumpkins svg{transform:scale(.72);transform-origin:bottom right}.hero .pumpkins{right:6px}}
+/* zucche appoggiate sotto il vetrino del ritratto (visibili già nella prima schermata) */
+.scope .pumpkins{left:10%;right:auto;bottom:-128px;flex-direction:row-reverse;gap:6px}
+@media (max-width:860px){.scope .pumpkins{left:-34%;right:auto;bottom:-4px;flex-direction:row}.scope .pumpkins svg{transform:scale(.62);transform-origin:bottom left;margin-right:-26px}}

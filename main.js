@@ -79,9 +79,54 @@
   var seasonSel=$('#seasonSel'), seasonPick=get('season');
   if(!SEASON_LABEL.hasOwnProperty(seasonPick)) seasonPick='auto'; // valore vecchio o sconosciuto: si torna all'automatico
   function currentSeason(){return seasonPick==='auto'?seasonFor(testDate||new Date()):seasonPick}
+  /* ---------- decorazioni stagionali (solo HTML/SVG decorativo, aria-hidden) ----------
+     christmas = lucine a festoni · birthday = bandierine · halloween = zucche intagliate */
+  var SVGNS='http://www.w3.org/2000/svg', decoFor='';
+  function garland(box,kind){
+    var w=box.clientWidth; if(!w) return;
+    var d=document.createElement('div'); d.className='deco garland'; d.setAttribute('aria-hidden','true');
+    var svg=document.createElementNS(SVGNS,'svg'), path=document.createElementNS(SVGNS,'path');
+    var n=Math.max(2,Math.round(w/240)), seg=w/n, sag=22, top=4, dd='', cols=kind==='lights'?['#ff3b3b','#ffd166','#3ddc84','#4fc3ff','#ff8bd1']:['#ff3d8b','#c5f03c','#ffd447','#5bc0eb','#ff8a3d'], k=0;
+    for(var i=0;i<n;i++){
+      var x0=i*seg, x1=x0+seg;
+      dd+='M'+x0+' '+top+' Q'+(x0+seg/2)+' '+(top+2*sag)+' '+x1+' '+top+' ';
+      [.2,.4,.6,.8].forEach(function(tt){
+        var x=x0+seg*tt, y=top+4*sag*tt*(1-tt), ang=Math.atan(4*sag*(1-2*tt)/seg)*57.3;
+        var b=document.createElement('span'); b.className=kind==='lights'?'bulb':'flag';
+        b.style.left=x+'px'; b.style.top=(y+(kind==='lights'?3:0))+'px';
+        b.style.setProperty('--c',cols[k%cols.length]); b.style.setProperty('--r',ang.toFixed(1)+'deg');
+        b.style.setProperty('--dl',(-Math.random()*2.4).toFixed(2)+'s'); b.style.setProperty('--d',(1.8+Math.random()*1.4).toFixed(2)+'s');
+        d.appendChild(b); k++;
+      });
+    }
+    path.setAttribute('d',dd); svg.appendChild(path); d.insertBefore(svg,d.firstChild); box.appendChild(d);
+  }
+  function pumpkin(size){
+    var svg=document.createElementNS(SVGNS,'svg'); svg.setAttribute('viewBox','0 0 100 92'); svg.setAttribute('width',size); svg.setAttribute('height',size*.92);
+    svg.innerHTML='<path class="p-stem" d="M46 14c1-6 4-11 10-13l3 4c-4 2-6 5-6 10z"/>'+
+      '<ellipse class="p-body" cx="30" cy="54" rx="24" ry="33"/><ellipse class="p-body" cx="70" cy="54" rx="24" ry="33"/><ellipse class="p-body" cx="50" cy="54" rx="27" ry="37"/>'+
+      '<path class="p-rib" d="M50 18c-9 10-9 62 0 72M50 18c9 10 9 62 0 72"/>'+
+      '<path class="glow" d="M30 44l10-11 7 14zM70 44l-10-11-7 14zM46 55l4-7 4 7zM24 62q26 22 52 0l-6 3-4-5-5 6-5-6-5 6-5-6-5 6-4-5z"/>';
+    return svg;
+  }
+  function pumpkins(box,sizes){
+    var d=document.createElement('div'); d.className='deco pumpkins'; d.setAttribute('aria-hidden','true');
+    sizes.forEach(function(sz){d.appendChild(pumpkin(sz))}); box.appendChild(d);
+  }
+  function decorate(sz,force){
+    if(sz===decoFor&&!force) return; decoFor=sz;
+    $$('.deco').forEach(function(e){e.remove()});
+    var hero=$('.hero'), contact=$('#contact'); if(!hero) return;
+    if(sz==='christmas'||sz==='birthday'){var k=sz==='christmas'?'lights':'flags'; garland(hero,k); if(contact) garland(contact,k)}
+    if(sz==='halloween'){var sc=$('.hero .scope'); pumpkins(sc||hero,[88,60,44]); if(contact) pumpkins(contact,[54])}
+  }
+  if('ResizeObserver' in window){ // i festoni si ridisegnano se cambia la larghezza
+    var decoW=0; new ResizeObserver(function(es){var w=Math.round(es[0].contentRect.width); if(w!==decoW){decoW=w; if(decoFor==='christmas'||decoFor==='birthday') decorate(decoFor,true)}}).observe(document.querySelector('.hero')||document.body);
+  }
   function applySeason(){
     var sz=currentSeason();
     if(sz==='standard') delete document.body.dataset.season; else document.body.dataset.season=sz;
+    decorate(sz);
     if(seasonSel){
       seasonSel.value=seasonPick;
       $$('option',seasonSel).forEach(function(o){
@@ -319,16 +364,24 @@
   function seedMotes(){
     motes=[]; if(!SEASON||!W) return;
     var n=W<700?12:24;
-    for(var i=0;i<n;i++) motes.push({x:Math.random()*W,y:Math.random()*H,r:2+Math.random()*3,v:.2+Math.random()*.45,ph:Math.random()*9,rot:Math.random()*6});
+    for(var i=0;i<n;i++) motes.push({x:Math.random()*W,y:Math.random()*H,r:2+Math.random()*3,v:.2+Math.random()*.45,ph:Math.random()*9,rot:Math.random()*6,dir:Math.random()<.5?-1:1});
   }
   function drawMotes(now,dt){
     for(var i=0;i<motes.length;i++){
       var m=motes[i], sway=Math.sin(now/1300+m.ph);
-      if(SEASON==='summer'||SEASON==='halloween'){m.y-=m.v*.45*dt; m.x+=sway*.25*dt}
+      var bat=SEASON==='halloween'&&i%4===0;
+      if(bat){m.x+=m.dir*(.6+m.v)*dt; m.y+=sway*.4*dt; if(m.x<-30)m.x=W+30; if(m.x>W+30)m.x=-30}
+      else if(SEASON==='summer'||SEASON==='halloween'){m.y-=m.v*.45*dt; m.x+=sway*.25*dt}
       else {m.y+=m.v*dt; m.x+=sway*.45*dt; m.rot+=.01*dt}
       if(m.y>H+10){m.y=-10;m.x=Math.random()*W} if(m.y<-10){m.y=H+10;m.x=Math.random()*W}
       ctx.save(); ctx.globalAlpha=inZone(m.x,m.y)?.2:.85; ctx.translate(m.x,m.y);
       if(SEASON==='christmas'){ctx.fillStyle='rgba(255,255,255,.95)';ctx.strokeStyle='rgba(15,27,45,.25)';ctx.beginPath();ctx.arc(0,0,m.r*.8,0,7);ctx.fill();ctx.stroke()}
+      else if(bat){ // pipistrello: due ali che battono
+        var f=Math.sin(now/110+m.ph)*6, s2=1+m.r/5; ctx.scale(m.dir*s2,s2); ctx.fillStyle=INK;
+        ctx.beginPath(); ctx.moveTo(0,0); ctx.quadraticCurveTo(-6,-8-f,-14,-2-f*.6); ctx.quadraticCurveTo(-9,-1,-7,3); ctx.quadraticCurveTo(-4,1,0,3);
+        ctx.quadraticCurveTo(4,1,7,3); ctx.quadraticCurveTo(9,-1,14,-2-f*.6); ctx.quadraticCurveTo(6,-8-f,0,0); ctx.fill();
+        ctx.beginPath(); ctx.arc(0,1,2.4,0,7); ctx.fill();
+      }
       else if(SEASON==='halloween'){var a=.35+.35*Math.sin(now/500+m.ph);var g=ctx.createRadialGradient(0,0,0,0,0,m.r*3);g.addColorStop(0,'rgba(255,154,60,'+a+')');g.addColorStop(1,'rgba(255,154,60,0)');ctx.fillStyle=g;ctx.fillRect(-m.r*3,-m.r*3,m.r*6,m.r*6)}
       else if(SEASON==='spring'){ctx.rotate(m.rot);ctx.fillStyle='rgba(232,93,154,.55)';ctx.beginPath();ctx.ellipse(0,0,m.r*1.4,m.r*.7,0,0,7);ctx.fill()}
       else if(SEASON==='summer'){ctx.fillStyle='rgba(255,196,60,'+(.3+.3*Math.sin(now/700+m.ph))+')';ctx.beginPath();ctx.arc(0,0,m.r*.6,0,7);ctx.fill()}
