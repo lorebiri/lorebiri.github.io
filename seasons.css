@@ -82,7 +82,7 @@ html[data-dark] body[data-season="autumn"]{
 /* ---------- selettore del tema ---------- */
 .season{appearance:none;-webkit-appearance:none;font:600 12px/1 var(--mono);color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:7px 10px;box-shadow:2px 2px 0 var(--line);cursor:pointer;max-width:9.5em}
 .season:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--line)}
-@media (max-width:860px){.season{max-width:3.4em;padding:7px 8px}}
+@media (max-width:860px){.season{max-width:2.9em;padding:7px 6px;text-overflow:clip}}
 @media (hover:none){.season:hover{transform:none}}
 html:not(.js) .season{display:none}
 /* iOS Safari ingrandisce la pagina se un <select> ha testo < 16px: su touch lo portiamo a 16px */

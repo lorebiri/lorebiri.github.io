@@ -521,3 +521,12 @@ html:not(.js) .rv{opacity:1;transform:none}
 .xquote{font:400 clamp(20px,2vw,26px)/1.2 var(--serif);font-style:italic;margin:4px 0 14px;padding-left:14px;border-left:3px solid var(--chl);max-width:40ch}
 .xp>li:hover .xquote{border-color:var(--on)}
 .spec dd.off{font-size:15px;line-height:1.35}
+
+/* schermi stretti (≤ 360px): le colonne non devono mai superare lo schermo.
+   "1fr" non scende sotto il contenuto più largo; minmax(0,1fr) sì. */
+@media (max-width:860px){
+  .works,.work.feat,.gallery{grid-template-columns:minmax(0,1fr)}
+  .gfig figcaption a{white-space:normal}
+  .wcat{flex-wrap:wrap}
+  .wl{white-space:nowrap}
+}
