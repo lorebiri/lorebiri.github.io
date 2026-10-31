@@ -22,3 +22,8 @@ Scrivi `euglena` sulla tastiera. 🦠
 
 ## Dopo ogni modifica a CSS/JS
 In `index.html` aumenta il numero in `styles.css?v=N` / `main.js?v=N`, così i browser non usano la versione vecchia in cache.
+
+## Temi stagionali
+Automatici in base alla data (Pisa), con selettore 🗓 nel menu e scelta salvata nel browser.
+Calendario e priorità in `main.js` (cerca "TEMI STAGIONALI"); palette in `seasons.css`.
+Per provare una data: `https://lorebiri.github.io/?date=2026-12-25`.

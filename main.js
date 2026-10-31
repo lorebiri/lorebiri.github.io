@@ -15,7 +15,7 @@
   function applyLang(l){
     root.lang=l;
     $$('#langBtn b').forEach(function(b){b.classList.toggle('on',b.dataset.l===l)});
-    tick(); countPapers();
+    tick(); countPapers(); if(typeof applySeason==='function') applySeason();
     // testi alternativi e etichette per screen reader nella lingua scelta
     $$('img[data-alt-en]').forEach(function(img){
       if(!img.dataset.altIt) img.dataset.altIt=img.alt;
@@ -29,10 +29,69 @@
   /* ---------- tema: luce / campo scuro ---------- */
   var themeBtn=$('#themeBtn');
   function isDark(){return root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches}
-  function themeLabel(){themeBtn.textContent=isDark()?'☀︎':'☾';themeBtn.setAttribute('aria-pressed',isDark())}
+  function themeLabel(){var d=isDark();themeBtn.textContent=d?'☀︎':'☾';themeBtn.setAttribute('aria-pressed',d);if(d)root.dataset.dark='';else delete root.dataset.dark}
   var th=get('theme'); if(th) root.dataset.theme=th;
   themeBtn.addEventListener('click',function(){root.dataset.theme=isDark()?'light':'dark';set('theme',root.dataset.theme);themeLabel()});
   themeLabel();
+
+  /* =========================================================
+     TEMI STAGIONALI
+     Calendario (data di Pisa, Europe/Rome), estremi inclusi.
+     Priorità: prima le festività, poi le stagioni; fuori da tutto = standard.
+       1. halloween   24 ott → 2 nov
+       2. christmas    1 dic → 6 gen   (attraversa il capodanno)
+       3. spring      20 mar → 20 giu  (comprende Pasqua)
+       4. summer      21 giu → 22 set
+       5. autumn      23 set → 30 nov  (Halloween ha la precedenza)
+       —  inverno     7 gen → 19 mar  = tema standard
+     Scelta manuale nel selettore, salvata in localStorage ("season"):
+     "auto" (default) · "standard" · uno dei temi sopra.
+     Per provare una data: ?date=2026-12-25 nell'indirizzo (non viene salvata).
+     ========================================================= */
+  var SEASONS=[
+    {id:'halloween',from:[10,24],to:[11,2]},
+    {id:'christmas',from:[12,1], to:[1,6]},
+    {id:'spring',   from:[3,20], to:[6,20]},
+    {id:'summer',   from:[6,21], to:[9,22]},
+    {id:'autumn',   from:[9,23], to:[11,30]}
+  ];
+  var SEASON_LABEL={
+    auto:['🗓 auto','🗓 auto'], standard:['◯ standard','◯ standard'],
+    halloween:['🎃 Halloween','🎃 Halloween'], christmas:['❄ Natale','❄ Christmas'],
+    spring:['✿ Primavera','✿ Spring'], summer:['☀ Estate','☀ Summer'], autumn:['❦ Autunno','❦ Autumn']
+  };
+  function md(d){ // [mese, giorno] a Pisa
+    try{var p=d.toLocaleDateString('en-CA',{timeZone:'Europe/Rome'}).split('-');return [+p[1],+p[2]]}
+    catch(e){return [d.getMonth()+1,d.getDate()]}
+  }
+  function inRange(m,d,a,b){
+    var x=m*100+d, f=a[0]*100+a[1], t=b[0]*100+b[1];
+    return f<=t ? (x>=f&&x<=t) : (x>=f||x<=t); // f>t = l'intervallo scavalca l'anno
+  }
+  function seasonFor(date){
+    var p=md(date);
+    for(var i=0;i<SEASONS.length;i++) if(inRange(p[0],p[1],SEASONS[i].from,SEASONS[i].to)) return SEASONS[i].id;
+    return 'standard';
+  }
+  var testDate=(function(){var m=/[?&]date=(\d{4}-\d{2}-\d{2})/.exec(location.search);return m?new Date(m[1]+'T12:00:00'):null})();
+  var seasonSel=$('#seasonSel'), seasonPick=get('season')||'auto';
+  function currentSeason(){return seasonPick==='auto'?seasonFor(testDate||new Date()):seasonPick}
+  function applySeason(){
+    var sz=currentSeason();
+    if(sz==='standard') delete document.body.dataset.season; else document.body.dataset.season=sz;
+    if(seasonSel){
+      seasonSel.value=seasonPick;
+      $$('option',seasonSel).forEach(function(o){
+        var l=SEASON_LABEL[o.value][root.lang==='en'?1:0];
+        o.textContent=o.value==='auto'?l+' · '+SEASON_LABEL[sz][root.lang==='en'?1:0].split(' ')[0]:l;
+      });
+    }
+  }
+  if(seasonSel) seasonSel.addEventListener('change',function(){seasonPick=seasonSel.value;set('season',seasonPick);applySeason()});
+  applySeason();
+  setInterval(function(){if(seasonPick==='auto')applySeason()},60000);   // se cambia il giorno, cambia il tema
+  document.addEventListener('visibilitychange',function(){if(!document.hidden&&seasonPick==='auto')applySeason()});
+  window.seasonFor=seasonFor; // per verifiche dalla console
 
   /* ---------- orologio di Pisa ---------- */
   var clock=$('#clock');
@@ -231,9 +290,39 @@
      ========================================================= */
   var cv=$('#culture'); if(!cv||!cv.getContext) return;
   var ctx=cv.getContext('2d'), W=0, H=0, dpr=1, cells=[], light={x:0,y:0,on:false}, run=true, t0=0, raf;
-  var CHL='#c5f03c', EYE='#ff5a2c';
-  function ink(){return getComputedStyle(root).getPropertyValue('--ink').trim()||'#141412'}
-  var INK=ink();
+  // colori presi dalle variabili CSS: cambiano con tema chiaro/scuro e con i temi stagionali
+  var CHL, EYE, INK, GLOW, LIGHT, SEASON, motes=[];
+  function palette(){
+    var cs=getComputedStyle(document.body);
+    function v(n,d){return cs.getPropertyValue(n).trim()||d}
+    CHL=v('--cell-body','#c5f03c'); EYE=v('--cell-eye','#ff5a2c'); INK=v('--ink','#141412');
+    GLOW=v('--cell-glow','transparent'); LIGHT=v('--cell-light','255,240,150');
+    var sz=document.body.dataset.season||'';
+    if(sz!==SEASON){SEASON=sz; seedMotes()}
+  }
+  /* particelle stagionali, solo nel canvas dell'hero (mai sopra i contenuti):
+     halloween = lucine fluttuanti · christmas = neve · spring = petali
+     summer = pulviscolo di luce · autumn = foglie */
+  function seedMotes(){
+    motes=[]; if(!SEASON||!W) return;
+    var n=W<700?12:24;
+    for(var i=0;i<n;i++) motes.push({x:Math.random()*W,y:Math.random()*H,r:2+Math.random()*3,v:.2+Math.random()*.45,ph:Math.random()*9,rot:Math.random()*6});
+  }
+  function drawMotes(now,dt){
+    for(var i=0;i<motes.length;i++){
+      var m=motes[i], sway=Math.sin(now/1300+m.ph);
+      if(SEASON==='summer'||SEASON==='halloween'){m.y-=m.v*.45*dt; m.x+=sway*.25*dt}
+      else {m.y+=m.v*dt; m.x+=sway*.45*dt; m.rot+=.01*dt}
+      if(m.y>H+10){m.y=-10;m.x=Math.random()*W} if(m.y<-10){m.y=H+10;m.x=Math.random()*W}
+      ctx.save(); ctx.globalAlpha=inZone(m.x,m.y)?.2:.85; ctx.translate(m.x,m.y);
+      if(SEASON==='christmas'){ctx.fillStyle='rgba(255,255,255,.95)';ctx.strokeStyle='rgba(15,27,45,.25)';ctx.beginPath();ctx.arc(0,0,m.r*.8,0,7);ctx.fill();ctx.stroke()}
+      else if(SEASON==='halloween'){var a=.35+.35*Math.sin(now/500+m.ph);var g=ctx.createRadialGradient(0,0,0,0,0,m.r*3);g.addColorStop(0,'rgba(255,154,60,'+a+')');g.addColorStop(1,'rgba(255,154,60,0)');ctx.fillStyle=g;ctx.fillRect(-m.r*3,-m.r*3,m.r*6,m.r*6)}
+      else if(SEASON==='spring'){ctx.rotate(m.rot);ctx.fillStyle='rgba(232,93,154,.55)';ctx.beginPath();ctx.ellipse(0,0,m.r*1.4,m.r*.7,0,0,7);ctx.fill()}
+      else if(SEASON==='summer'){ctx.fillStyle='rgba(255,196,60,'+(.3+.3*Math.sin(now/700+m.ph))+')';ctx.beginPath();ctx.arc(0,0,m.r*.6,0,7);ctx.fill()}
+      else if(SEASON==='autumn'){ctx.rotate(m.rot);ctx.fillStyle=i%2?'rgba(201,111,40,.7)':'rgba(155,35,53,.6)';ctx.beginPath();ctx.moveTo(0,-m.r*1.6);ctx.quadraticCurveTo(m.r*1.3,0,0,m.r*1.6);ctx.quadraticCurveTo(-m.r*1.3,0,0,-m.r*1.6);ctx.fill()}
+      ctx.restore();
+    }
+  }
   // zone di testo dell'hero: lì le euglene passano "in trasparenza" per non coprire la lettura
   var zones=[];
   function measure(){
@@ -255,6 +344,8 @@
   function draw(c,now){
     var L=c.len, w=L*.28, wob=Math.sin(now/260+c.ph)*.18, grow=Math.min(1,(now-c.born)/600);
     ctx.save(); ctx.globalAlpha=c.al; ctx.translate(c.x,c.y); ctx.rotate(c.a+wob*.4); ctx.scale(grow,grow);
+    // alone stagionale (Halloween: creatura luminosa · Natale: luce dorata)
+    if(GLOW!=='transparent'){var hg=ctx.createRadialGradient(0,0,0,0,0,L*.95);hg.addColorStop(0,GLOW);hg.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=hg;ctx.fillRect(-L,-L,L*2,L*2)}
     // flagello
     ctx.beginPath(); ctx.moveTo(L*.5,0);
     for(var k=1;k<=10;k++){var px=L*.5+k*2.6;ctx.lineTo(px,Math.sin(now/90+c.ph+k*.8)*3.2*(k/10))}
@@ -279,8 +370,9 @@
     if(!light.on){lx=W*(.5+.38*Math.sin(now/5200)); ly=H*(.5+.32*Math.sin(now/3900+1))}
     // la "luce" che le euglene seguono
     var g=ctx.createRadialGradient(lx,ly,0,lx,ly,170);
-    g.addColorStop(0,'rgba(255,240,150,.35)'); g.addColorStop(1,'rgba(255,240,150,0)');
+    g.addColorStop(0,'rgba('+LIGHT+',.35)'); g.addColorStop(1,'rgba('+LIGHT+',0)');
     ctx.fillStyle=g; ctx.fillRect(lx-170,ly-170,340,340);
+    drawMotes(now,dt);
     for(var i=0;i<cells.length;i++){
       var c=cells[i], dx=lx-c.x, dy=ly-c.y, d=Math.hypot(dx,dy);
       var target=Math.atan2(dy,dx), diff=Math.atan2(Math.sin(target-c.a),Math.cos(target-c.a));
@@ -297,13 +389,13 @@
   function start(){if(!run){run=true;t0=0;raf=requestAnimationFrame(step)}}
   function stop(){run=false;cancelAnimationFrame(raf)}
 
-  size(); measure();
+  size(); measure(); palette();
   addEventListener('load',measure);
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(measure);
   seed(W<700?9:18);
   if(reduce){run=false; step(performance.now())} else raf=requestAnimationFrame(step);
 
-  addEventListener('resize',function(){var ow=W,oh=H;size();measure();cells.forEach(function(c){c.x*=W/ow;c.y*=H/oh});if(!run)step(performance.now())});
+  addEventListener('resize',function(){var ow=W,oh=H;size();measure();seedMotes();cells.forEach(function(c){c.x*=W/ow;c.y*=H/oh});if(!run)step(performance.now())});
   var hero=$('.hero');
   // mouse: la luce segue il cursore; touch: un tocco accende la luce per qualche secondo
   var lightOff;
@@ -331,8 +423,9 @@
     new IntersectionObserver(function(es){heroVis=es[0].isIntersecting;if(reduce)return;heroVis?start():stop()}).observe(hero);
   }
   document.addEventListener('visibilitychange',function(){if(reduce)return;(document.hidden||!heroVis)?stop():start()});
-  new MutationObserver(function(){INK=ink();measure()}).observe(root,{attributes:true,attributeFilter:['data-theme','lang']});
-  matchMedia('(prefers-color-scheme: dark)').addEventListener&&matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){INK=ink();themeLabel()});
+  new MutationObserver(function(){palette();measure();if(!run)step(performance.now())}).observe(root,{attributes:true,attributeFilter:['data-theme','data-dark','lang']});
+  new MutationObserver(function(){palette();if(!run)step(performance.now())}).observe(document.body,{attributes:true,attributeFilter:['data-season']});
+  matchMedia('(prefers-color-scheme: dark)').addEventListener&&matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){themeLabel();palette()});
 
   /* ---------- easter egg: scrivi "euglena" ---------- */
   var buf='';

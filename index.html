@@ -28,7 +28,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=14">
+<link rel="stylesheet" href="styles.css?v=15">
+<link rel="stylesheet" href="seasons.css?v=1">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Lorenzo Birindelli","url":"https://lorebiri.github.io/","image":"https://lorebiri.github.io/lorenzo.jpg","jobTitle":"Collaboratore Tecnico Enti di Ricerca (CTER)","description":"CTER at CNR-ICCOM, Pisa: lab and technical support, instrumentation, data, scientific graphics and digital tools.","worksFor":{"@type":"ResearchOrganization","name":"CNR — Istituto di Chimica dei Composti OrganoMetallici (ICCOM)","address":{"@type":"PostalAddress","addressLocality":"Pisa","addressCountry":"IT"},"parentOrganization":{"@type":"GovernmentOrganization","name":"Consiglio Nazionale delle Ricerche (CNR)"}},"alumniOf":{"@type":"EducationalOrganization","name":"ITIS \"Leonardo da Vinci\", Pisa"},"knowsLanguage":["it","en"],"identifier":{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0000-2529-6256"},"sameAs":["https://orcid.org/0009-0000-2529-6256","https://scholar.google.com/citations?user=1BWAMFEAAAAJ","https://github.com/lorebiri"]}
 </script>
@@ -51,6 +52,15 @@
     </nav>
     <div class="ctrls">
       <span class="clock" id="clock" aria-live="off"></span>
+      <select class="season" id="seasonSel" aria-label="Tema stagionale / Seasonal theme" title="tema stagionale">
+        <option value="auto">🗓 auto</option>
+        <option value="standard">◯ standard</option>
+        <option value="halloween">🎃 Halloween</option>
+        <option value="christmas">❄ Natale</option>
+        <option value="spring">✿ Primavera</option>
+        <option value="summer">☀ Estate</option>
+        <option value="autumn">❦ Autunno</option>
+      </select>
       <button class="tgl lang" id="langBtn" type="button" aria-label="Cambia lingua / Switch language"><b data-l="it">IT</b> <b data-l="en">EN</b></button>
       <button class="tgl" id="themeBtn" type="button" aria-label="Tema chiaro / scuro — light / dark theme" title="luce on / off">☾</button>
     </div>
@@ -820,6 +830,6 @@
 </footer>
 
 <div class="toast" role="status" aria-live="polite"></div>
-<script src="main.js?v=13" defer></script>
+<script src="main.js?v=15" defer></script>
 </body>
 </html>

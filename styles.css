@@ -8,6 +8,10 @@
   --eye:#ff5a2c;           /* macchia oculare */
   --eye-t:#c2390f;         /* stessa tinta, più scura: per il testo (contrasto ≥ 4.5:1) */
   --on:#141412;            /* testo su colori accesi */
+  --on-eye:var(--on);      /* testo sui riempimenti --eye (badge, blocco "gen 2025") */
+  --tick:"✳";              /* separatore del nastro */
+  /* euglene del canvas: lette da main.js, ridefinite dai temi stagionali (seasons.css) */
+  --cell-body:#c5f03c; --cell-eye:#ff5a2c; --cell-glow:transparent; --cell-light:255,240,150;
   --grid:rgba(20,20,18,.07);
   --display:"Bricolage Grotesque",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,monospace;
@@ -117,7 +121,7 @@ h1 .l2 em{font-style:inherit;color:var(--eye-t)}
 .ticker{border-bottom:1.5px solid var(--line);background:var(--ink);color:var(--paper);overflow:hidden}
 .ticker .track{display:flex;width:max-content;animation:tick 40s linear infinite;font:500 14px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em}
 .ticker span{padding:14px 0;white-space:nowrap}
-.ticker span::after{content:"✳";color:var(--chl);margin:0 22px}
+.ticker span::after{content:var(--tick);color:var(--chl);margin:0 22px}
 @keyframes tick{to{transform:translateX(-50%)}}
 
 /* ---------- sezioni ---------- */
@@ -278,7 +282,7 @@ h2 .serif{font-size:1.05em;color:var(--eye-t);letter-spacing:-.02em}
 .paper .ar{font:400 22px/1 var(--display);justify-self:end;transition:transform .2s}
 .paper:hover .ar{transform:translate(3px,-3px);color:var(--eye-t)}
 .paper.pre{background:repeating-linear-gradient(-45deg,transparent 0 10px,color-mix(in srgb,var(--chl) 22%,transparent) 10px 12px)}
-.badge{display:inline-block;font:600 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;background:var(--eye);color:var(--on);padding:4px 7px;margin-left:6px;vertical-align:2px}
+.badge{display:inline-block;font:600 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;background:var(--eye);color:var(--on-eye);padding:4px 7px;margin-left:6px;vertical-align:2px}
 .plinks{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 
 /* ---------- contatti ---------- */
@@ -339,7 +343,7 @@ html:not(.js) .rv{opacity:1;transform:none}
 .phase.iccom{background:var(--ink);color:var(--paper)}
 .phase.iccom b{color:var(--chl)}
 .phase.iccom .pk{color:var(--chl)}
-.hop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 14px;background:var(--eye);color:var(--on);font:600 12px/1 var(--mono);text-transform:uppercase;border-inline:1.5px solid var(--line)}
+.hop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 14px;background:var(--eye);color:var(--on-eye);font:600 12px/1 var(--mono);text-transform:uppercase;border-inline:1.5px solid var(--line)}
 .hop i{font:800 34px/1 var(--display);font-style:normal;transition:transform .3s}
 .switch:hover .hop i{transform:translateX(6px)}
 .chap.past .when .yr{-webkit-text-stroke:1.5px var(--mute)}

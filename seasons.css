@@ -1,0 +1,76 @@
+/* =========================================================
+   Temi stagionali e festività
+   ---------------------------------------------------------
+   main.js mette sul <body> l'attributo data-season
+   (halloween · christmas · spring · summer · autumn);
+   senza attributo = tema standard.
+   Qui si ridefiniscono SOLO le variabili: layout, testi e
+   componenti restano quelli di styles.css.
+   html[data-dark] (sempre da main.js) = tema scuro attivo,
+   sia scelto col bottone sia da preferenza di sistema.
+   Contrasti verificati WCAG AA (testo ≥ 4.5:1) in chiaro e scuro.
+   ========================================================= */
+
+/* ---------- Halloween: viola, arancio, nero ---------- */
+body[data-season="halloween"]{
+  --paper:#f1ecf3; --card:#fbf9fc; --ink:#18121f; --line:#18121f; --mute:#5d5368;
+  --chl:#ff9a3c; --eye:#7c3aed; --eye-t:#6d28d9; --on-eye:#fff;
+  --grid:rgba(124,58,237,.07); --tick:"☾";
+  --cell-body:#d9f99d; --cell-eye:#ff9a3c; --cell-glow:rgba(196,165,255,.45); --cell-light:196,165,255;
+}
+html[data-dark] body[data-season="halloween"]{
+  --paper:#110c16; --card:#1a1322; --ink:#efe8f5; --line:#efe8f5; --mute:#b5a8c4;
+  --eye-t:#c4a5ff; --grid:rgba(196,165,255,.06);
+}
+
+/* ---------- Natale: blu notte, verde, oro ---------- */
+body[data-season="christmas"]{
+  --paper:#eef1ef; --card:#fafbfa; --ink:#0f1b2d; --line:#0f1b2d; --mute:#4f5b6b;
+  --chl:#f2c14e; --eye:#c8102e; --eye-t:#b00d28; --on-eye:#fff;
+  --grid:rgba(15,27,45,.07); --tick:"❄";
+  --cell-body:#7fd38a; --cell-eye:#ffd166; --cell-glow:rgba(255,209,102,.45); --cell-light:255,214,120;
+}
+html[data-dark] body[data-season="christmas"]{
+  --paper:#0b1324; --card:#121c31; --ink:#e8edf5; --line:#e8edf5; --mute:#a6b0c2;
+  --eye-t:#ff7a88; --grid:rgba(232,237,245,.05);
+}
+
+/* ---------- Primavera / Pasqua: luce, fioritura ---------- */
+body[data-season="spring"]{
+  --paper:#f4f2ec; --card:#fdfcf8; --mute:#5c5950;
+  --chl:#a7e8a1; --eye:#e85d9a; --eye-t:#b0275f; --on-eye:#141412;
+  --grid:rgba(20,20,18,.06); --tick:"✿";
+  --cell-body:#b5f0a8; --cell-eye:#e85d9a; --cell-light:255,226,238;
+}
+html[data-dark] body[data-season="spring"]{
+  --paper:#0e110d; --card:#161a14; --mute:#a5a898; --eye-t:#f58cb8;
+}
+
+/* ---------- Estate: sole, sabbia, scoperta ---------- */
+body[data-season="summer"]{
+  --paper:#f6efe1; --card:#fffaf0; --mute:#5f584b;
+  --chl:#ffd447; --eye:#ff6a3d; --eye-t:#b8400f; --on-eye:#141412;
+  --grid:rgba(120,80,20,.07); --tick:"☀";
+  --cell-body:#c5f03c; --cell-eye:#ff6a3d; --cell-light:255,214,110;
+}
+html[data-dark] body[data-season="summer"]{
+  --paper:#130f09; --card:#1c1710; --ink:#f1ece2; --line:#f1ece2; --mute:#aea493; --eye-t:#ff8a5c;
+}
+
+/* ---------- Autunno: rame, borgogna, ambra ---------- */
+body[data-season="autumn"]{
+  --paper:#f2ece2; --card:#fbf8f2; --ink:#1a1410; --line:#1a1410; --mute:#62574c;
+  --chl:#e8a33d; --eye:#9b2335; --eye-t:#8e1b2e; --on-eye:#fff;
+  --grid:rgba(120,60,20,.07); --tick:"❦";
+  --cell-body:#d7c25a; --cell-eye:#b3263d; --cell-light:255,200,130;
+}
+html[data-dark] body[data-season="autumn"]{
+  --paper:#120d0a; --card:#1b1410; --ink:#f0e8df; --line:#f0e8df; --mute:#b3a597; --eye-t:#ec8a99;
+}
+
+/* ---------- selettore del tema ---------- */
+.season{appearance:none;-webkit-appearance:none;font:600 12px/1 var(--mono);color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:7px 10px;box-shadow:2px 2px 0 var(--line);cursor:pointer;max-width:9.5em}
+.season:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--line)}
+@media (max-width:860px){.season{max-width:3.4em;padding:7px 8px}}
+@media (hover:none){.season:hover{transform:none}}
+html:not(.js) .season{display:none}
