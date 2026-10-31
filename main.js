@@ -16,6 +16,13 @@
     root.lang=l;
     $$('#langBtn b').forEach(function(b){b.classList.toggle('on',b.dataset.l===l)});
     tick(); countPapers();
+    // testi alternativi e etichette per screen reader nella lingua scelta
+    $$('img[data-alt-en]').forEach(function(img){
+      if(!img.dataset.altIt) img.dataset.altIt=img.alt;
+      img.alt=l==='en'?img.dataset.altEn:img.dataset.altIt;
+    });
+    $$('.copy').forEach(function(b){b.setAttribute('aria-label',t('Copia l\'indirizzo ','Copy the address ')+b.dataset.copy)});
+    document.title=l==='en'?'Lorenzo Birindelli — lab, data, design & code':'Lorenzo Birindelli — laboratorio, dati, design e codice';
   }
   $('#langBtn').addEventListener('click',function(){lang=lang==='it'?'en':'it';applyLang(lang);set('lang',lang)});
 
@@ -73,6 +80,9 @@
   addEventListener('scroll',onScroll,{passive:true}); onScroll();
 
   var navLinks=$$('.links a');
+  var linksBox=$('.links');
+  function linksEnd(){linksBox.classList.toggle('end',linksBox.scrollLeft+linksBox.clientWidth>=linksBox.scrollWidth-4)}
+  linksBox.addEventListener('scroll',linksEnd,{passive:true}); addEventListener('resize',linksEnd); linksEnd();
   if('IntersectionObserver' in window){
     var so=new IntersectionObserver(function(es){
       es.forEach(function(e){
@@ -210,6 +220,15 @@
   var CHL='#c5f03c', EYE='#ff5a2c';
   function ink(){return getComputedStyle(root).getPropertyValue('--ink').trim()||'#141412'}
   var INK=ink();
+  // zone di testo dell'hero: lì le euglene passano "in trasparenza" per non coprire la lettura
+  var zones=[];
+  function measure(){
+    var r=cv.getBoundingClientRect();
+    zones=$$('.hero h1 .l1, .hero h1 .l2, .hero .role, .hero .pos, .hero .tagline, .hero .lead, .hero .cta, .hero .hint, .hero .hmeta').filter(function(e){return e.offsetParent!==null}).map(function(e){
+      var b=e.getBoundingClientRect(); return [b.left-r.left-8,b.top-r.top-8,b.right-r.left+8,b.bottom-r.top+8];
+    });
+  }
+  function inZone(x,y){for(var i=0;i<zones.length;i++){var z=zones[i];if(x>z[0]&&x<z[2]&&y>z[1]&&y<z[3])return true}return false}
   function size(){
     var r=cv.getBoundingClientRect(); dpr=Math.min(devicePixelRatio||1,2);
     W=r.width; H=r.height; cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -221,7 +240,7 @@
   function seed(n){for(var i=0;i<n;i++) cells.push(new Cell(Math.random()*W,Math.random()*H))}
   function draw(c,now){
     var L=c.len, w=L*.28, wob=Math.sin(now/260+c.ph)*.18, grow=Math.min(1,(now-c.born)/600);
-    ctx.save(); ctx.translate(c.x,c.y); ctx.rotate(c.a+wob*.4); ctx.scale(grow,grow);
+    ctx.save(); ctx.globalAlpha=c.al; ctx.translate(c.x,c.y); ctx.rotate(c.a+wob*.4); ctx.scale(grow,grow);
     // flagello
     ctx.beginPath(); ctx.moveTo(L*.5,0);
     for(var k=1;k<=10;k++){var px=L*.5+k*2.6;ctx.lineTo(px,Math.sin(now/90+c.ph+k*.8)*3.2*(k/10))}
@@ -256,6 +275,7 @@
       var sp=c.s*(light.on?1.5:1)*dt;
       c.x+=Math.cos(c.a)*sp; c.y+=Math.sin(c.a)*sp;
       if(c.x<-40)c.x=W+40; if(c.x>W+40)c.x=-40; if(c.y<-40)c.y=H+40; if(c.y>H+40)c.y=-40;
+      var target2=inZone(c.x,c.y)?.18:1; c.al=(c.al==null?target2:c.al+(target2-c.al)*.12);
       draw(c,now);
     }
     if(run) raf=requestAnimationFrame(step);
@@ -263,11 +283,13 @@
   function start(){if(!run){run=true;t0=0;raf=requestAnimationFrame(step)}}
   function stop(){run=false;cancelAnimationFrame(raf)}
 
-  size();
+  size(); measure();
+  addEventListener('load',measure);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(measure);
   seed(W<700?9:18);
   if(reduce){run=false; step(performance.now())} else raf=requestAnimationFrame(step);
 
-  addEventListener('resize',function(){var ow=W,oh=H;size();cells.forEach(function(c){c.x*=W/ow;c.y*=H/oh});if(!run)step(performance.now())});
+  addEventListener('resize',function(){var ow=W,oh=H;size();measure();cells.forEach(function(c){c.x*=W/ow;c.y*=H/oh});if(!run)step(performance.now())});
   var hero=$('.hero');
   // mouse: la luce segue il cursore; touch: un tocco accende la luce per qualche secondo
   var lightOff;
@@ -295,7 +317,7 @@
     new IntersectionObserver(function(es){heroVis=es[0].isIntersecting;if(reduce)return;heroVis?start():stop()}).observe(hero);
   }
   document.addEventListener('visibilitychange',function(){if(reduce)return;(document.hidden||!heroVis)?stop():start()});
-  new MutationObserver(function(){INK=ink()}).observe(root,{attributes:true,attributeFilter:['data-theme']});
+  new MutationObserver(function(){INK=ink();measure()}).observe(root,{attributes:true,attributeFilter:['data-theme','lang']});
   matchMedia('(prefers-color-scheme: dark)').addEventListener&&matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){INK=ink();themeLabel()});
 
   /* ---------- easter egg: scrivi "euglena" ---------- */

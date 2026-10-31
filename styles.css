@@ -473,3 +473,36 @@ html:not(.js) .rv{opacity:1;transform:none}
 .vterm .cur{display:inline-block;width:.6em;background:#e6f3c4;animation:blink 1s steps(2) infinite}
 .xp h3.typing .serif::after{content:"▍";font-family:var(--mono);font-style:normal;font-size:.7em;margin-left:4px;color:var(--chl);-webkit-text-stroke:1px var(--ink);animation:blink 1.1s steps(2) infinite}
 @media (max-width:860px){.vibe{grid-column:auto}.vterm{font-size:12.5px;min-height:230px}}
+
+/* chi ha fatto cosa: etichetta testuale, non solo colore */
+.who{font:600 12px/1 var(--mono);display:inline-flex;align-self:flex-start;gap:6px;padding:6px 9px;border:1.5px solid var(--line);background:var(--chl);color:var(--on)}
+.who.team{background:var(--paper);color:var(--ink);border-style:dashed}
+
+/* compatibilità Safari / iOS meno recenti */
+.nav{background:var(--paper);background:color-mix(in srgb,var(--paper) 88%,transparent)}
+.hero{min-height:calc(100vh - 58px);min-height:calc(100svh - 58px)}
+@supports not (overflow:clip){html,body{overflow-x:hidden}}
+
+/* touch: niente stati hover "appiccicati" dopo il tap */
+@media (hover:none){
+  .work:hover{transform:none;box-shadow:none}
+  .work:hover .win img{transform:none}
+  .xp>li:hover::before{transform:scaleY(0)}
+  .xp>li:hover,.xp>li:hover .xdesc{color:inherit}
+  .xp>li:hover .xdesc{color:var(--mute)}
+  .xp>li:hover .tag{border-color:var(--line)}
+  .btn:hover,.tgl:hover{transform:none}
+  .gfig a:first-child:hover{transform:none;box-shadow:none}
+}
+
+/* menu mobile: sfumatura a destra = "c'è altro, scorri" */
+@media (max-width:860px){
+  .links{-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent);padding-right:28px}
+  .links.end{-webkit-mask-image:none;mask-image:none}
+}
+
+/* mobile: i tag lunghi vanno a capo invece di allargare la colonna */
+@media (max-width:860px){
+  .xp>li{grid-template-columns:minmax(0,1fr)}
+  .tag{white-space:normal;line-height:1.3}
+}
