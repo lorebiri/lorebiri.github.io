@@ -530,3 +530,47 @@ html:not(.js) .rv{opacity:1;transform:none}
   .wcat{flex-wrap:wrap}
   .wl{white-space:nowrap}
 }
+
+/* =========================================================
+   Dettagli personali
+   ========================================================= */
+/* --- kaiten nel footer: piatti che scorrono sul nastro (sushi disegnato in CSS) --- */
+footer{padding-top:0}
+.kaiten{overflow:hidden;margin:0 0 24px;height:58px;border-bottom:1.5px solid var(--line);
+  background:repeating-linear-gradient(90deg,#2b2b27 0 38px,#24241f 38px 40px);position:relative}
+.kaiten::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:2px;background:#3a3a34}
+.belt{display:flex;gap:30px;width:max-content;padding:0 15px;height:100%;align-items:flex-end;animation:belt 48s linear infinite}
+.kaiten:hover .belt{animation-play-state:paused}
+@keyframes belt{to{transform:translateX(-50%)}}
+.plate{position:relative;width:62px;height:16px;margin-bottom:9px;border-radius:50%;border:1.5px solid #141412;background:#f1eee5}
+.plate.p1{background:#c5f03c}.plate.p2{background:#ff8a5c}.plate.p3{background:#9fb4ff}
+.sushi{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);display:block}
+/* nigiri: riso + pesce a strisce */
+.sushi.nigiri{width:38px;height:14px;border-radius:7px;background:#fbfaf5;border:1.5px solid #141412}
+.sushi.nigiri::before{content:"";position:absolute;left:-4px;right:-4px;top:-9px;height:11px;border-radius:7px 9px 5px 6px;border:1.5px solid #141412;
+  background:repeating-linear-gradient(115deg,var(--fish) 0 5px,rgba(255,255,255,.75) 5px 6.5px)}
+.sushi.salmon{--fish:#ff8a5c}.sushi.tuna{--fish:#d1344b}
+/* maki: alga, riso, ripieno */
+.sushi.maki{width:26px;height:26px;border-radius:50%;background:#1f2a1f;border:1.5px solid #141412}
+.sushi.maki::before{content:"";position:absolute;inset:3px;border-radius:50%;background:#fbfaf5}
+.sushi.maki::after{content:"";position:absolute;inset:9px;border-radius:50%;background:#ff8a5c}
+.sushi.maki.cucumber::after{background:#7fd38a}
+/* tamago: riso, frittata, fascetta di alga */
+.sushi.tamago{width:38px;height:14px;border-radius:7px;background:#fbfaf5;border:1.5px solid #141412}
+.sushi.tamago::before{content:"";position:absolute;left:-3px;right:-3px;top:-11px;height:12px;border-radius:4px;background:#ffd447;border:1.5px solid #141412}
+.sushi.tamago::after{content:"";position:absolute;left:14px;width:8px;top:-12px;bottom:-1px;background:#1f2a1f}
+/* gunkan: alga intorno, uova di salmone sopra */
+.sushi.gunkan{width:30px;height:20px;border-radius:6px;background:#1f2a1f;border:1.5px solid #141412}
+.sushi.gunkan::before{content:"";position:absolute;left:2px;right:2px;top:-7px;height:9px;border-radius:50% 50% 30% 30%;
+  background:radial-gradient(circle at 4px 4px,#ff6a2c 2.4px,transparent 2.6px) 0 0/7px 7px,#ff9a3c}
+
+/* --- "fuori dal lab": micro-movimenti al passaggio del mouse --- */
+.fx{display:inline-block}
+@media (hover:hover){
+  .spec dd.off:hover .fx-sushi{animation:sushiSlide .9s ease-in-out}
+  .spec dd.off:hover .fx-pizza{animation:pizzaWiggle .7s ease-in-out}
+  .spec dd.off:hover .fx-sw{animation:chaosGlow 1.6s ease-in-out}
+}
+@keyframes sushiSlide{30%{transform:translateX(6px)}65%{transform:translateX(-5px)}}
+@keyframes pizzaWiggle{25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+@keyframes chaosGlow{40%,70%{color:#e11d48;text-shadow:0 0 8px rgba(225,29,72,.75),0 0 18px rgba(225,29,72,.45)}}

@@ -271,11 +271,13 @@
           ['e le etichette CLP per i reagenti?','etichette/ online'],
           ['prepara gli standard per l\'ICP-OES','icp-tool/ online'],
           ['a che ora esco oggi?','calcolatore-orario/ online'],
+          ['ordina una pizza per il laboratorio','🍕 margherita in forno… 4 minuti'],
           ['prossima idea…',null]],
       en:[['I need a tool that turns spectra into plots','acchiappaspettri/ online'],
           ['what about CLP labels for reagents?','etichette/ online'],
           ['prepare the ICP-OES standards','icp-tool/ online'],
           ['what time can I leave today?','calcolatore-orario/ online'],
+          ['order a pizza for the lab','🍕 margherita in the oven… 4 minutes'],
           ['next idea…',null]]
     };
     var SPIN='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏', timer=null, visible=false, run=0;
@@ -424,23 +426,43 @@
     ctx.clearRect(0,0,W,H);
     var lx=light.x, ly=light.y;
     if(!light.on){lx=W*(.5+.38*Math.sin(now/5200)); ly=H*(.5+.32*Math.sin(now/3900+1))}
-    // la "luce" che le euglene seguono
-    var g=ctx.createRadialGradient(lx,ly,0,lx,ly,170);
-    g.addColorStop(0,'rgba('+LIGHT+',.35)'); g.addColorStop(1,'rgba('+LIGHT+',0)');
-    ctx.fillStyle=g; ctx.fillRect(lx-170,ly-170,340,340);
+    var chaos=now<chaosUntil, LC=chaos?'220,20,60':LIGHT, LR=chaos?210:170;
+    // la "luce" che le euglene seguono (con "wanda" diventa magia del caos, rosso scarlatto)
+    var g=ctx.createRadialGradient(lx,ly,0,lx,ly,LR);
+    g.addColorStop(0,'rgba('+LC+','+(chaos?.42:.35)+')'); g.addColorStop(1,'rgba('+LC+',0)');
+    ctx.fillStyle=g; ctx.fillRect(lx-LR,ly-LR,LR*2,LR*2);
+    if(chaos) drawChaos(lx,ly,now);
     drawMotes(now,dt);
     for(var i=0;i<cells.length;i++){
       var c=cells[i], dx=lx-c.x, dy=ly-c.y, d=Math.hypot(dx,dy);
       var target=Math.atan2(dy,dx), diff=Math.atan2(Math.sin(target-c.a),Math.cos(target-c.a));
       var pull=d>60?.045:-.03; // troppo vicini alla luce → si allontanano (fotofobia)
       c.a+=(diff*pull+(Math.random()-.5)*.14)*dt;
-      var sp=c.s*(light.on?1.5:1)*dt;
+      var sp=c.s*(light.on?1.5:1)*(chaos?1.8:1)*dt;
       c.x+=Math.cos(c.a)*sp; c.y+=Math.sin(c.a)*sp;
       if(c.x<-40)c.x=W+40; if(c.x>W+40)c.x=-40; if(c.y<-40)c.y=H+40; if(c.y>H+40)c.y=-40;
       var target2=inZone(c.x,c.y)?.18:1; c.al=(c.al==null?target2:c.al+(target2-c.al)*.12);
+      if(chaos){ // scia scarlatta dietro ogni euglena
+        (c.trail=c.trail||[]).push(c.x,c.y); if(c.trail.length>28) c.trail.splice(0,2);
+        ctx.save(); ctx.globalAlpha=c.al*.8; ctx.strokeStyle='rgba(225,29,72,.75)'; ctx.lineWidth=3.5; ctx.lineCap='round'; ctx.shadowColor='rgba(225,29,72,.8)'; ctx.shadowBlur=8;
+        ctx.beginPath(); ctx.moveTo(c.trail[0],c.trail[1]); for(var q=2;q<c.trail.length;q+=2) ctx.lineTo(c.trail[q],c.trail[q+1]); ctx.stroke(); ctx.restore();
+      } else if(c.trail) c.trail=null;
       draw(c,now);
     }
     if(run) raf=requestAnimationFrame(step);
+  }
+  // filamenti di magia attorno alla luce: archi rossi che ruotano
+  var chaosUntil=0;
+  function drawChaos(lx,ly,now){
+    ctx.save(); ctx.lineCap='round'; ctx.shadowColor='rgba(225,29,72,.9)'; ctx.shadowBlur=12;
+    for(var k=0;k<7;k++){
+      var a=now/520+k*1.047, r1=24+8*Math.sin(now/300+k), r2=70+18*Math.sin(now/410+k*2);
+      ctx.strokeStyle='rgba(225,29,72,'+(.6+.3*Math.sin(now/250+k))+')'; ctx.lineWidth=3;
+      ctx.beginPath(); ctx.moveTo(lx+Math.cos(a)*r1,ly+Math.sin(a)*r1);
+      ctx.quadraticCurveTo(lx+Math.cos(a+.9)*r2,ly+Math.sin(a+.9)*r2,lx+Math.cos(a+1.7)*(r2*.75),ly+Math.sin(a+1.7)*(r2*.75));
+      ctx.stroke();
+    }
+    ctx.restore();
   }
   function start(){if(!run){run=true;t0=0;raf=requestAnimationFrame(step)}}
   function stop(){run=false;cancelAnimationFrame(raf)}
@@ -503,7 +525,13 @@
       if(scrollY>innerHeight*.6) scrollTo({top:0,behavior:reduce?'auto':'smooth'});
       if(reduce) step(performance.now());
     }
+    if(/wanda$/.test(buf)){
+      buf=''; chaosUntil=performance.now()+9000;
+      toast(t('✨ magia del caos attivata: per qualche secondo le euglene obbediscono a Wanda.','✨ chaos magic activated: for a few seconds the euglenas obey Wanda.'));
+      if(scrollY>innerHeight*.6) scrollTo({top:0,behavior:reduce?'auto':'smooth'});
+      if(!run) step(performance.now());
+    }
   });
 
-  try{console.log('%c🦠 lorenzo.b','font:800 22px sans-serif;background:#c5f03c;color:#141412;padding:4px 8px','\nCiao, curioso/a! Scrivi "euglena" sulla pagina (non qui) per una sorpresa.\nCodice: https://github.com/lorebiri/lorebiri.github.io')}catch(e){}
+  try{console.log('%c🦠 lorenzo.b','font:800 22px sans-serif;background:#c5f03c;color:#141412;padding:4px 8px','\nCiao, curioso/a! Scrivi "euglena" o "wanda" sulla pagina (non qui) per una sorpresa.\nCodice: https://github.com/lorebiri/lorebiri.github.io')}catch(e){}
 })();

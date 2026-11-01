@@ -18,7 +18,7 @@ Sezione `#pubs`: copia un `<li class="paper">`, aggiorna `data-y` (anno, o `pre`
 Se è un anno nuovo, aggiungi anche il bottone `<button class="chip" data-f="ANNO">`.
 
 ## Easter egg
-Scrivi `euglena` sulla tastiera. 🦠
+Scrivi `euglena` (fioritura algale) o `wanda` (magia del caos) sulla tastiera. 🦠
 
 ## Dopo ogni modifica a CSS/JS
 In `index.html` aumenta il numero in `styles.css?v=N` / `main.js?v=N`, così i browser non usano la versione vecchia in cache.
