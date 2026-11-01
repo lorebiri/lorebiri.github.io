@@ -580,3 +580,7 @@ footer{padding-top:0}
   transform:translateY(110%);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .pixelme.on{transform:translateY(0)}
 @media (max-width:860px){.pixelme{bottom:96px;transform:translateY(calc(100% + 96px))}.pixelme.on{transform:translateY(0)}}
+
+/* avatar pixel art accanto all'orologio (fase della giornata + accessorio del periodo) */
+.me-nav{display:block;width:44px;height:56px;image-rendering:pixelated;margin:1px 0 -1px}
+@media (max-width:860px){.me-nav{width:33px;height:42px;margin:0}}

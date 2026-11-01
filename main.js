@@ -120,6 +120,7 @@
     var sz=currentSeason();
     if(sz==='standard') delete document.body.dataset.season; else document.body.dataset.season=sz;
     decorate(sz);
+    drawMeNav(); // l'avatar cambia accessorio con il periodo
   }
   // il 23 marzo, in automatico, un saluto discreto una volta al giorno
   function birthdayHello(){
@@ -137,13 +138,99 @@
   var clock=$('#clock');
   // stato "probabile": palestra lun/mer/ven presto e sabato mattina, in orario di lavoro
   // si alternano ufficio e vibe coding, altrimenti fuori servizio
-  var flip=false;
+  var flip=false, meKey='off';
+  /* Avatar pixel art di Lorenzo per lo stato nella barra in alto.
+     Griglia 22×28 (2 colonne di margine per lato, 4 righe sopra per i cappelli).
+     draw(ctx, PX, stato, stagione, fotogramma)
+     stato: office · code · gym · off      stagione: '' · halloween · christmas · birthday · spring · summer · autumn */
+  var AVATAR=(function(){
+    var BASE=[
+    "....h.HhH.h.......",
+    "...HhHHHhHHhH.....",
+    "..HhHHHhHHHhHH....",
+    "..HHHhHHHHhHHH....",
+    "..HHKKKKKKKKKH....",
+    "..HKKKKKKKKKKH....",
+    "..HKgggKKgggKH....",
+    "..HgLLgggLLgKK....",
+    "..HKgggKKgggKKE...",
+    "...KKKKkkKKKKK....",
+    "...kKKKKKKKKKk....",
+    "....kKKkkKKKk.....",
+    ".....kKKKKKk......",
+    "....SSSSSSSSSS....",
+    "...SSSSSSSSSSSS...",
+    "...SSSSSSSSSSSS...",
+    "...SSSSSSSSSSSS...",
+    "...sSSSSSSSSSSs...",
+    "....PPPPPPPPPP....",
+    "....PPPPPPPPPP....",
+    "....PPPPP.PPPPP...",
+    "....PPPP...PPPP...",
+    "....PPPP...PPPP...",
+    "....BBBB...BBBB..."];
+    var PAL={H:'#22160f',h:'#4a3326',K:'#c98c63',k:'#a86f4c',g:'#b08a4a',L:'#cfe3f2',E:'#e7b93e',S:'#f2a28a',s:'#d98670',P:'#2f3a52',B:'#141412'};
+    function px(c,P,x,y,col){c.fillStyle=col;c.fillRect((x+2)*P,(y+4)*P,P,P)}
+    function rect(c,P,x,y,w,h,col){c.fillStyle=col;c.fillRect((x+2)*P,(y+4)*P,w*P,h*P)}
+    function draw(c,P,state,season,f){
+      c.clearRect(0,0,22*P,28*P);
+      var coat=state==='office';
+      // corpo
+      BASE.forEach(function(row,y){for(var x=0;x<row.length;x++){var ch=row[x];if(ch==='.')continue;
+        var col=PAL[ch];
+        if(coat&&(ch==='S'))col='#f4f4ef'; if(coat&&ch==='s')col='#d7d7cf';
+        if(state==='off'&&ch==='L')col='#3b2f22';            // occhi chiusi
+        if(season==='summer'&&ch==='L')col='#141412';        // occhiali da sole
+        px(c,P,x,y,col)}});
+      if(coat){ rect(c,P,8,13,2,5,'#f2a28a'); px(c,P,5,15,'#9fb4ff'); px(c,P,5,16,'#9fb4ff'); } // maglia sotto il camice, penna nel taschino
+      // braccia e oggetti
+      var K=PAL.K;
+      if(state==='office'){ // provetta che fa le bolle
+        rect(c,P,2,14,1,4,'#f4f4ef'); px(c,P,2,18,K);
+        rect(c,P,15,14,1,3,'#f4f4ef'); px(c,P,15,17,K);
+        rect(c,P,16,13,1,1,'#cfe3f2'); rect(c,P,16,14,2,1,'#cfe3f2'); rect(c,P,16,15,2,2,'#7fd38a');
+        px(c,P,f?17:16,f?11:12,'#7fd38a');
+      } else if(state==='code'){ // portatile e mani che battono
+        rect(c,P,3,15,12,5,'#8a8f98'); rect(c,P,2,20,14,1,'#5f646c'); px(c,P,8,17,'#c5f03c');
+        px(c,P,f?4:5,f?19:20,K); px(c,P,f?13:12,f?20:19,K);
+            } else if(state==='gym'){ // manubrio, un braccio alla volta
+        var up=f?15:2, dn=f?2:15;
+        rect(c,P,dn,14,1,4,K);
+        rect(c,P,up,9,1,5,K);
+        rect(c,P,up-1,8,3,1,'#3a3a34'); px(c,P,up-2,7,'#3a3a34');px(c,P,up-2,8,'#3a3a34');px(c,P,up-2,9,'#3a3a34');
+        px(c,P,up+2,7,'#3a3a34');px(c,P,up+2,8,'#3a3a34');px(c,P,up+2,9,'#3a3a34');
+      } else { // off: braccia giù e zzz
+        rect(c,P,2,14,1,4,K); rect(c,P,15,14,1,4,K);
+        var zy=f?-3:-2; c.fillStyle=PAL.H;
+        [[14,zy],[15,zy],[16,zy],[15,zy+1],[14,zy+2],[15,zy+2],[16,zy+2]].forEach(function(p){px(c,P,p[0],p[1],'#6b6f8a')});
+      }
+      // stagione / festività
+      if(season==='christmas'){ // cappello rosso con bordo bianco e pompon
+        rect(c,P,3,-1,10,2,'#d62839'); rect(c,P,6,-3,6,2,'#d62839'); rect(c,P,10,-4,3,1,'#d62839');
+        rect(c,P,2,1,12,1,'#ffffff'); rect(c,P,13,-4,2,2,'#ffffff');
+      } else if(season==='birthday'){ // cappellino a cono e coriandolo
+        rect(c,P,6,-1,5,1,'#ff3d8b'); rect(c,P,7,-2,3,1,'#ffd447'); rect(c,P,8,-3,1,1,'#ff3d8b'); px(c,P,8,-4,'#ffd447');
+        px(c,P,f?0:1,f?3:4,'#5bc0eb'); px(c,P,f?17:16,f?5:4,'#ff3d8b');
+      } else if(season==='halloween'){ // zucca ai piedi
+        rect(c,P,0,21,3,2,'#ff9a3c'); px(c,P,1,20,'#5b7a2e'); px(c,P,0,21,f?'#ffd447':'#2a1505'); px(c,P,2,21,f?'#ffd447':'#2a1505');
+      } else if(season==='spring'){ // fiore tra i capelli
+        px(c,P,12,0,'#e85d9a');px(c,P,13,1,'#e85d9a');px(c,P,11,1,'#e85d9a');px(c,P,12,2,'#e85d9a');px(c,P,12,1,'#ffd447');
+      } else if(season==='autumn'){ // sciarpa
+        rect(c,P,5,12,8,2,'#9b2335'); rect(c,P,10,14,2,3,'#9b2335'); px(c,P,10,17,'#e8a33d');
+      }
+    }
+    return {draw:draw,W:22,H:28};
+  })();
+
+  // avatar accanto all'orologio: stessa fase della giornata dello stato + accessorio del periodo
+  var meNav=$('#meNav'), meF=0;
+  function drawMeNav(){ if(meNav) AVATAR.draw(meNav.getContext('2d'),2,meKey,document.body.dataset.season||'',meF) }
   function status(wd,min){
     var gym=(['Mon','Wed','Fri'].indexOf(wd)>=0 && min>=390 && min<540) || (wd==='Sat' && min>=510 && min<750);
-    if(gym) return t('probabilmente in palestra 🏋️','probably in the gym 🏋️');
+    if(gym){meKey='gym'; return t('probabilmente in palestra 🏋️','probably in the gym 🏋️')}
     var work=['Sat','Sun'].indexOf(wd)<0 && min>=540 && min<1020;
-    if(work) return flip ? t('probabilmente in vibe coding 💻','probably vibe coding 💻') : t('in ufficio 🧪','in the office 🧪');
-    return t('fuori servizio 🌙','off duty 🌙');
+    if(work){meKey=flip?'code':'office'; return flip ? t('probabilmente in vibe coding 💻','probably vibe coding 💻') : t('in ufficio 🧪','in the office 🧪')}
+    meKey='off'; return t('fuori servizio 🌙','off duty 🌙');
   }
   function tick(){
     if(!clock) return;
@@ -160,9 +247,11 @@
       clock.appendChild(document.createElement('br'));
       var st=document.createElement('span'); st.className='st'; st.textContent=txt; clock.appendChild(st);
     } else clock.firstChild.textContent='Pisa '+hm;
+    if(meNav){meNav.title='Pisa '+hm+' · '+txt; drawMeNav()}
   }
   setInterval(tick,30000);
   setInterval(function(){flip=!flip;tick()},4000);
+  if(meNav&&!reduce) setInterval(function(){if(!document.hidden){meF=1-meF;drawMeNav()}},520); // due fotogrammi, animazione leggera
 
   $('#yr').textContent=new Date().getFullYear();
 
