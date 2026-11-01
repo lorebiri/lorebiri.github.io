@@ -111,7 +111,6 @@ body[data-season="christmas"] .hero .wrap,body[data-season="birthday"] .hero .wr
 .pumpkins .p-body{fill:#ff9a3c;stroke:var(--ink);stroke-width:1.6}
 .pumpkins .p-rib{fill:none;stroke:var(--ink);stroke-width:1.2;opacity:.55}
 .pumpkins .p-stem{fill:#5b7a2e;stroke:var(--ink);stroke-width:1.4}
-.pumpkins .p-face{fill:#2a1505}
 .hero .pumpkins{bottom:6px}
 .contact .pumpkins{bottom:0}
 @media (max-width:860px){.pumpkins svg{transform:scale(.72);transform-origin:bottom right}.hero .pumpkins{right:6px}}

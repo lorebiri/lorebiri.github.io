@@ -47,7 +47,6 @@ a{color:inherit}
 :focus-visible{outline:3px solid var(--eye);outline-offset:3px}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
 .serif{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0}
-.mono{font-family:var(--mono)}
 .skip{position:absolute;left:-999px;top:8px;z-index:200;background:var(--chl);color:var(--on);padding:8px 14px;font-family:var(--mono)}
 .skip:focus{left:8px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -216,14 +215,6 @@ h2 .serif{font-size:1.05em;color:var(--eye-t);letter-spacing:-.02em}
 .wnote{font:500 12px/1.4 var(--mono);color:var(--mute)}
 /* anteprime disegnate (figure, video) */
 .art{height:220px;border-bottom:1.5px solid var(--line);position:relative;overflow:hidden}
-.art.figs{display:grid;grid-template-columns:1.2fr 1fr;grid-template-rows:1fr 1fr;gap:10px;padding:18px;background:var(--paper)}
-.art.figs div{border:1.5px solid var(--line);background:var(--card);position:relative}
-.art.figs div:first-child{grid-row:span 2}
-.art.figs div::before{content:attr(data-p);position:absolute;top:6px;left:8px;font:700 14px/1 var(--display)}
-.art.figs svg{position:absolute;inset:26px 10px 10px;width:calc(100% - 20px);height:calc(100% - 36px);overflow:visible}
-.art.figs path,.art.figs line{fill:none;stroke:var(--ink);stroke-width:1.5}
-.art.figs .hl{stroke:var(--eye);stroke-width:2}
-.art.figs rect{fill:var(--chl);stroke:var(--ink);stroke-width:1.2}
 .art.reel{background:var(--ink);color:var(--paper);padding:18px;display:flex;flex-direction:column;justify-content:flex-end;gap:7px}
 .art.reel .tc{position:absolute;top:16px;left:18px;font:600 22px/1 var(--mono);color:var(--chl)}
 .art.reel .rec{position:absolute;top:18px;right:18px;font:600 11px/1 var(--mono);display:flex;align-items:center;gap:6px}
@@ -235,7 +226,6 @@ h2 .serif{font-size:1.05em;color:var(--eye-t);letter-spacing:-.02em}
 .art.reel .head{position:absolute;top:56px;bottom:12px;left:38%;width:2px;background:var(--eye);animation:scrub 7s ease-in-out infinite alternate}
 @keyframes scrub{to{left:78%}}
 @keyframes blink{50%{opacity:0}}
-.addme{grid-column:span 12;border:1.5px dashed var(--line);padding:18px;font:500 13px/1.5 var(--mono);color:var(--mute);text-align:center}
 
 /* ---------- journey ---------- */
 .chap{display:grid;grid-template-columns:minmax(0,.55fr) minmax(0,1.45fr);gap:24px clamp(24px,5vw,80px);padding:clamp(28px,4vw,48px) 0;border-bottom:1.5px solid var(--line)}
@@ -384,7 +374,7 @@ html:not(.js) .rv{opacity:1;transform:none}
   .xp>li{grid-template-columns:1fr;gap:10px;padding:22px 4px}
   .xn{padding-top:0}
   .works{grid-template-columns:1fr}
-  .work,.work.wide,.work.slim,.work.third,.work.feat,.addme{grid-column:auto}
+  .work,.work.wide,.work.slim,.work.third,.work.feat{grid-column:auto}
   .work.feat{grid-template-columns:1fr}
   .feat .wmedia{order:0;border-left:0;border-bottom:1.5px solid var(--line)}
   .chap{grid-template-columns:1fr;gap:14px}
@@ -427,12 +417,10 @@ html:not(.js) .rv{opacity:1;transform:none}
 .work:hover .art.book a{transform:rotate(0) scale(1.03)}
 .art.book img{border:1.5px solid var(--line);box-shadow:8px 8px 0 var(--line)}
 .art.book .stk{position:absolute;bottom:14px;right:14px;font:600 12px/1 var(--mono);background:var(--paper);color:var(--ink);border:1.5px solid var(--line);padding:7px 10px;transform:rotate(4deg)}
-.addme.half{grid-column:span 5;display:flex;align-items:center;justify-content:center}
 
 /* mobile: prima il "chi sono e cosa faccio", poi il ritratto */
 @media (max-width:860px){
   .scope{order:2;margin:34px auto 12px}
-  .addme.half{grid-column:auto}
 }
 
 /* galleria figure per paper */
