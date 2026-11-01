@@ -574,3 +574,9 @@ footer{padding-top:0}
 @keyframes sushiSlide{30%{transform:translateX(6px)}65%{transform:translateX(-5px)}}
 @keyframes pizzaWiggle{25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
 @keyframes chaosGlow{40%,70%{color:#e11d48;text-shadow:0 0 8px rgba(225,29,72,.75),0 0 18px rgba(225,29,72,.45)}}
+
+/* Lorenzo in pixel art (easter egg "wanda"): entra dal basso, a destra, sopra al contenuto ma sotto al toast */
+.pixelme{position:fixed;right:max(12px,env(safe-area-inset-right));bottom:-4px;z-index:140;pointer-events:none;image-rendering:pixelated;
+  transform:translateY(110%);transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.pixelme.on{transform:translateY(0)}
+@media (max-width:860px){.pixelme{bottom:96px;transform:translateY(calc(100% + 96px))}.pixelme.on{transform:translateY(0)}}

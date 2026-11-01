@@ -512,6 +512,45 @@
   new MutationObserver(function(){palette();if(!run)step(performance.now())}).observe(document.body,{attributes:true,attributeFilter:['data-season']});
   matchMedia('(prefers-color-scheme: dark)').addEventListener&&matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){themeLabel();palette()});
 
+
+  /* ---------- Lorenzo in pixel art, versione "stregone del caos" ----------
+     compare in basso a destra con l'easter egg "wanda": mantello rosso, cerchietto con gemma,
+     magia scarlatta dalle mani. Personaggio originale (nessun costume Marvel).
+     Legenda: H/h capelli · K/k pelle · g occhiali · L lenti · Y cerchietto · R gemma · E orecchino
+              S/s maglia · C/c mantello · P pantaloni · B scarpe */
+  var SPRITE={"idle": ["....h.HhH.h.......", "...HhHHHhHHhH.....", "..HhHHHhHHHhHH....", "..HHHhHHHHhHHH....", "..HYYYYYRYYYYH....", "..HKKKKKKKKKKH....", "..HKgggKKgggKH....", "..HgLLgggLLgKK....", "..HKgggKKgggKKE...", "...KKKKkkKKKKK....", "...kKKKKKKKKKk....", "....kKKkkKKKk.....", ".....kKKKKKk......", "..CCCSSSSSSSSCCC..", ".CCSSSSSSSSSSSSCC.", ".CKSSSSSSSSSSSSKC.", "CCKSSSSSSSSSSSSKCC", "CcKsSSSSSSSSSSsKcC", "Cc.KPPPPPPPPPPK.cC", "Cc..PPPPPPPPPP..cC", "cc..PPPPP.PPPPP.cc", "cc..PPPP...PPPP.cc", "c...PPPP...PPPP..c", "....BBBB...BBBB..."], "cast": ["....h.HhH.h.......", "...HhHHHhHHhH.....", "..HhHHHhHHHhHH....", "..HHHhHHHHhHHH....", "..HYYYYYRYYYYH....", "..HKKKKKKKKKKH....", "..HKgggKKgggKH....", "..HgLLgggLLgKK....", "..HKgggKKgggKKE...", "K..KKKKkkKKKKK...K", "Kk.kKKKKKKKKKk..kK", ".K..kKKkkKKKk...K.", ".K...kKKKKKk....K.", ".K.CCSSSSSSSSCC.K.", ".KCCSSSSSSSSSSCCK.", "CKCSSSSSSSSSSSSCKC", "CCCSSSSSSSSSSSSCCC", "CcCsSSSSSSSSSSsCcC", "Cc.KPPPPPPPPPPK.cC", "Cc..PPPPPPPPPP..cC", "cc..PPPPP.PPPPP.cc", "cc..PPPP...PPPP.cc", "c...PPPP...PPPP..c", "....BBBB...BBBB..."], "idle2": ["....h.HhH.h.......", "...HhHHHhHHhH.....", "..HhHHHhHHHhHH....", "..HHHhHHHHhHHH....", "..HYYYYYRYYYYH....", "..HKKKKKKKKKKH....", "..HKgggKKgggKH....", "..HgLLgggLLgKK....", "..HKgggKKgggKKE...", "...KKKKkkKKKKK....", "...kKKKKKKKKKk....", "....kKKkkKKKk.....", ".....kKKKKKk......", "..CCCSSSSSSSSCCC..", ".CCSSSSSSSSSSSSCC.", ".CKSSSSSSSSSSSSKC.", "CCKSSSSSSSSSSSSKCC", "CcKsSSSSSSSSSSsKcC", "Cc.KPPPPPPPPPPK.cC", "Cc..PPPPPPPPPP..cC", "cc..PPPPP.PPPPP.cc", "cc..PPPP...PPPP..c", "....PPPP...PPPP...", "....BBBB...BBBB..."], "cast2": ["....h.HhH.h.......", "...HhHHHhHHhH.....", "..HhHHHhHHHhHH....", "..HHHhHHHHhHHH....", "..HYYYYYRYYYYH....", "..HKKKKKKKKKKH....", "..HKgggKKgggKH....", "..HgLLgggLLgKK....", "..HKgggKKgggKKE...", "K..KKKKkkKKKKK...K", "Kk.kKKKKKKKKKk..kK", ".K..kKKkkKKKk...K.", ".K...kKKKKKk....K.", ".K.CCSSSSSSSSCC.K.", ".KCCSSSSSSSSSSCCK.", "CKCSSSSSSSSSSSSCKC", "CCCSSSSSSSSSSSSCCC", "CcCsSSSSSSSSSSsCcC", "Cc.KPPPPPPPPPPK.cC", "Cc..PPPPPPPPPP..cC", "cc..PPPPP.PPPPP.cc", "cc..PPPP...PPPP..c", "....PPPP...PPPP...", "....BBBB...BBBB..."]};
+  var SPAL={H:'#22160f',h:'#4a3326',K:'#c98c63',k:'#a86f4c',g:'#b08a4a',L:'#cfe3f2',Y:'#e7b93e',R:'#e11d48',E:'#e7b93e',S:'#f2a28a',s:'#d98670',C:'#b3122e',c:'#7a0c20',P:'#2f3a52',B:'#141412'};
+  var meCv=null, meT=null, meRaf=null;
+  function pixelMe(ms){
+    var PX=5, W0=18*PX, H0=24*PX, M=34; // M = margine per l'alone della magia
+    if(!meCv){
+      meCv=document.createElement('canvas'); meCv.className='pixelme'; meCv.setAttribute('aria-hidden','true');
+      meCv.width=(W0+M*2)*2; meCv.height=(H0+M)*2; meCv.style.width=(W0+M*2)+'px'; meCv.style.height=(H0+M)+'px';
+      document.body.appendChild(meCv);
+    }
+    var x=meCv.getContext('2d'), t0=performance.now(), end=t0+ms;
+    x.setTransform(2,0,0,2,0,0); x.imageSmoothingEnabled=false;
+    function frame(now){
+      var el=now-t0, casting=el>650, alt=Math.floor(el/320)%2;
+      var g=casting?(alt?SPRITE.cast2:SPRITE.cast):(alt?SPRITE.idle2:SPRITE.idle);
+      x.clearRect(0,0,W0+M*2,H0+M);
+      if(casting){ // magia dalle mani
+        [[1,9.5],[16.5,9.5]].forEach(function(h,i){
+          var gx=M+h[0]*PX, gy=M+h[1]*PX, r=26+5*Math.sin(now/180+i*2);
+          var gr=x.createRadialGradient(gx,gy,0,gx,gy,r); gr.addColorStop(0,'rgba(255,70,110,.95)'); gr.addColorStop(.45,'rgba(225,29,72,.5)'); gr.addColorStop(1,'rgba(225,29,72,0)');
+          x.fillStyle=gr; x.fillRect(gx-r,gy-r,r*2,r*2);
+          for(var k=0;k<3;k++){var a=now/300+k*2.1+i, rr=10+k*5; x.fillStyle='rgba(255,140,160,.9)'; x.fillRect(Math.round(gx+Math.cos(a)*rr),Math.round(gy+Math.sin(a)*rr),2,2)}
+        });
+      }
+      g.forEach(function(row,yy){for(var xx=0;xx<row.length;xx++){var ch=row[xx];if(ch!=='.'){x.fillStyle=SPAL[ch];x.fillRect(M+xx*PX,M+yy*PX,PX,PX)}}});
+      if(now<end&&!reduce) meRaf=requestAnimationFrame(frame);
+    }
+    cancelAnimationFrame(meRaf); clearTimeout(meT);
+    meCv.classList.add('on');
+    if(reduce){frame(t0+1000)} else meRaf=requestAnimationFrame(frame);
+    meT=setTimeout(function(){meCv.classList.remove('on');cancelAnimationFrame(meRaf)},ms);
+  }
+
   /* ---------- easter egg: scrivi "euglena" ---------- */
   var buf='';
   addEventListener('keydown',function(e){
@@ -526,7 +565,7 @@
       if(reduce) step(performance.now());
     }
     if(/wanda$/.test(buf)){
-      buf=''; chaosUntil=performance.now()+9000;
+      buf=''; chaosUntil=performance.now()+9000; pixelMe(9000);
       toast(t('✨ magia del caos attivata: per qualche secondo le euglene obbediscono a Wanda.','✨ chaos magic activated: for a few seconds the euglenas obey Wanda.'));
       if(scrollY>innerHeight*.6) scrollTo({top:0,behavior:reduce?'auto':'smooth'});
       if(!run) step(performance.now());
