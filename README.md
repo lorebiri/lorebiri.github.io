@@ -28,5 +28,8 @@ Automatici in base alla data (Pisa); il 23 marzo tema compleanno. Chi visita non
 Calendario e priorità in `main.js` (cerca "TEMI STAGIONALI"); palette in `seasons.css`.
 Per provare una data: `https://lorebiri.github.io/?date=2026-12-25`.
 
+## Immagini
+I link a un file immagine si aprono in una finestrella dentro il sito (`lightbox.js`, stile in fondo a `styles.css`). Quelli dentro `.gallery`, `.cs-pages` e `.cs-demo` si sfogliano con le frecce.
+
 ## Pagine caso studio
 `dsctm-2026.html` (stile in `case.css`, lingua/tema in `case.js`). Le pagine di esempio del programma sono `img/dsctm-*.jpg` (estratte dal PDF ufficiale).
