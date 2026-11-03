@@ -572,3 +572,18 @@ footer{padding-top:0}
 /* avatar pixel art accanto all'orologio (fase della giornata + accessorio del periodo) */
 .me-nav{display:block;width:44px;height:56px;image-rendering:pixelated;margin:1px 0 -1px}
 @media (max-width:860px){.me-nav{width:33px;height:42px;margin:0}}
+
+/* dettagli richiudibili nelle schede e nel percorso */
+.wmore{border-top:1.5px dashed color-mix(in srgb,var(--line) 35%,transparent)}
+.wmore>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;font:600 12px/1.3 var(--mono);color:var(--ink);list-style:none}
+.wmore>summary::-webkit-details-marker{display:none}
+.wmore>summary::before{content:"+";font-size:16px;color:var(--eye-t);width:12px}
+.wmore[open]>summary::before{content:"−"}
+.wmore>.brief,.wmore>.mine{border-top:0;padding-top:0}
+.wmore>.mine>dt{display:none}
+
+/* su telefono i link piccoli si toccano meglio */
+@media (max-width:760px){
+  .logo{padding-top:7px;padding-bottom:7px}
+  .chap .more,.ptag a,.ending a,.gallery figcaption a,.wfig a{display:inline-block;padding-top:7px;padding-bottom:7px}
+}

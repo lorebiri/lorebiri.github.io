@@ -505,9 +505,10 @@
   // zone di testo dell'hero: lì le euglene passano "in trasparenza" per non coprire la lettura
   var zones=[];
   function measure(){
+    // su telefono la zona si allarga: un'euglena sul bordo copre comunque l'inizio delle righe
     var r=cv.getBoundingClientRect();
     zones=$$('.hero h1 .l1, .hero h1 .l2, .hero .role, .hero .pos, .hero .tagline, .hero .lead, .hero .cta, .hero .hint, .hero .hmeta').filter(function(e){return e.offsetParent!==null}).map(function(e){
-      var b=e.getBoundingClientRect(); return [b.left-r.left-8,b.top-r.top-8,b.right-r.left+8,b.bottom-r.top+8];
+      var b=e.getBoundingClientRect(), side=r.width<600?40:8; return [b.left-r.left-side,b.top-r.top-8,b.right-r.left+side,b.bottom-r.top+8];
     });
   }
   function inZone(x,y){for(var i=0;i<zones.length;i++){var z=zones[i];if(x>z[0]&&x<z[2]&&y>z[1]&&y<z[3])return true}return false}
