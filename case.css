@@ -46,6 +46,13 @@
 .cs-pages figure{margin:0}
 .cs-pages img{border:1.5px solid var(--line);box-shadow:5px 5px 0 var(--line)}
 .cs-pages figcaption{font:500 12px/1.4 var(--mono);color:var(--mute);margin-top:8px}
+/* gif di schermi e totem: le colonne rispettano le proporzioni, così le due hanno la stessa altezza */
+.cs-demo{display:grid;grid-template-columns:minmax(0,2.449fr) minmax(0,.5625fr);gap:22px;margin:30px 0 10px}
+.cs-demo figure{margin:0}
+.cs-demo a{display:block}
+.cs-demo img{display:block;width:100%;height:auto;border:1.5px solid var(--line);box-shadow:5px 5px 0 var(--line)}
+.cs-demo figcaption{font:500 12px/1.45 var(--mono);color:var(--mute);margin-top:10px}
+.cs-note{font:500 12px/1.45 var(--mono);color:var(--mute);margin:0 0 34px}
 .cs-back{padding-top:0}
 .cs-back .wrap{display:flex;flex-wrap:wrap;gap:12px}
 
@@ -60,5 +67,7 @@
   .cs-list>li{grid-template-columns:minmax(0,1fr);gap:8px}
   .cs-list .n{padding-top:0}
   .cs-pages{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .cs-demo{grid-template-columns:minmax(0,1fr)}
+  .cs-demo figure:last-child{width:min(280px,100%);margin:0 auto}
 }
 @media (max-width:420px){.cs-links a span{font-size:12px}}

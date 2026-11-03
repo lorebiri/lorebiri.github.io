@@ -136,8 +136,8 @@
 
   /* ---------- orologio di Pisa ---------- */
   var clock=$('#clock');
-  // stato "probabile": palestra lun/mer/ven presto e sabato mattina, in orario di lavoro
-  // si alternano ufficio e vibe coding, altrimenti fuori servizio
+  // stato "probabile": palestra lun/mer/ven 8-10 e sabato mattina, lavoro lun/mer/ven 10-18 e
+  // mar/gio 7-18 (si alternano ufficio e vibe coding), altrimenti una frase a rotazione
   var flip=false, meKey='off';
   /* Avatar pixel art di Lorenzo per lo stato nella barra in alto.
      Griglia 22×28 (2 colonne di margine per lato, 4 righe sopra per i cappelli).
@@ -199,6 +199,30 @@
         rect(c,P,up,9,1,5,K);
         rect(c,P,up-1,8,3,1,'#3a3a34'); px(c,P,up-2,7,'#3a3a34');px(c,P,up-2,8,'#3a3a34');px(c,P,up-2,9,'#3a3a34');
         px(c,P,up+2,7,'#3a3a34');px(c,P,up+2,8,'#3a3a34');px(c,P,up+2,9,'#3a3a34');
+      } else if(state==='sushi'){ // bacchette con un nigiri
+        rect(c,P,2,14,1,4,K); rect(c,P,15,14,1,3,K);
+        rect(c,P,16,f?12:13,3,1,'#fbfaf5'); rect(c,P,16,f?11:12,3,1,'#ff8a5c'); px(c,P,15,f?10:11,'#7a4a24'); px(c,P,16,f?9:10,'#7a4a24');
+      } else if(state==='pizza'){ // fetta di pizza
+        rect(c,P,2,14,1,4,K); rect(c,P,15,14,1,3,K);
+        rect(c,P,16,12,3,1,'#c98a3c'); rect(c,P,16,13,3,1,'#ffd447'); rect(c,P,16,14,2,1,'#ffd447'); px(c,P,16,15,'#ffd447'); px(c,P,17,13,'#d1344b'); px(c,P,16,14,f?'#d1344b':'#ffd447');
+      } else if(state==='cinema'){ // popcorn a strisce
+        rect(c,P,2,14,1,4,K); rect(c,P,15,14,1,3,K);
+        rect(c,P,16,14,3,4,'#fbfaf5'); rect(c,P,16,14,1,4,'#d1344b'); rect(c,P,18,14,1,4,'#d1344b');
+        rect(c,P,16,13,3,1,'#ffe9a3'); px(c,P,f?16:18,12,'#ffe9a3');
+      } else if(state==='marvel'){ // mani con la magia scarlatta (nessun costume)
+        rect(c,P,2,14,1,4,K); rect(c,P,15,14,1,4,K);
+        var mg1=f?'#e11d48':'#ff6a8a', mg2=f?'#ff6a8a':'#e11d48';
+        px(c,P,1,17,mg1);px(c,P,2,18,mg1);px(c,P,1,19,mg2);px(c,P,16,17,mg2);px(c,P,15,18,mg2);px(c,P,16,19,mg1);
+      } else if(state==='travel'){ // valigia
+        rect(c,P,2,14,1,4,K); rect(c,P,15,14,1,5,K);
+        rect(c,P,15,19,1,1,'#3a3a34'); rect(c,P,14,20,4,3,'#c96f28'); rect(c,P,14,21,4,1,'#8f4d1a');
+      } else if(state==='music'){ // note che salgono
+        rect(c,P,2,14,1,4,K); rect(c,P,15,14,1,4,K);
+        var ny=f?-1:0; rect(c,P,16,ny+1,1,4,'#7c5cff'); px(c,P,15,ny+4,'#7c5cff'); px(c,P,17,ny+1,'#7c5cff');
+        var my=f?4:3; rect(c,P,0,my,1,3,'#7c5cff'); px(c,P,-1,my+2,'#7c5cff');
+      } else if(state==='tech'){ // spina con il cavo
+        rect(c,P,2,14,1,4,K); rect(c,P,15,14,1,3,K);
+        rect(c,P,16,13,3,3,'#8a8f98'); px(c,P,17,12,'#3a3a34'); px(c,P,18,12,'#3a3a34'); rect(c,P,16,16,1,3,'#3a3a34'); px(c,P,15,18,f?'#c5f03c':'#3a3a34');
       } else { // off: braccia giù e zzz
         rect(c,P,2,14,1,4,K); rect(c,P,15,14,1,4,K);
         var zy=f?-3:-2; c.fillStyle=PAL.H;
@@ -225,12 +249,26 @@
   // avatar accanto all'orologio: stessa fase della giornata dello stato + accessorio del periodo
   var meNav=$('#meNav'), meF=0;
   function drawMeNav(){ if(meNav) AVATAR.draw(meNav.getContext('2d'),2,meKey,document.body.dataset.season||'',meF) }
+  var FREE=[
+    ['sushi','probabilmente a caccia di sushi 🍣','probably hunting for sushi 🍣'],
+    ['pizza','probabilmente in pizzeria 🍕','probably at the pizzeria 🍕'],
+    ['cinema','probabilmente al cinema 🎬','probably at the movies 🎬'],
+    ['marvel','probabilmente a ripassare il multiverso 🔴','probably rewatching the multiverse 🔴'],
+    ['travel','probabilmente a sognare il prossimo viaggio ✈️','probably dreaming of the next trip ✈️'],
+    ['music','probabilmente a scoprire nuova musica 🎵','probably digging for new music 🎵'],
+    ['tech','probabilmente a smontare qualcosa con una spina 🔌','probably taking apart something with a plug 🔌']
+  ];
   function status(wd,min){
-    var gym=(['Mon','Wed','Fri'].indexOf(wd)>=0 && min>=390 && min<540) || (wd==='Sat' && min>=510 && min<750);
+    // lun/mer/ven: palestra 8–10, lavoro 10–18 · mar/gio: lavoro 7–18 · sabato mattina: palestra
+    var lmv=['Mon','Wed','Fri'].indexOf(wd)>=0, mg=['Tue','Thu'].indexOf(wd)>=0;
+    var gym=(lmv && min>=480 && min<600) || (wd==='Sat' && min>=510 && min<750);
     if(gym){meKey='gym'; return t('probabilmente in palestra 🏋️','probably in the gym 🏋️')}
-    var work=['Sat','Sun'].indexOf(wd)<0 && min>=540 && min<1020;
+    var work=(lmv && min>=600 && min<1080) || (mg && min>=420 && min<1080);
     if(work){meKey=flip?'code':'office'; return flip ? t('probabilmente in vibe coding 💻','probably vibe coding 💻') : t('in ufficio 🧪','in the office 🧪')}
-    meKey='off'; return t('fuori servizio 🌙','off duty 🌙');
+    // fuori orario: di notte si dorme, altrimenti una frase che cambia ogni due ore
+    if(min<390||min>=1410){meKey='off'; return t('probabilmente a dormire 😴','probably asleep 😴')}
+    var day=Math.floor(Date.now()/864e5), f=FREE[(day*7+Math.floor(min/120))%FREE.length];
+    meKey=f[0]; return t(f[1],f[2]);
   }
   function tick(){
     if(!clock) return;
