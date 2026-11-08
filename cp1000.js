@@ -21,7 +21,7 @@ export function buildCP1000(THREE) {
   const grey = new THREE.MeshStandardMaterial({ color: 0x8e9196, metalness: .55, roughness: .3 });
   const dark = new THREE.MeshStandardMaterial({ color: 0x26272b, roughness: .35 });
   const hole = new THREE.MeshBasicMaterial({ color: 0x040404 });
-  const clear = new THREE.MeshPhysicalMaterial({ color: 0xf4f7ff, roughness: .05, clearcoat: 1, transmission: .6, thickness: 1.5, transparent: true, opacity: .5, depthWrite: false });
+  const clear = new THREE.MeshPhysicalMaterial({ color: 0xf4f7ff, roughness: .05, clearcoat: 1, transparent: true, opacity: .5, depthWrite: false });
 
   const smooth = (pts, n) => new THREE.CatmullRomCurve3(pts.map(([x, y]) => V(x, y)), false, 'centripetal').getSpacedPoints(n).map(p => V2(p.x, p.y));
   // tubo che si assottiglia lungo la curva: rad(t) raggio, sz schiacciamento in z

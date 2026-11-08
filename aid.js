@@ -1,4 +1,4 @@
-/* Ricostruzione 3D della protesi acustica retroauricolare (BTE, anni 2000) di Lorenzo, dalla sua foto. Nessun marchio.
+/* Ricostruzione 3D di una protesi acustica retroauricolare (BTE, anni 2000), da una foto di un modello dell'epoca. Nessun marchio.
    Unità: millimetri. Riferimento locale come per il CP1000: piano XY = profilo laterale, x in avanti (verso la punta
    del gancio), y in alto, z spessore (z+ = lato esterno). Origine sull'asse del gancio nel suo punto più alto.
    Proporzioni prese dalla foto (≈ 15 px/mm sul ritaglio 1320 px; corpo ≈ 41 mm lungo l'arco).
@@ -100,7 +100,8 @@ export function buildAid(THREE) {
   const ring = new THREE.Mesh(new THREE.TorusGeometry(1.25, .42, 10, 24), metal); ring.position.copy(ringPos); ring.rotation.x = Math.PI / 2; aid.add(ring);
   const tubeCurve = new THREE.CatmullRomCurve3([V(9.75, -10.6, 0), V(10.1, -13, .3), V(10.3, -17.3, 1.4), V(10, -24, 4.6), V(9.6, -28.5, 6.4), V(8, -34, 6.9),
     V(4, -37.3, 6.9), V(.9, -40.7, 6.7), V(.1, -44.7, 6.5), V(2, -48, 5.8), V(4, -49.3, 3.6)]);
-  aid.add(new THREE.Mesh(new THREE.TubeGeometry(tubeCurve, 160, 1.15, 12), tubeM));
+  const tube = new THREE.Mesh(new THREE.TubeGeometry(tubeCurve, 160, 1.15, 12), tubeM); aid.add(tube);
+  const moldG = new THREE.Group(); aid.add(moldG);      // chiocciola: si può riposizionare con fit() (il tubicino segue)
 
   /* ---------- chiocciola ---------- */
   const out = [[5.3, -22], [9.3, -21.7], [12, -24.7], [13.3, -29.3], [13.3, -33.3], [11.3, -36.7], [10, -40], [10.7, -42.7], [14, -42], [19.3, -41], [23.3, -42],
@@ -120,16 +121,29 @@ export function buildAid(THREE) {
       let j = map.get(k); if (j === undefined) { j = pos.length / 3; map.set(k, j); pos.push(p.getX(i), p.getY(i), p.getZ(i)); } idx.push(j); }
     mg = new THREE.BufferGeometry(); mg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); mg.setIndex(idx); mg.computeVertexNormals();
   }
-  const mold = new THREE.Mesh(mg, moldM); aid.add(mold);
+  const mold = new THREE.Mesh(mg, moldM); moldG.add(mold);
   // condotto verso il canale uditivo (dietro, verso la testa) e foro di ventilazione sul davanti
   const canal = new THREE.Mesh(new THREE.CylinderGeometry(3.1, 4.2, 9, 24, 1), moldM);
-  canal.position.set(15.5, -47, -MH - 3.2); canal.rotation.x = Math.PI / 2; canal.rotation.z = .25; aid.add(canal);
-  const canalTip = new THREE.Mesh(new THREE.SphereGeometry(3.1, 20, 12), moldM); canalTip.position.set(15.5, -47.6, -MH - 7.6); canalTip.scale.z = .5; aid.add(canalTip);
-  const vent = new THREE.Mesh(new THREE.CircleGeometry(.45, 14), holeM); aid.add(vent); mold.updateMatrixWorld(); ray.set(V(5, -57.2, 30), V(0, 0, -1)); vent.position.set(5, -57.2, (ray.intersectObject(mold)[0]?.point.z ?? MH) + .03);
+  canal.position.set(15.5, -47, -MH - 3.2); canal.rotation.x = Math.PI / 2; canal.rotation.z = .25; moldG.add(canal);
+  const canalTip = new THREE.Mesh(new THREE.SphereGeometry(3.1, 20, 12), moldM); canalTip.position.set(15.5, -47.6, -MH - 7.6); canalTip.scale.z = .5; moldG.add(canalTip);
+  const vent = new THREE.Mesh(new THREE.CircleGeometry(.45, 14), holeM); moldG.add(vent); mold.updateMatrixWorld(); ray.set(V(5, -57.2, 30), V(0, 0, -1)); vent.position.set(5, -57.2, (ray.intersectObject(mold)[0]?.point.z ?? MH) + .03);
 
   function setOpacity(o) {
     for (const m of mats) { m.opacity = m.userData.base * o; m.depthWrite = m.userData.base >= 1 && o >= .999; m.needsUpdate = true; }
   }
   setOpacity(1);
-  return { aid, setOpacity, anchors: { hookTop: V(0, 0, 0), mold: V(7, -47, 0) } };
+  /* fit(pose): mette la chiocciola nella posa data (Matrix4 nel riferimento della protesi) e ridisegna il tubicino:
+     scende dall'anellino lungo la direzione della punta del gancio, passa davanti al padiglione (lato esterno, z+)
+     ed entra nella chiocciola come nel modello originale. */
+  function fit(pose, bulge = 5) {
+    moldG.matrixAutoUpdate = false; moldG.matrix.copy(pose);
+    const a = V(9.75, -10.6, 0), da = hook.getTangentAt(1);
+    const b = V(4, -49.3, 3.6).applyMatrix4(pose), db = V(2, -1.3, -2.2).normalize().transformDirection(pose);
+    const pre = V(2, -48, 5.8).applyMatrix4(pose), d = b.distanceTo(a);
+    const mid = a.clone().lerp(pre, .5).add(V(0, 0, bulge));
+    const c = new THREE.CatmullRomCurve3([a, a.clone().addScaledVector(da, Math.min(6, d * .15)), mid, pre.clone().addScaledVector(db, -3), pre, b], false, 'centripetal');
+    tube.geometry.dispose(); tube.geometry = new THREE.TubeGeometry(c, 160, 1.15, 12);
+    return c;
+  }
+  return { aid, setOpacity, fit, anchors: { hookTop: V(0, 0, 0), mold: V(7, -47, 0), moldTip: V(15.5, -47.6, -13.2) } };
 }

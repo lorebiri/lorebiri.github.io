@@ -909,3 +909,18 @@ html.mo .tlist.in>li,html.mo .nums.in>li,html.mo .cs-demo.in>figure,html.mo .cs-
 .links a{white-space:nowrap}
 .ci3d-lab .sm{display:none}
 @media (max-width:520px){.ci3d-lab[data-n="sch"] .lg{display:none}.ci3d-lab[data-n="sch"] .sm{display:inline}}
+
+/* sezione sordità: due livelli di testo e didascalie della scena */
+.ci-case{margin-top:10px;font:500 12px/1.45 var(--mono);color:var(--mute)}
+.ci-write{margin-top:10px;font-weight:600}
+.ci-write a{color:var(--ink);text-decoration-color:var(--eye-t);text-decoration-thickness:2px;text-underline-offset:3px}
+.ci-more{margin-top:12px;border-top:1.5px dashed color-mix(in srgb,var(--line) 35%,transparent)}
+.ci-more>summary{cursor:pointer;min-height:40px;display:flex;align-items:center;font:600 12px var(--mono)}
+.ci-full li{cursor:default!important}
+.ci-med{margin-top:10px;font-size:13.5px;line-height:1.5;color:var(--mute)}
+.ci3d-lab[data-n^="f"]{border-left-color:#8fb4ff;transform:none!important;left:10px;top:auto;bottom:10px;white-space:normal;max-width:calc(100% - 20px)}
+.ci3d-lab[data-n^="o"]{transform:none!important;left:10px;top:10px;font-weight:500;font-size:11px;border-left-color:#f0cf55;white-space:normal;max-width:calc(100% - 20px)}
+.ci-talk{margin-top:14px;padding:12px 14px;border:1.5px solid var(--line);background:color-mix(in srgb,var(--chl) 22%,var(--card))}
+.ci-talk ul{margin:8px 0 0;padding-left:1.2em;display:grid;gap:6px;font-size:14.5px;line-height:1.45}
+.ci-talk a{color:var(--ink);font-weight:700;text-decoration-color:var(--eye-t);text-decoration-thickness:2px}
+.ci-music{margin-top:8px;font:500 12px/1.45 var(--mono);color:var(--mute)}
