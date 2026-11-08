@@ -876,7 +876,6 @@ html.mo .tlist.in>li,html.mo .nums.in>li,html.mo .cs-demo.in>figure,html.mo .cs-
 .ci-pic img{display:block;width:100%;height:auto}
 .ci{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .ci path,.ci circle{fill:none;stroke-linecap:round;stroke-linejoin:round}
-.ci-cover rect{fill:#fff}
 .ci-lab{font:500 50px/1 Arial,Helvetica,sans-serif;fill:#111}
 .ci .ci-lead-line{stroke:#111;stroke-width:3}
 .ci .ci-waves path,.ci .ci-rf path{stroke:#c0392b;stroke-width:6;opacity:.35}
@@ -912,6 +911,24 @@ html.mo .ci-fig .ci-b{transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2
 @keyframes ciEl{0%,55%,70%,100%{opacity:0;transform:none}58%{opacity:1;transform:scale(1.5)}64%{opacity:1;transform:none}}
 @keyframes ciNerve{0%,66%{stroke-dashoffset:70;opacity:0}68%{opacity:1}88%{stroke-dashoffset:-560;opacity:1}90%,100%{stroke-dashoffset:-560;opacity:0}}
 
+/* processore Nucleus 7 (CP1000) nero e bobina, disegnati sopra la ricostruzione */
+.ci .cp-body{fill:#1c1c1f;stroke:#000;stroke-width:2}
+.ci .cp-coil{fill:#1c1c1f;stroke:#000;stroke-width:2}
+.ci .cp-ring{stroke:#34343a;stroke-width:7}
+.ci .cp-mag{fill:#2c2c31;stroke:#3c3c42;stroke-width:2}
+.ci .cp-plug{fill:#1c1c1f;stroke:#000;stroke-width:2}
+.ci .cp-cable{stroke:#141416;stroke-width:8}
+.ci .cp-hook{stroke:rgba(24,24,28,.78);stroke-width:13}
+.ci .cp-shine{stroke:rgba(255,255,255,.22);stroke-width:5}
+.ci .cp-seam{stroke:#3a3a40;stroke-width:2.5}
+.ci .cp-mic{fill:#45454c}
+.ci .cp-led{fill:#2ecc71}
+.ci .cp-skin{stroke:#d8a698;stroke-width:18}
+.ci .ci-array{stroke:#e8b923;stroke-width:5;stroke-dasharray:7 7}
+.ci .ci-leader{stroke:#111;stroke-width:3}
+.ci-fig.play .cp-led{animation:cpLed 6s steps(1) infinite}
+@keyframes cpLed{0%,4%,10%,100%{fill:#2ecc71}5%,9%{fill:#0d3d20}}
+
 /* cervello sotto l'orecchio: ricostruzione vettoriale di Blausen 0103, animata.
    Comparsa: il contorno si disegna e poi arrivano colore e ombre. Nel giro di 6 s: una luce scorre sulla
    corteccia e, quando l'impulso sale dal tronco encefalico, la corteccia uditiva si accende con un'onda. */
@@ -919,7 +936,7 @@ html.mo .ci-fig .ci-b{transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2
 .ci-fig{align-items:start}
 .ci-next{font:600 12px/1 var(--mono);color:var(--eye-t);text-align:center}
 .cb-pic{background:#fff}
-.cb{position:static;display:block;width:100%;height:auto}
+.cb{position:static;display:block;width:100%;height:auto;overflow:hidden}
 .ci .cb-fill{fill:#d49c80}
 .ci .cb-l0{fill:#fff3e8;opacity:.22}.ci .cb-l1{fill:#fff;opacity:.35}
 .ci .cb-d2{fill:#5c2a1b;opacity:.18}.ci .cb-d1{fill:#5c2a1b;opacity:.25}.ci .cb-d0{fill:#3a170e;opacity:.35}
@@ -953,3 +970,6 @@ html.mo .ci-fig .cb-aud{transition:opacity 1s 2.8s}
 @keyframes cbRing{0%,91%{opacity:0;transform:scale(.4)}92%{opacity:.9}100%{opacity:0;transform:scale(4.5)}}
 @keyframes cbHot{0%,90%,100%{opacity:0}93%{opacity:.9}97%{opacity:.35}}
 @keyframes cbAud{0%,90%,100%{opacity:.6}93%{opacity:1}}
+
+/* le voci del menu non vanno mai a capo (lo stato accanto all orologio può essere lungo) */
+.links a{white-space:nowrap}
