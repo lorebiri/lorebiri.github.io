@@ -38,7 +38,7 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='50' rx='44' ry='18' transform='rotate(-30 50 50)' fill='%23c5f03c' stroke='%23141412' stroke-width='6'/><circle cx='68' cy='36' r='7' fill='%23ff5a2c'/></svg>">
 <link rel="preload" href="fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=32">
+<link rel="stylesheet" href="styles.css?v=33">
 <link rel="stylesheet" href="seasons.css?v=10">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Lorenzo Birindelli","url":"https://lorebiri.github.io/","image":"https://lorebiri.github.io/lorenzo.jpg","jobTitle":"Collaboratore Tecnico Enti di Ricerca (CTER)","description":"CTER at CNR-ICCOM, Pisa: lab and technical support, instrumentation, data, scientific graphics and digital tools.","worksFor":{"@type":"ResearchOrganization","name":"CNR — Istituto di Chimica dei Composti OrganoMetallici (ICCOM)","address":{"@type":"PostalAddress","addressLocality":"Pisa","addressCountry":"IT"},"parentOrganization":{"@type":"GovernmentOrganization","name":"Consiglio Nazionale delle Ricerche (CNR)"}},"alumniOf":{"@type":"EducationalOrganization","name":"ITIS \"Leonardo da Vinci\", Pisa"},"knowsLanguage":["it","en"],"identifier":{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0000-2529-6256"},"sameAs":["https://orcid.org/0009-0000-2529-6256","https://scholar.google.com/citations?user=1BWAMFEAAAAJ","https://github.com/lorebiri"]}
@@ -197,85 +197,49 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
         </dl>
       </aside>
     </div>
-      <!-- impianto cocleare: sezione dell'orecchio destro vista di fronte, con il percorso del segnale.
-           Disegno generato a mano in SVG; stili "IMPIANTO COCLEARE" in styles.css, avvio in motion.js -->
+      <!-- impianto cocleare: illustrazione di Blausen Medical (CC BY 3.0, Wikimedia Commons) con scritte tradotte
+           e il percorso del segnale animato sopra. Stili "IMPIANTO COCLEARE" in styles.css, avvio in motion.js -->
       <figure class="ci-fig">
-        <svg class="ci" viewBox="0 0 760 420" role="img" aria-labelledby="ci-t">
-  <title id="ci-t">Impianto cocleare, sezione dell'orecchio: processore dietro l'orecchio, bobina e impianto sotto la pelle, elettrodi nella coclea, nervo acustico e cervello / Cochlear implant, cross-section of the ear: processor behind the ear, coil and implant under the skin, electrodes in the cochlea, auditory nerve and brain</title>
-  <!-- tessuti: testa, cranio, rocca petrosa, cervello -->
-  <path class="ci-tissue" d="M330 0 C262 42 214 104 206 172 L203 300 C204 350 220 390 246 420 L760 420 L760 0 Z"/>
-  <path class="ci-bone" d="M352 0 C286 44 236 106 228 172 L226 300 C227 348 242 388 266 420 L300 420 C276 388 262 350 262 300 L264 176 C272 112 318 52 384 0 Z"/>
-  <path class="ci-bone" d="M262 150 C330 128 450 126 530 150 C552 210 548 300 506 340 C430 362 320 356 262 326 Z"/>
-  <path class="ci-brain" d="M548 0 L760 0 L760 420 L664 420 C652 372 620 340 584 326 C562 290 560 230 566 168 C568 104 560 48 548 0 Z"/>
-  <path class="ci-gyri" d="M590 40 q30 14 20 44 q-10 26 22 40 M640 20 q-8 40 26 56 M600 150 q36 -8 46 22 q8 26 44 22 M606 230 q30 20 64 4 M700 120 q-20 30 8 60 M620 300 q30 -16 60 6"/>
-  <!-- orecchio esterno -->
-  <path class="ci-skin" d="M206 178 C180 150 150 116 118 116 C84 114 64 152 66 198 C68 252 84 292 104 320 C116 338 134 342 144 330 C152 320 150 306 162 298 C176 290 192 292 204 298 Z"/>
-  <path class="ci-fold" d="M118 142 C96 162 92 226 112 264 M136 160 C122 184 124 222 140 242"/>
-  <!-- condotto uditivo, timpano, cassa del timpano e ossicini -->
-  <path class="ci-air" d="M196 222 C232 214 266 218 298 220 L298 248 C266 252 232 258 196 252 Z"/>
-  <path class="ci-air" d="M300 208 C330 194 362 198 374 214 C382 234 378 258 362 268 C342 278 316 272 300 252 Z"/>
-  <path class="ci-drum" d="M298 218 C305 228 305 240 298 250"/>
-  <path class="ci-oss" d="M301 234 L318 214 M318 214 L330 206 M336 206 L350 214 L352 230 L366 234"/>
-  <circle class="ci-oss-h" cx="330" cy="204" r="6"/>
-  <!-- orecchio interno: canali semicircolari, vestibolo, coclea -->
-  <g class="ci-canal"><circle cx="398" cy="176" r="22"/><circle cx="436" cy="194" r="17"/><circle cx="376" cy="196" r="15"/></g><g class="ci-canal-in"><circle cx="398" cy="176" r="22"/><circle cx="436" cy="194" r="17"/><circle cx="376" cy="196" r="15"/></g>
-  <ellipse class="ci-vest" cx="392" cy="226" rx="16" ry="12"/>
-  <path class="ci-coch-out" d="M382.0 258.0 L382.4 253.9 L383.2 249.9 L384.4 246.0 L386.0 242.2 L387.9 238.7 L390.1 235.4 L392.6 232.3 L395.5 229.5 L398.5 227.0 L401.8 224.8 L405.3 223.0 L408.9 221.5 L412.6 220.4 L416.4 219.6 L420.2 219.3 L424.0 219.3 L427.8 219.7 L431.5 220.4 L435.1 221.6 L438.5 223.0 L441.8 224.8 L444.8 226.9 L447.6 229.2 L450.2 231.8 L452.5 234.6 L454.5 237.6 L456.1 240.8 L457.5 244.1 L458.5 247.5 L459.1 251.0 L459.4 254.5 L459.4 258.0 L459.0 261.4 L458.3 264.8 L457.3 268.1 L455.9 271.2 L454.3 274.2 L452.4 277.0 L450.2 279.5 L447.9 281.9 L445.3 283.9 L442.5 285.7 L439.6 287.2 L436.6 288.4 L433.5 289.3 L430.3 289.9 L427.2 290.2 L424.0 290.1 L420.9 289.7 L417.8 289.1 L414.9 288.1 L412.0 286.9 L409.4 285.4 L406.9 283.7 L404.6 281.7 L402.5 279.5 L400.6 277.2 L399.0 274.7 L397.7 272.1 L396.6 269.3 L395.8 266.5 L395.3 263.7 L395.1 260.8 L395.2 258.0 L395.5 255.2 L396.2 252.5 L397.0 249.8 L398.2 247.3 L399.5 244.9 L401.1 242.7 L402.9 240.6 L404.8 238.8 L406.9 237.2 L409.1 235.8 L411.5 234.6 L413.9 233.7 L416.4 233.0 L418.9 232.6 L421.5 232.4 L424.0 232.5 L426.5 232.8 L428.9 233.4 L431.2 234.2 L433.4 235.2 L435.5 236.4 L437.5 237.8 L439.3 239.4 L440.9 241.1 L442.3 243.0 L443.5 245.0 L444.5 247.0 L445.3 249.2 L445.8 251.4 L446.2 253.6 L446.3 255.8 L446.2 258.0 L445.9 260.2 L445.4 262.3 L444.7 264.3 L443.7 266.2 L442.7 268.0 L441.4 269.6 L440.0 271.2 L438.5 272.5 L436.9 273.7 L435.2 274.7 L433.4 275.6 L431.5 276.2 L429.7 276.7 L427.8 276.9 L425.9 277.0 L424.0 276.9 L422.2 276.6 L420.4 276.1 L418.7 275.5 L417.1 274.7 L415.6 273.8 L414.2 272.7 L412.9 271.5 L411.8 270.2 L410.8 268.8 L410.0 267.4 L409.3 265.8 L408.8 264.3 L408.5 262.7 L408.3 261.1 L408.3 259.5 L408.4 258.0 L408.7 256.5 L409.1 255.0 L409.7 253.7 L410.3 252.3 L411.2 251.1 L412.1 250.0 L413.1 249.0 L414.1 248.1 L415.3 247.4 L416.5 246.7 L417.7 246.2 L419.0 245.9 L420.2 245.6 L421.5 245.5 L422.8 245.6 L424.0 245.7 L425.2 246.0 L426.3 246.3 L427.4 246.8 L428.4 247.4 L429.3 248.1 L430.1 248.8 L430.9 249.6 L431.5 250.5 L432.1 251.4 L432.5 252.3 L432.8 253.3 L433.1 254.2 L433.2 255.2 L433.2 256.2 L433.2 257.1 L433.0 258.0"/>
-  <path class="ci-coch-in" d="M382.0 258.0 L382.4 253.9 L383.2 249.9 L384.4 246.0 L386.0 242.2 L387.9 238.7 L390.1 235.4 L392.6 232.3 L395.5 229.5 L398.5 227.0 L401.8 224.8 L405.3 223.0 L408.9 221.5 L412.6 220.4 L416.4 219.6 L420.2 219.3 L424.0 219.3 L427.8 219.7 L431.5 220.4 L435.1 221.6 L438.5 223.0 L441.8 224.8 L444.8 226.9 L447.6 229.2 L450.2 231.8 L452.5 234.6 L454.5 237.6 L456.1 240.8 L457.5 244.1 L458.5 247.5 L459.1 251.0 L459.4 254.5 L459.4 258.0 L459.0 261.4 L458.3 264.8 L457.3 268.1 L455.9 271.2 L454.3 274.2 L452.4 277.0 L450.2 279.5 L447.9 281.9 L445.3 283.9 L442.5 285.7 L439.6 287.2 L436.6 288.4 L433.5 289.3 L430.3 289.9 L427.2 290.2 L424.0 290.1 L420.9 289.7 L417.8 289.1 L414.9 288.1 L412.0 286.9 L409.4 285.4 L406.9 283.7 L404.6 281.7 L402.5 279.5 L400.6 277.2 L399.0 274.7 L397.7 272.1 L396.6 269.3 L395.8 266.5 L395.3 263.7 L395.1 260.8 L395.2 258.0 L395.5 255.2 L396.2 252.5 L397.0 249.8 L398.2 247.3 L399.5 244.9 L401.1 242.7 L402.9 240.6 L404.8 238.8 L406.9 237.2 L409.1 235.8 L411.5 234.6 L413.9 233.7 L416.4 233.0 L418.9 232.6 L421.5 232.4 L424.0 232.5 L426.5 232.8 L428.9 233.4 L431.2 234.2 L433.4 235.2 L435.5 236.4 L437.5 237.8 L439.3 239.4 L440.9 241.1 L442.3 243.0 L443.5 245.0 L444.5 247.0 L445.3 249.2 L445.8 251.4 L446.2 253.6 L446.3 255.8 L446.2 258.0 L445.9 260.2 L445.4 262.3 L444.7 264.3 L443.7 266.2 L442.7 268.0 L441.4 269.6 L440.0 271.2 L438.5 272.5 L436.9 273.7 L435.2 274.7 L433.4 275.6 L431.5 276.2 L429.7 276.7 L427.8 276.9 L425.9 277.0 L424.0 276.9 L422.2 276.6 L420.4 276.1 L418.7 275.5 L417.1 274.7 L415.6 273.8 L414.2 272.7 L412.9 271.5 L411.8 270.2 L410.8 268.8 L410.0 267.4 L409.3 265.8 L408.8 264.3 L408.5 262.7 L408.3 261.1 L408.3 259.5 L408.4 258.0 L408.7 256.5 L409.1 255.0 L409.7 253.7 L410.3 252.3 L411.2 251.1 L412.1 250.0 L413.1 249.0 L414.1 248.1 L415.3 247.4 L416.5 246.7 L417.7 246.2 L419.0 245.9 L420.2 245.6 L421.5 245.5 L422.8 245.6 L424.0 245.7 L425.2 246.0 L426.3 246.3 L427.4 246.8 L428.4 247.4 L429.3 248.1 L430.1 248.8 L430.9 249.6 L431.5 250.5 L432.1 251.4 L432.5 252.3 L432.8 253.3 L433.1 254.2 L433.2 255.2 L433.2 256.2 L433.2 257.1 L433.0 258.0"/>
-  <!-- nervo acustico verso il tronco encefalico e la corteccia uditiva -->
-  <g class="ci-nerve"><path d="M430 256 C490 250 520 236 566 230"/><path d="M430 262 C492 260 524 250 568 242"/><path d="M430 268 C494 270 526 262 570 254"/></g>
-  <path class="ci-route" d="M570 240 C600 236 620 214 640 196"/>
-  <ellipse class="ci-cortex" cx="652" cy="186" rx="34" ry="20"/>
-  <path class="ci-pulse" d="M430 262 C492 260 524 250 568 242 C600 236 620 214 640 196"/>
-  <!-- IMPIANTO -->
-  <g class="ci-part" style="--k:1">
-    <path class="ci-hook" d="M184 108 C176 84 142 82 130 108"/>
-    <path class="ci-dev" d="M178 116 C178 100 198 100 200 116 L202 210 C202 224 180 224 180 210 Z"/>
-    <circle class="ci-hot" cx="188" cy="110" r="2.6"/><circle class="ci-hot" cx="190" cy="122" r="2.6"/>
-  </g>
-  <path class="ci-cable" d="M188 104 C190 72 212 56 232 56"/>
-  <g class="ci-part" style="--k:2"><circle class="ci-dev" cx="246" cy="54" r="17"/><circle class="ci-mag" cx="246" cy="54" r="6"/></g>
-  <g class="ci-rf"><path d="M258 52 q8 2 10 12"/><path d="M262 44 q14 4 16 22"/></g>
-  <g class="ci-part" style="--k:3"><rect class="ci-dev" x="262" y="66" width="48" height="22" rx="9" transform="rotate(38 286 77)"/><circle class="ci-mag" cx="278" cy="72" r="5"/></g>
-  <path class="ci-lead" d="M300 96 C318 128 306 168 316 196 C324 220 344 246 362 258 L378 260"/>
-  <g class="ci-part" style="--k:4">
-    <path class="ci-array" d="M384.0 258.0 L384.4 254.0 L385.2 250.0 L386.4 246.2 L388.0 242.6 L389.9 239.1 L392.1 235.9 L394.7 232.9 L397.5 230.2 L400.6 227.8 L403.9 225.8 L407.3 224.1 L410.9 222.8 L414.6 221.8 L418.3 221.2 L422.1 221.0 L425.8 221.2 L429.5 221.8 L433.1 222.7 L436.5 224.0 L439.8 225.6 L442.9 227.6 L445.7 229.8 L448.3 232.3 L450.7 235.0 L452.7 237.9 L454.4 241.0 L455.8 244.3 L456.8 247.6 L457.5 251.0 L457.8 254.4 L457.8 257.9 L457.4 261.3 L456.7 264.6 L455.7 267.8 L454.4 270.9 L452.7 273.8 L450.8 276.5 L448.7 279.0 L446.3 281.2 L443.7 283.2 L441.0 284.9 L438.1 286.3 L435.1 287.4 L432.0 288.2 L428.9 288.6 L425.7 288.8 L422.6 288.6 L419.6 288.1 L416.6 287.3 L413.7 286.2 L411.0 284.8 L408.5 283.2 L406.1 281.4 L404.0 279.3 L402.1 277.0 L400.5 274.6 L399.1 272.0 L398.0 269.4 L397.1 266.6 L396.6 263.8 L396.3 261.0 L396.4 258.2 L396.7 255.4 L397.3 252.7 L398.2 250.1 L399.3 247.6 L400.6 245.3 L402.2 243.1 L404.0 241.1 L405.9 239.3 L408.0 237.7 L410.3 236.4 L412.6 235.3 L415.0 234.4 L417.5 233.8 L420.0 233.5 L422.5 233.4 L425.0 233.6 L427.5 234.0 L429.8 234.7 L432.1 235.6 L434.2 236.7 L436.2 238.0 L438.0 239.5 L439.7 241.2 L441.2 243.0 L442.4 244.9 L443.5 246.9 L444.3 249.0 L444.9 251.2"/>
-    <circle class="ci-el" cx="397.5" cy="230.2" r="2.8" style="--k:0"/><circle class="ci-el" cx="425.8" cy="221.2" r="2.8" style="--k:1"/><circle class="ci-el" cx="450.7" cy="235.0" r="2.8" style="--k:2"/><circle class="ci-el" cx="457.4" cy="261.3" r="2.8" style="--k:3"/><circle class="ci-el" cx="443.7" cy="283.2" r="2.8" style="--k:4"/><circle class="ci-el" cx="416.6" cy="287.3" r="2.8" style="--k:5"/><circle class="ci-el" cx="399.1" cy="272.0" r="2.8" style="--k:6"/><circle class="ci-el" cx="398.2" cy="250.1" r="2.8" style="--k:7"/><circle class="ci-el" cx="412.6" cy="235.3" r="2.8" style="--k:8"/><circle class="ci-el" cx="432.1" cy="235.6" r="2.8" style="--k:9"/><circle class="ci-el" cx="444.9" cy="251.2" r="2.8" style="--k:10"/>
-  </g>
-  <circle class="ci-sig" r="5" style="offset-path:path('M187 104 C190 72 212 56 236 56 L276 82 L300 96 C318 128 306 168 316 196 C324 220 344 246 362 258 L378 260 384.0 258.0 L386.4 246.2 L392.1 235.9 L400.6 227.8 L410.9 222.8 L422.1 221.0 L433.1 222.7 L442.9 227.6 L450.7 235.0 L455.8 244.3 L457.8 254.4 L456.7 264.6 L452.7 273.8 L446.3 281.2 L438.1 286.3 L428.9 288.6 L419.6 288.1 L411.0 284.8 L404.0 279.3 L399.1 272.0 L396.6 263.8 L396.7 255.4 L399.3 247.6 L404.0 241.1 L410.3 236.4 L417.5 233.8 L425.0 233.6 L432.1 235.6 L438.0 239.5 L442.4 244.9 L444.9 251.2')"/>
-  <g class="ci-waves"><path d="M40 92 q-10 14 0 28"/><path d="M28 84 q-16 22 0 44"/><path d="M16 76 q-22 30 0 60"/></g>
-  <!-- etichette anatomiche (nascoste sugli schermi stretti) -->
-  <g class="ci-labs">
-    <text class="ci-lab" x="70" y="360" text-anchor="start"><tspan data-it>orecchio esterno</tspan><tspan data-en>outer ear</tspan></text>
-    <text class="ci-lab" x="200" y="276" text-anchor="start"><tspan data-it>condotto uditivo</tspan><tspan data-en>ear canal</tspan></text>
-    <text class="ci-lab" x="292" y="200" text-anchor="end"><tspan data-it>timpano</tspan><tspan data-en>eardrum</tspan></text>
-    <text class="ci-lab" x="384" y="148" text-anchor="middle"><tspan data-it>canali semicircolari</tspan><tspan data-en>semicircular canals</tspan></text>
-    <text class="ci-lab" x="424" y="318" text-anchor="middle"><tspan data-it>coclea</tspan><tspan data-en>cochlea</tspan></text>
-    <text class="ci-lab" x="512" y="298" text-anchor="middle"><tspan data-it>nervo acustico</tspan><tspan data-en>auditory nerve</tspan></text>
-    <text class="ci-lab" x="700" y="236" text-anchor="middle"><tspan data-it>corteccia uditiva</tspan><tspan data-en>auditory cortex</tspan></text>
-    <text class="ci-lab" x="306" y="20" text-anchor="end"><tspan data-it>pelle</tspan><tspan data-en>skin</tspan></text>
-    <text class="ci-lab" x="300" y="404" text-anchor="end"><tspan data-it>osso</tspan><tspan data-en>bone</tspan></text>
-  </g>
-  <g class="ci-b" style="--k:1"><circle cx="160" cy="96" r="10"/><text x="160" y="100">1</text></g><g class="ci-b" style="--k:2"><circle cx="246" cy="24" r="10"/><text x="246" y="28">2</text></g><g class="ci-b" style="--k:3"><circle cx="322" cy="64" r="10"/><text x="322" y="68">3</text></g><g class="ci-b" style="--k:4"><circle cx="470" cy="214" r="10"/><text x="470" y="218">4</text></g><g class="ci-b" style="--k:5"><circle cx="652" cy="152" r="10"/><text x="652" y="156">5</text></g>
-</svg>
+        <div class="ci-pic">
+          <img src="img/impianto-cocleare.webp" width="1200" height="1200" loading="lazy" alt="Illustrazione medica di un impianto cocleare: processore dietro l'orecchio, bobina e impianto sotto la pelle, filo degli elettrodi che entra nella coclea, nervo acustico" data-alt-en="Medical illustration of a cochlear implant: processor behind the ear, coil and implant under the skin, electrode lead entering the cochlea, hearing nerve">
+          <svg class="ci" viewBox="0 0 1500 1500" aria-hidden="true">
+            <!-- le scritte inglesi del disegno originale, coperte e tradotte -->
+            <g class="ci-cover"><rect x="360" y="90" width="470" height="78"/><rect x="50" y="228" width="425" height="80"/><rect x="488" y="494" width="388" height="72"/>
+              <rect x="1222" y="1064" width="232" height="72"/><rect x="1168" y="1208" width="266" height="72"/><rect x="590" y="1380" width="560" height="88"/></g>
+            <text class="ci-lab" x="372" y="146" text-anchor="start"><tspan data-it>Processore</tspan><tspan data-en>Sound processor</tspan></text>
+            <text class="ci-lab" x="60" y="286" text-anchor="start"><tspan data-it>Impianto interno</tspan><tspan data-en>Internal implant</tspan></text>
+            <text class="ci-lab" x="497" y="548" text-anchor="start"><tspan data-it>Nervo acustico</tspan><tspan data-en>Hearing nerve</tspan></text>
+            <text class="ci-lab" x="1230" y="1118" text-anchor="start"><tspan data-it>Coclea</tspan><tspan data-en>Cochlea</tspan></text>
+            <text class="ci-lab" x="1176" y="1262" text-anchor="start"><tspan data-it>Elettrodi</tspan><tspan data-en>Electrodes</tspan></text>
+            <text class="ci-lab" x="30" y="372" text-anchor="start"><tspan data-it>Bobina</tspan><tspan data-en>Coil</tspan></text><path class="ci-lead-line" d="M90 386 L80 560"/>
+            <!-- il segnale -->
+            <g class="ci-waves"><path d="M30 640 q-16 22 0 44"/><path d="M14 626 q-26 36 0 72"/></g>
+            <g class="ci-rf"><path d="M150 590 q18 6 24 26"/><path d="M168 572 q30 10 38 42"/></g>
+            <path class="ci-pulse" d="M1072 962 C1050 930 1030 895 1012 866 C1080 790 1180 700 1290 588"/>
+            <circle class="ci-el" cx="985" cy="1010" r="9" style="--k:0"/><circle class="ci-el" cx="1020" cy="1027" r="9" style="--k:1"/><circle class="ci-el" cx="1050" cy="1030" r="9" style="--k:2"/><circle class="ci-el" cx="1080" cy="1020" r="9" style="--k:3"/><circle class="ci-el" cx="1100" cy="1000" r="9" style="--k:4"/><circle class="ci-el" cx="1107" cy="970" r="9" style="--k:5"/><circle class="ci-el" cx="1100" cy="935" r="9" style="--k:6"/><circle class="ci-el" cx="1080" cy="912" r="9" style="--k:7"/><circle class="ci-el" cx="1055" cy="910" r="9" style="--k:8"/><circle class="ci-el" cx="1035" cy="930" r="9" style="--k:9"/><circle class="ci-el" cx="1032" cy="960" r="9" style="--k:10"/><circle class="ci-el" cx="1045" cy="985" r="9" style="--k:11"/><circle class="ci-el" cx="1070" cy="992" r="9" style="--k:12"/><circle class="ci-el" cx="1095" cy="980" r="9" style="--k:13"/><circle class="ci-el" cx="1102" cy="960" r="9" style="--k:14"/>
+            <circle class="ci-sig" r="15" style="offset-path:path('M75 660 L285 540 L395 570 L807 900 L850 912 L900 945 L950 985 L985 1010 L1020 1027 L1050 1030 L1080 1020 L1100 1000 L1107 970 L1100 935 L1080 912 L1055 910 L1035 930 L1032 960 L1045 985 L1070 992 L1095 980 L1102 960')"/>
+            <g class="ci-b" style="--k:1"><circle cx="1212" cy="300" r="26"/><text x="1212" y="310">1</text></g><g class="ci-b" style="--k:2"><circle cx="128" cy="470" r="26"/><text x="128" y="480">2</text></g><g class="ci-b" style="--k:3"><circle cx="420" cy="470" r="26"/><text x="420" y="480">3</text></g><g class="ci-b" style="--k:4"><circle cx="1150" cy="1060" r="26"/><text x="1150" y="1070">4</text></g><g class="ci-b" style="--k:5"><circle cx="1230" cy="700" r="26"/><text x="1230" y="710">5</text></g>
+          </svg>
+        </div>
         <figcaption>
           <p class="ci-kick"><span data-it>Come sento: l'impianto cocleare</span><span data-en>How I hear: the cochlear implant</span></p>
           <ol class="ci-steps" data-it>
             <li><b>Processore</b> dietro l'orecchio: i microfoni captano il suono e il processore lo divide in canali di frequenza, trasformandolo in un segnale digitale.</li>
             <li><b>Bobina</b> sulla pelle, tenuta da una calamita: trasmette il segnale via radio attraverso la pelle.</li>
-            <li><b>Impianto</b> sotto la pelle, appoggiato all'osso: trasforma il segnale in impulsi elettrici.</li>
+            <li><b>Impianto interno</b> sotto la pelle, appoggiato all'osso: trasforma il segnale in impulsi elettrici.</li>
             <li><b>Elettrodi nella coclea</b>: il filo passa nell'osso dietro l'orecchio, entra dalla finestra rotonda nella scala timpanica e stimola le fibre del nervo acustico: i suoni acuti alla base della spirale, i gravi più all'interno.</li>
-            <li><b>Nervo acustico e cervello</b>: gli impulsi arrivano alla corteccia uditiva, che li interpreta come suoni.</li>
+            <li><b>Nervo acustico</b>: porta gli impulsi al cervello, che li interpreta come suoni.</li>
           </ol>
           <ol class="ci-steps" data-en>
-            <li><b>Processor</b> behind the ear: the microphones pick up sound and the processor splits it into frequency channels, turning it into a digital signal.</li>
+            <li><b>Sound processor</b> behind the ear: the microphones pick up sound and the processor splits it into frequency channels, turning it into a digital signal.</li>
             <li><b>Coil</b> on the skin, held by a magnet: sends the signal by radio through the skin.</li>
-            <li><b>Implant</b> under the skin, resting on the bone: turns the signal into electrical pulses.</li>
+            <li><b>Internal implant</b> under the skin, resting on the bone: turns the signal into electrical pulses.</li>
             <li><b>Electrodes in the cochlea</b>: the lead runs through the bone behind the ear, enters the scala tympani through the round window and stimulates the auditory nerve fibres: high sounds at the base of the spiral, low ones further in.</li>
-            <li><b>Auditory nerve and brain</b>: the pulses reach the auditory cortex, which interprets them as sound.</li>
+            <li><b>Hearing nerve</b>: carries the pulses to the brain, which interprets them as sound.</li>
           </ol>
           <p class="ci-note"><span data-it>Il suono non passa più da timpano e ossicini, e non viene amplificato come con un apparecchio acustico: diventa direttamente segnale elettrico, e il cervello impara col tempo a interpretarlo.</span><span data-en>Sound no longer goes through the eardrum and the ossicles, and it isn't amplified like with a hearing aid: it becomes an electrical signal directly, and the brain learns over time to interpret it.</span></p>
-          <p class="ci-src"><span data-it>Schema semplificato, non in scala. Fonti:</span><span data-en>Simplified drawing, not to scale. Sources:</span>
+          <p class="ci-src"><span data-it>Illustrazione:</span><span data-en>Illustration:</span> <a href="https://commons.wikimedia.org/wiki/File:Blausen_0244_CochlearImplant_01.png" target="_blank" rel="noopener">Blausen.com staff (2014), «Medical gallery of Blausen Medical 2014», WikiJournal of Medicine 1 (2)</a>, <a href="https://doi.org/10.15347/wjm/2014.010" target="_blank" rel="noopener">doi:10.15347/wjm/2014.010</a>, <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a><span data-it> (scritte tradotte, animazione aggiunta).</span><span data-en> (labels translated, animation added).</span><br>
+            <span data-it>Fonti del testo:</span><span data-en>Text sources:</span>
             <a href="https://www.nidcd.nih.gov/health/cochlear-implants" target="_blank" rel="noopener">NIDCD</a> ·
             <a href="https://doi.org/10.1016/j.heares.2008.06.005" target="_blank" rel="noopener">Wilson &amp; Dorman 2008</a> ·
             <a href="https://doi.org/10.1016/j.heares.2017.10.005" target="_blank" rel="noopener">Dhanasingh &amp; Jolly 2017</a> ·
@@ -974,6 +938,6 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
 <div class="toast" role="status" aria-live="polite"></div>
 <script src="main.js?v=28" defer></script>
 <script src="lightbox.js?v=3" defer></script>
-<script src="motion.js?v=4" defer></script>
+<script src="motion.js?v=5" defer></script>
 </body>
 </html>
