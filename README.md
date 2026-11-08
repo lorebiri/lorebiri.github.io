@@ -23,6 +23,9 @@ Scrivi `euglena` (fioritura algale) o `wanda` (magia del caos) sulla tastiera. �
 ## Dopo ogni modifica a CSS/JS
 Aumenta il numero in `nomefile?v=N` in **tutte** le pagine che usano quel file (`index.html`, `dsctm-2026.html`, `404.html`), con lo stesso N ovunque, così i browser non usano la versione vecchia in cache.
 
+## Font
+Sono nella cartella `fonts/` (licenza SIL OFL, dettagli in `fonts/README.md`); le regole `@font-face` sono in cima a `styles.css`. Il sito non usa più Google Fonts.
+
 ## Lingua
 Ogni pagina ha in `<head>` un piccolo script che sceglie subito lingua e tema (niente lampo della versione sbagliata).
 `?lang=it` o `?lang=en` nell'indirizzo forza la lingua per quella visita, senza salvarla: è l'indirizzo che usano i motori di ricerca (`hreflang`).
