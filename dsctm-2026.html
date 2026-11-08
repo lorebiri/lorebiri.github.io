@@ -16,13 +16,24 @@
 <meta property="og:image:alt" content="Official poster of the Giornate Scientifiche DSCTM 2026">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://lorebiri.github.io/dsctm-2026.html">
+<link rel="alternate" hreflang="it" href="https://lorebiri.github.io/dsctm-2026.html?lang=it">
+<link rel="alternate" hreflang="en" href="https://lorebiri.github.io/dsctm-2026.html?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://lorebiri.github.io/dsctm-2026.html">
+<script>
+/* prima di disegnare la pagina: lingua (?lang=it|en, poi la scelta salvata, poi il sistema) e tema salvato,
+   così non compare per un attimo la versione sbagliata. ?lang non viene salvato. */
+(function(r){var q=/[?&]lang=(it|en)\b/.exec(location.search),l=q&&q[1];
+try{l=l||localStorage.getItem('lang');var t=localStorage.getItem('theme');if(t)r.dataset.theme=t}catch(e){}
+r.lang=l||((navigator.language||'').slice(0,2).toLowerCase()==='it'?'it':'en');
+if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.origin+location.pathname+'?lang='+q[1]}})(document.documentElement);
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='50' rx='44' ry='18' transform='rotate(-30 50 50)' fill='%23c5f03c' stroke='%23141412' stroke-width='6'/><circle cx='68' cy='36' r='7' fill='%23ff5a2c'/></svg>">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=24">
-<link rel="stylesheet" href="case.css?v=5">
+<link rel="stylesheet" href="styles.css?v=28">
+<link rel="stylesheet" href="case.css?v=6">
 </head>
 <body>
 <a class="skip" href="#main"><span data-it>Salta al contenuto</span><span data-en>Skip to content</span></a>
@@ -47,7 +58,7 @@
   <div class="wrap">
     <figure class="cs-poster">
       <a href="dsctm26-locandina.jpg" target="_blank" rel="noopener">
-        <img src="dsctm26-locandina.jpg" alt="Locandina ufficiale delle Giornate Scientifiche DSCTM 2026: disegno a linea continua con lo skyline di Pisa" data-alt-en="Official poster of the Giornate Scientifiche DSCTM 2026: continuous-line drawing of the Pisa skyline" width="701" height="989" fetchpriority="high">
+        <img class="vt-poster" src="dsctm26-locandina.jpg" alt="Locandina ufficiale delle Giornate Scientifiche DSCTM 2026: disegno a linea continua con lo skyline di Pisa" data-alt-en="Official poster of the Giornate Scientifiche DSCTM 2026: continuous-line drawing of the Pisa skyline" width="701" height="989" fetchpriority="high">
       </a>
       <figcaption><span class="stk"><span data-it>🎨 locandina by me</span><span data-en>🎨 poster by me</span></span></figcaption>
     </figure>
@@ -137,11 +148,11 @@
     </ol>
     <div class="cs-demo">
       <figure>
-        <a href="img/dsctm-schermi.gif" target="_blank" rel="noopener"><picture><source srcset="img/dsctm-schermi.jpg" media="(prefers-reduced-motion:reduce)"><img src="img/dsctm-schermi.gif" alt="Animazione degli schermi: premendo AVANTI nella regia, il monitor laterale e il foyer passano al relatore successivo, poi alla pausa caffè e alla tavola rotonda" data-alt-en="Animation of the screens: pressing AVANTI in the control view moves the side monitor and the foyer to the next speaker, then to the coffee break and the round table" width="1200" height="490" loading="lazy"></picture></a>
+        <a href="img/dsctm-schermi.webp" target="_blank" rel="noopener"><picture><source srcset="img/dsctm-schermi.jpg" media="(prefers-reduced-motion:reduce)"><img src="img/dsctm-schermi.webp" alt="Animazione degli schermi: premendo AVANTI nella regia, il monitor laterale e il foyer passano al relatore successivo, poi alla pausa caffè e alla tavola rotonda" data-alt-en="Animation of the screens: pressing AVANTI in the control view moves the side monitor and the foyer to the next speaker, then to the coffee break and the round table" width="1200" height="490" loading="lazy"></picture></a>
         <figcaption><span data-it>Schermi: un solo file, un ruolo per ogni schermo. Dalla regia si preme AVANTI e gli altri seguono. Il proiettore tiene il logo sotto le slide e cambia solo in pausa e alla tavola rotonda.</span><span data-en>Screens: one file, one role per screen. Press AVANTI in the control view and the others follow. The projector keeps the logo under the slides and only changes for breaks and the round table.</span> <span class="cs-tap"><span data-it>Tocca per ingrandirla.</span><span data-en>Tap to enlarge.</span></span></figcaption>
       </figure>
       <figure>
-        <a href="img/dsctm-totem.gif" target="_blank" rel="noopener"><picture><source srcset="img/dsctm-totem.jpg" media="(prefers-reduced-motion:reduce)"><img src="img/dsctm-totem.gif" alt="Animazione del totem: si sfoglia il programma, si apre la mappa e si gioca al cruciverba" data-alt-en="Animation of the totem: browsing the programme, opening the map and playing the crossword" width="360" height="640" loading="lazy"></picture></a>
+        <a href="img/dsctm-totem.webp" target="_blank" rel="noopener"><picture><source srcset="img/dsctm-totem.jpg" media="(prefers-reduced-motion:reduce)"><img src="img/dsctm-totem.webp" alt="Animazione del totem: si sfoglia il programma, si apre la mappa e si gioca al cruciverba" data-alt-en="Animation of the totem: browsing the programme, opening the map and playing the crossword" width="360" height="640" loading="lazy"></picture></a>
         <figcaption><span data-it>Totem: programma, mappa, cruciverba.</span><span data-en>Totem: programme, map, crossword.</span></figcaption>
       </figure>
     </div>
@@ -211,7 +222,8 @@
   </div>
 </footer>
 
-<script src="case.js?v=1" defer></script>
-<script src="lightbox.js?v=2" defer></script>
+<script src="case.js?v=2" defer></script>
+<script src="lightbox.js?v=3" defer></script>
+<script src="motion.js?v=2" defer></script>
 </body>
 </html>

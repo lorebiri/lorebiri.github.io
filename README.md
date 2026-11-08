@@ -21,7 +21,14 @@ Se è un anno nuovo, aggiungi anche il bottone `<button class="chip" data-f="ANN
 Scrivi `euglena` (fioritura algale) o `wanda` (magia del caos) sulla tastiera. 🦠
 
 ## Dopo ogni modifica a CSS/JS
-In `index.html` aumenta il numero in `styles.css?v=N` / `main.js?v=N`, così i browser non usano la versione vecchia in cache.
+Aumenta il numero in `nomefile?v=N` in **tutte** le pagine che usano quel file (`index.html`, `dsctm-2026.html`, `404.html`), con lo stesso N ovunque, così i browser non usano la versione vecchia in cache.
+
+## Lingua
+Ogni pagina ha in `<head>` un piccolo script che sceglie subito lingua e tema (niente lampo della versione sbagliata).
+`?lang=it` o `?lang=en` nell'indirizzo forza la lingua per quella visita, senza salvarla: è l'indirizzo che usano i motori di ricerca (`hreflang`).
+
+## Pagina 404
+`404.html`, con percorsi assoluti (`/styles.css`) perché GitHub Pages la mostra per qualsiasi indirizzo sbagliato.
 
 ## Temi stagionali
 Automatici in base alla data (Pisa); il 23 marzo tema compleanno. Chi visita non può cambiarli.

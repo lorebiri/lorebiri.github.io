@@ -6,7 +6,8 @@
   function get(k){try{return localStorage.getItem(k)}catch(e){return null}}
   function set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 
-  var lang=get('lang')||((navigator.language||'en').slice(0,2).toLowerCase()==='it'?'it':'en');
+  var q=/[?&]lang=(it|en)\b/.exec(location.search);
+  var lang=(q&&q[1])||get('lang')||((navigator.language||'en').slice(0,2).toLowerCase()==='it'?'it':'en');
   function applyLang(l){
     root.lang=l;
     Array.prototype.forEach.call(document.querySelectorAll('#langBtn b'),function(b){b.classList.toggle('on',b.dataset.l===l)});

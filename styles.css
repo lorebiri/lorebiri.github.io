@@ -124,7 +124,7 @@ h1 .l2 em{font-style:inherit;color:var(--eye-t)}
 @keyframes tick{to{transform:translateX(-50%)}}
 
 /* ---------- sezioni ---------- */
-section{padding:clamp(72px,10vw,128px) 0;scroll-margin-top:58px;position:relative}
+section{padding:clamp(56px,7vw,88px) 0;scroll-margin-top:58px;position:relative}
 .shead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto);align-items:end;gap:14px 40px;margin-bottom:clamp(36px,5vw,64px);border-bottom:1.5px solid var(--line);padding-bottom:18px}
 .fig{grid-column:1/-1;font:600 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
 .fig b{background:var(--ink);color:var(--paper);padding:3px 6px;margin-right:8px;font-weight:600}
@@ -171,7 +171,7 @@ h2 .serif{font-size:1.05em;color:var(--eye-t);letter-spacing:-.02em}
 .chip:hover{background:var(--card)}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .chip sup{font-size:10px;margin-left:3px;opacity:.7}
-.works{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(18px,2.4vw,32px);grid-auto-flow:dense}
+.works{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(18px,2.4vw,32px);grid-auto-flow:dense;align-items:start}
 .work{grid-column:span 6;display:flex;flex-direction:column;border:1.5px solid var(--line);background:var(--card);position:relative;transition:transform .2s,box-shadow .2s}
 .work:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--line)}
 .work.hide{display:none}
@@ -619,7 +619,7 @@ section.tools{padding:clamp(56px,7vw,88px) 0}
 .tl-ico{font-size:28px;line-height:1}
 .tl-name{font:800 22px/1 var(--display);letter-spacing:-.03em}
 .tl-desc{color:var(--mute);font-size:15px;line-height:1.4}
-.tl-url{margin-top:auto;padding-top:8px;font:500 11px/1.3 var(--mono);color:var(--eye-t);overflow-wrap:anywhere}
+.tl-url{margin-top:auto;padding-top:8px;font:500 12px/1.3 var(--mono);color:var(--eye-t);overflow-wrap:anywhere}
 .tcall{margin-top:24px;max-width:62ch;font-size:18px;line-height:1.45}
 .tcall a{color:var(--ink);font-weight:700;text-decoration-color:var(--eye-t);text-decoration-thickness:2px;text-underline-offset:3px}
 .tnote{margin-top:14px;font:500 12px/1.4 var(--mono);color:var(--mute)}
@@ -627,3 +627,87 @@ section.tools{padding:clamp(56px,7vw,88px) 0}
 @media (max-width:1060px){.tlist{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.tlist{grid-template-columns:minmax(0,1fr);gap:12px}.tl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;padding:14px}.tl-ico{grid-row:span 3;align-self:start}.tl-url{padding-top:4px}}
 @media (hover:none){.tl:hover{transform:none;box-shadow:none}}
+
+/* progetti: il bottone "mostra tutti" serve solo su telefono */
+.wall{display:none;grid-column:1/-1;justify-self:start}
+.ptag.fig{font-weight:500}
+.ptag.fig b{font-weight:700;background:none;color:inherit;padding:0}
+.ptag.fig{line-height:1.6}
+@media (max-width:600px){
+  .works:not(.all) .work.minor{display:none}
+  .wall{display:inline-flex;margin-top:4px}
+  .wall[hidden]{display:none}
+}
+/* menu e interruttori su telefono: bersagli più comodi da toccare */
+@media (max-width:860px){
+  .links a{padding:11px 10px}
+  .tgl{min-height:36px;min-width:36px}
+}
+
+/* =========================================================
+   MOVIMENTO (motion.js). Tutto spento con "riduci movimento".
+   ========================================================= */
+/* passaggio tra le pagine del sito: dissolvenza con leggero scorrimento, la locandina DSCTM vola da una pagina all'altra */
+@view-transition{navigation:auto}
+.vt-poster{view-transition-name:dsctm-poster}
+.logo{view-transition-name:logo}
+.nav{view-transition-name:header}
+::view-transition-group(header){z-index:10}
+html.vt-theme .logo,html.vt-theme .nav,html.vt-theme .vt-poster{view-transition-name:none}
+::view-transition-group(*){animation-duration:.5s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
+::view-transition-old(root){animation:.28s ease both vtOut}
+::view-transition-new(root){animation:.5s cubic-bezier(.2,.8,.2,1) both vtIn}
+@keyframes vtOut{to{opacity:0;transform:translateY(-14px)}}
+@keyframes vtIn{from{opacity:0;transform:translateY(22px)}}
+/* cambio tema: il nuovo tema si allarga a cerchio dal bottone (l'animazione la fa motion.js) */
+html.vt-theme::view-transition-old(root),html.vt-theme::view-transition-new(root){animation:none;mix-blend-mode:normal}
+html.vt-theme::view-transition-new(root){z-index:2}
+html.vt-lang::view-transition-old(root){animation:.22s ease both fadeOut}
+html.vt-lang::view-transition-new(root){animation:.42s ease both fadeIn}
+html.vt-works::view-transition-old(root),html.vt-works::view-transition-new(root),
+html.vt-list::view-transition-old(root),html.vt-list::view-transition-new(root){animation-duration:.3s}
+@keyframes fadeOut{to{opacity:0}}
+@keyframes fadeIn{from{opacity:0}}
+
+/* hero: nome, ruolo e frase entrano in sequenza al primo caricamento */
+.hero h1 .l1,.hero h1 .l2,.hero .role,.hero .pos,.hero .tagline,.hero .lead,.hero .cta{animation:heroIn .9s cubic-bezier(.2,.8,.2,1) both}
+.hero h1 .l1{animation-delay:.05s}.hero h1 .l2{animation-delay:.17s}.hero .role{animation-delay:.32s}.hero .pos{animation-delay:.42s}
+.hero .tagline{animation-delay:.52s}.hero .lead{animation-delay:.62s}.hero .cta{animation-delay:.72s}
+@keyframes heroIn{from{opacity:0;transform:translateY(34px);clip-path:inset(0 -20% 100% -20%)}to{clip-path:inset(-30% -20% -30% -20%)}}
+
+/* titoli di sezione: etichetta che scorre, titolo che sale da sotto una maschera, riga che si disegna */
+html.mo .shead .fig{opacity:0;transform:translateX(-18px);transition:opacity .6s,transform .6s cubic-bezier(.2,.8,.2,1)}
+html.mo .shead h2{clip-path:inset(0 -10% 100% -10%);transform:translateY(45%);transition:clip-path 1s cubic-bezier(.2,.8,.2,1) .08s,transform 1s cubic-bezier(.2,.8,.2,1) .08s}
+html.mo .shead .caption{opacity:0;transition:opacity .8s .35s}
+html.mo .shead{border-bottom-color:transparent;background:linear-gradient(var(--line),var(--line)) 0 100%/0 1.5px no-repeat;transition:background-size 1.2s cubic-bezier(.65,0,.35,1) .15s}
+html.mo .contact .shead{background-image:linear-gradient(var(--on),var(--on))}
+html.mo .shead.in{background-size:100% 1.5px}
+html.mo .shead.in .fig{opacity:1;transform:none}
+html.mo .shead.in h2{clip-path:inset(-25% -10% -25% -10%);transform:none}
+html.mo .shead.in .caption{opacity:1}
+
+/* elementi delle griglie in sequenza */
+html.mo .tlist>li,html.mo .nums>li,html.mo .cs-demo>figure,html.mo .cs-pages>figure{opacity:0;transform:translateY(26px) scale(.98);transition:opacity .6s,transform .7s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i,0)*90ms)}
+html.mo .tlist.in>li,html.mo .nums.in>li,html.mo .cs-demo.in>figure,html.mo .cs-pages.in>figure{opacity:1;transform:none}
+.rv{transition-delay:calc(var(--i,0)*80ms)}
+
+/* schede inclinabili: riflesso che segue il mouse */
+.tilt{transition:transform .25s ease-out,box-shadow .2s;will-change:transform}
+.tl{position:relative;overflow:hidden}
+.tl::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.55),transparent 55%);mix-blend-mode:soft-light}
+.tl:hover::after{opacity:1}
+.btn{transition:transform .15s,box-shadow .15s,translate .25s cubic-bezier(.2,.8,.2,1)}
+.tl-ico{display:inline-block;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.tl:hover .tl-ico{transform:scale(1.25) rotate(-8deg)}
+
+/* finestrella immagini: entra con un piccolo zoom */
+.lb[open] .lb-stage img{animation:lbIn .38s cubic-bezier(.2,.8,.2,1)}
+.lb[open]::backdrop{animation:fadeIn .3s ease}
+@keyframes lbIn{from{opacity:0;transform:scale(.94) translateY(10px)}}
+
+@media (prefers-reduced-motion:reduce){
+  @view-transition{navigation:none}
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+}
+
+.work{scroll-margin-top:110px}

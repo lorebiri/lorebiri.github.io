@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — Lorenzo Birindelli</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='50' rx='44' ry='18' transform='rotate(-30 50 50)' fill='%23c5f03c' stroke='%23141412' stroke-width='6'/><circle cx='68' cy='36' r='7' fill='%23ff5a2c'/></svg>">
+<script>
+/* lingua e tema come nelle altre pagine */
+(function(r){var l;try{l=localStorage.getItem('lang');var t=localStorage.getItem('theme');if(t)r.dataset.theme=t}catch(e){}
+r.lang=l||((navigator.language||'').slice(0,2).toLowerCase()==='it'?'it':'en');})(document.documentElement);
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<!-- percorsi assoluti: GitHub Pages mostra questa pagina per qualsiasi indirizzo sbagliato -->
+<link rel="stylesheet" href="/styles.css?v=28">
+<style>
+  .nf{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;gap:22px;max-width:var(--max);margin:0 auto;padding:40px var(--pad)}
+  .nf h1{font:800 clamp(56px,12vw,160px)/.86 var(--display);letter-spacing:-.055em}
+  .nf h1 .serif{font-weight:400;color:var(--eye-t)}
+  .nf p{font-size:18px;max-width:46ch;color:var(--mute)}
+</style>
+</head>
+<body>
+<main class="nf">
+  <p class="fig"><b>ERR. 404</b><span data-it>campione non trovato</span><span data-en>sample not found</span></p>
+  <h1><span data-it>Qui non c'è <span class="serif">niente.</span></span><span data-en>Nothing <span class="serif">here.</span></span></h1>
+  <p data-it>La pagina che cercavi non è in questo quaderno di laboratorio. Forse è stata spostata, o l'indirizzo ha un errore di battitura.</p>
+  <p data-en>The page you're looking for isn't in this lab notebook. It may have moved, or the address has a typo.</p>
+  <div class="cta">
+    <a class="btn go" href="/"><span data-it>Torna alla home</span><span data-en>Back to the home page</span> ↩</a>
+    <a class="btn" href="/#tools"><span data-it>Vai ai tool</span><span data-en>Go to the tools</span> ↗</a>
+  </div>
+</main>
+</body>
+</html>

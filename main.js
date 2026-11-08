@@ -11,7 +11,9 @@
 
   /* ---------- lingua ---------- */
   // lingua del sistema (italiano → IT, tutto il resto → EN); la scelta fatta col bottone resta salvata
-  var lang=get('lang')||((navigator.language||'en').slice(0,2).toLowerCase()==='it'?'it':'en');
+  // ?lang=it|en nell'indirizzo vale per questa visita e non viene salvato
+  var q=/[?&]lang=(it|en)\b/.exec(location.search);
+  var lang=(q&&q[1])||get('lang')||((navigator.language||'en').slice(0,2).toLowerCase()==='it'?'it':'en');
   function applyLang(l){
     root.lang=l;
     $$('#langBtn b').forEach(function(b){b.classList.toggle('on',b.dataset.l===l)});
@@ -24,14 +26,15 @@
     $$('.copy').forEach(function(b){b.setAttribute('aria-label',t('Copia l\'indirizzo ','Copy the address ')+b.dataset.copy)});
     document.title=l==='en'?'Lorenzo Birindelli — lab, data, design & code':'Lorenzo Birindelli — laboratorio, dati, design e codice';
   }
-  $('#langBtn').addEventListener('click',function(){lang=lang==='it'?'en':'it';applyLang(lang);set('lang',lang)});
+  var langBtn=$('#langBtn');
+  if(langBtn) langBtn.addEventListener('click',function(){lang=lang==='it'?'en':'it';applyLang(lang);set('lang',lang)});
 
   /* ---------- tema: luce / campo scuro ---------- */
   var themeBtn=$('#themeBtn');
   function isDark(){return root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches}
-  function themeLabel(){var d=isDark();themeBtn.textContent=d?'☀︎':'☾';themeBtn.setAttribute('aria-pressed',d);if(d)root.dataset.dark='';else delete root.dataset.dark}
+  function themeLabel(){if(!themeBtn)return;var d=isDark();themeBtn.textContent=d?'☀︎':'☾';themeBtn.setAttribute('aria-pressed',d);if(d)root.dataset.dark='';else delete root.dataset.dark}
   var th=get('theme'); if(th) root.dataset.theme=th;
-  themeBtn.addEventListener('click',function(){root.dataset.theme=isDark()?'light':'dark';set('theme',root.dataset.theme);themeLabel()});
+  if(themeBtn) themeBtn.addEventListener('click',function(){root.dataset.theme=isDark()?'light':'dark';set('theme',root.dataset.theme);themeLabel()});
   themeLabel();
 
   /* =========================================================
@@ -335,8 +338,13 @@
     c.addEventListener('click',function(){
       $$('.filters .chip').forEach(function(x){x.setAttribute('aria-pressed',x===c)});
       works.forEach(function(w){w.classList.toggle('hide',f!=='all'&&(' '+w.dataset.cat+' ').indexOf(' '+f+' ')<0)});
+      if(f!=='all') showAllWorks();
     });
   });
+  // su telefono si vedono prima i progetti principali; il bottone (o un filtro) mostra gli altri
+  var worksBox=$('#works'), worksAll=$('#worksAll');
+  function showAllWorks(){if(worksBox)worksBox.classList.add('all');if(worksAll)worksAll.hidden=true}
+  if(worksAll) worksAll.addEventListener('click',showAllWorks);
 
   /* ---------- filtri paper ---------- */
   // con "tutti" si vedono i lavori in evidenza (.key); il bottone mostra il resto

@@ -24,11 +24,22 @@
 <meta name="color-scheme" content="light dark">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="canonical" href="https://lorebiri.github.io/">
+<link rel="alternate" hreflang="it" href="https://lorebiri.github.io/?lang=it">
+<link rel="alternate" hreflang="en" href="https://lorebiri.github.io/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://lorebiri.github.io/">
+<script>
+/* prima di disegnare la pagina: lingua (?lang=it|en, poi la scelta salvata, poi il sistema) e tema salvato,
+   così non compare per un attimo la versione sbagliata. ?lang non viene salvato. */
+(function(r){var q=/[?&]lang=(it|en)\b/.exec(location.search),l=q&&q[1];
+try{l=l||localStorage.getItem('lang');var t=localStorage.getItem('theme');if(t)r.dataset.theme=t}catch(e){}
+r.lang=l||((navigator.language||'').slice(0,2).toLowerCase()==='it'?'it':'en');
+if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.origin+location.pathname+'?lang='+q[1]}})(document.documentElement);
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='50' rx='44' ry='18' transform='rotate(-30 50 50)' fill='%23c5f03c' stroke='%23141412' stroke-width='6'/><circle cx='68' cy='36' r='7' fill='%23ff5a2c'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=26">
+<link rel="stylesheet" href="styles.css?v=28">
 <link rel="stylesheet" href="seasons.css?v=10">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Lorenzo Birindelli","url":"https://lorebiri.github.io/","image":"https://lorebiri.github.io/lorenzo.jpg","jobTitle":"Collaboratore Tecnico Enti di Ricerca (CTER)","description":"CTER at CNR-ICCOM, Pisa: lab and technical support, instrumentation, data, scientific graphics and digital tools.","worksFor":{"@type":"ResearchOrganization","name":"CNR — Istituto di Chimica dei Composti OrganoMetallici (ICCOM)","address":{"@type":"PostalAddress","addressLocality":"Pisa","addressCountry":"IT"},"parentOrganization":{"@type":"GovernmentOrganization","name":"Consiglio Nazionale delle Ricerche (CNR)"}},"alumniOf":{"@type":"EducationalOrganization","name":"ITIS \"Leonardo da Vinci\", Pisa"},"knowsLanguage":["it","en"],"identifier":{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0000-2529-6256"},"sameAs":["https://orcid.org/0009-0000-2529-6256","https://scholar.google.com/citations?user=1BWAMFEAAAAJ","https://github.com/lorebiri"]}
@@ -314,7 +325,7 @@
       <button class="chip" type="button" data-f="media" aria-pressed="false"><span data-it>video</span><span data-en>multimedia</span></button>
     </div>
 
-    <div class="works">
+    <div class="works" id="works">
 
       <!-- DSCTM 2026 -->
       <article class="work feat rv" data-cat="event graphics tools">
@@ -366,7 +377,7 @@
         </div>
         <div class="wmedia">
           <a href="dsctm26-locandina.jpg" target="_blank" rel="noopener" aria-label="Locandina DSCTM 2026, apri a tutta grandezza">
-            <img src="dsctm26-locandina.jpg" alt="Locandina ufficiale delle Giornate Scientifiche DSCTM 2026" data-alt-en="Official poster of the Giornate Scientifiche DSCTM 2026" width="701" height="989" loading="lazy">
+            <img class="vt-poster" src="dsctm26-locandina.jpg" alt="Locandina ufficiale delle Giornate Scientifiche DSCTM 2026" data-alt-en="Official poster of the Giornate Scientifiche DSCTM 2026" width="701" height="989" loading="lazy">
           </a>
           <span class="stk"><span data-it>🎨 locandina by me</span><span data-en>🎨 poster by me</span></span>
         </div>
@@ -405,7 +416,7 @@
       </article>
 
       <!-- Etichette GHS -->
-      <article class="work slim rv" data-cat="tools">
+      <article class="work minor slim rv" data-cat="tools">
         <a class="win" href="https://lorebiri.github.io/etichette/" target="_blank" rel="noopener" tabindex="-1">
           <span class="bar"><i></i><i></i><i></i><span>lorebiri.github.io/etichette</span></span>
           <picture><source media="(max-width:860px)" srcset="img/etichette-m.jpg" width="340" height="480"><img src="img/etichette.jpg?v=2" alt="Screenshot del generatore di etichette GHS/CLP: etichetta pronta per l'acetone, con pittogrammi, frasi H/P e QR code" data-alt-en="GHS/CLP label maker screenshot: a finished acetone label with pictograms, H/P statements and QR code" width="960" height="600" loading="lazy"></picture>
@@ -439,7 +450,7 @@
       </article>
 
       <!-- ICP tool -->
-      <article class="work slim rv" data-cat="tools">
+      <article class="work minor slim rv" data-cat="tools">
         <a class="win" href="https://lorebiri.github.io/icp-tool/" target="_blank" rel="noopener" tabindex="-1">
           <span class="bar"><i></i><i></i><i></i><span>lorebiri.github.io/icp-tool</span></span>
           <picture><source media="(max-width:860px)" srcset="img/icp-tool-m.jpg" width="570" height="570"><img src="img/icp-tool.jpg" alt="Screenshot di ICP Tool: tabella di preparazione degli standard per Fe, Cu e Zn" data-alt-en="ICP Tool screenshot: standards preparation table for Fe, Cu and Zn" width="960" height="600" loading="lazy"></picture>
@@ -473,7 +484,7 @@
       </article>
 
       <!-- Work time tracker -->
-      <article class="work wide rv" data-cat="tools">
+      <article class="work minor wide rv" data-cat="tools">
         <a class="win" href="https://lorebiri.github.io/calcolatore-orario/" target="_blank" rel="noopener" tabindex="-1">
           <span class="bar"><i></i><i></i><i></i><span>lorebiri.github.io/calcolatore-orario</span></span>
           <img src="img/calcolatore-orario.jpg" alt="Screenshot del Work Time Tracker: giornata al 56%, ora di fine giornata e del buono pasto" data-alt-en="Work Time Tracker screenshot: day 56% complete, end-of-day and meal-voucher times" width="960" height="600" loading="lazy">
@@ -539,7 +550,7 @@
       </article>
 
       <!-- Video -->
-      <article class="work wide rv" data-cat="media">
+      <article class="work minor wide rv" data-cat="media">
         <div class="art reel" aria-hidden="true">
           <span class="tc">00:01:12:08</span><span class="rec">REC</span>
           <span class="head"></span>
@@ -592,6 +603,8 @@
           <p class="wnote"><span data-it>Figure riprodotte da articoli open access con licenza</span><span data-en>Figures reproduced from open-access articles under</span> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. <span data-it>Clic su una figura per vederla intera.</span><span data-en>Click a figure to see it in full.</span></p>
         </div>
       </article>
+
+      <button class="btn wall" type="button" id="worksAll" aria-controls="works"><span data-it>Mostra tutti i progetti</span><span data-en>Show all projects</span> ↓</button>
 
       <!-- terminale "vibe coding": il testo lo scrive main.js -->
       <div class="vibe rv" role="img" aria-label="Vibe coding: next idea compiling">
@@ -739,7 +752,7 @@
           <h3><a href="https://doi.org/10.26434/chemrxiv.15007468/v1" target="_blank" rel="noopener">ATR-FTIR Spectroscopy and Chemometric Analysis to Characterize Drug-Responsive and Drug-Resistant Human Non-Small Cell Lung Cancer Cells</a></h3>
           <p class="au">Campanella B., Maroni G., Cabrera San Millan E., Mercatelli R., Onor M., <b>Birindelli L.</b>, Benedetti E., Levantini E., Bramanti E.</p>
           <p class="src"><em>ChemRxiv</em> <span>preprint<span class="badge" data-it>in revisione</span><span class="badge" data-en>under review</span></span><span class="doi">doi:10.26434/chemrxiv.15007468/v1</span></p>
-          <p class="ptag fig"><span data-it>Contributo: esecuzione delle analisi ATR-FTIR, elaborazione dei dati</span><span data-en>Contribution: carrying out the ATR-FTIR analyses, data processing</span></p>
+          <p class="ptag fig"><span data-it><b>Contributo:</b> esecuzione delle analisi ATR-FTIR, elaborazione dei dati</span><span data-en><b>Contribution:</b> carrying out the ATR-FTIR analyses, data processing</span></p>
         </div>
         <span class="ar" aria-hidden="true">↗</span>
       </li>
@@ -749,7 +762,7 @@
           <h3><a href="https://doi.org/10.1021/acs.analchem.6c04960" target="_blank" rel="noopener">Task-Dependent Synergy between FTIR and Raman Spectroscopy for Sperm Quality Prediction</a></h3>
           <p class="au">Campanella B., <b>Birindelli L.</b>, Legnaioli S., Lorenzetti G., Consani C., Ales V., Benedetti E., Bertozzi M.A., Bramanti E.</p>
           <p class="src"><em>Analytical Chemistry</em> <span>98(41), 29684–29699</span><span class="doi">doi:10.1021/acs.analchem.6c04960</span></p>
-          <p class="ptag fig"><span data-it>Contributo: esecuzione delle analisi ATR-FTIR, elaborazione dei dati</span><span data-en>Contribution: carrying out the ATR-FTIR analyses, data processing</span></p>
+          <p class="ptag fig"><span data-it><b>Contributo:</b> esecuzione delle analisi ATR-FTIR, elaborazione dei dati</span><span data-en><b>Contribution:</b> carrying out the ATR-FTIR analyses, data processing</span></p>
         </div>
         <span class="ar" aria-hidden="true">↗</span>
       </li>
@@ -759,7 +772,7 @@
           <h3><a href="https://doi.org/10.3390/app16126078" target="_blank" rel="noopener">Microspectrophotometry and Raman Investigations of the Effects of Hexavalent Chromium on the Photosynthetic and Photoreceptive Apparatus of <i>Euglena gracilis</i></a></h3>
           <p class="au">Lorenzetti G., Barsanti L., <b>Birindelli L.</b>, Campanella B., Gualtieri P., Legnaioli S.</p>
           <p class="src"><em>Applied Sciences</em> <span>16(12), 6078</span><span class="doi">doi:10.3390/app16126078</span></p>
-          <p class="ptag fig"><span data-it>Contributo: esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en>Contribution: carrying out the lab experiments, data processing, plots and figure assembly</span> · <a href="#projects"><span data-it>vedi la galleria</span><span data-en>see the gallery</span></a></p>
+          <p class="ptag fig"><span data-it><b>Contributo:</b> esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en><b>Contribution:</b> carrying out the lab experiments, data processing, plots and figure assembly</span> · <a href="#projects"><span data-it>vedi la galleria</span><span data-en>see the gallery</span></a></p>
         </div>
         <span class="ar" aria-hidden="true">↗</span>
       </li>
@@ -769,7 +782,7 @@
           <h3><a href="https://doi.org/10.3390/app15052708" target="_blank" rel="noopener">Bioconvection in Microalgae: Review of Mathematical Models</a></h3>
           <p class="au">Barsanti L., <b>Birindelli L.</b>, Di Garbo A., Gualtieri P.</p>
           <p class="src"><em>Applied Sciences</em> <span>15(5), 2708</span><span class="doi">doi:10.3390/app15052708</span></p>
-          <p class="ptag fig"><span data-it>Contributo: esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en>Contribution: carrying out the lab experiments, data processing, plots and figure assembly</span> · <a href="#projects"><span data-it>vedi la galleria</span><span data-en>see the gallery</span></a></p>
+          <p class="ptag fig"><span data-it><b>Contributo:</b> esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en><b>Contribution:</b> carrying out the lab experiments, data processing, plots and figure assembly</span> · <a href="#projects"><span data-it>vedi la galleria</span><span data-en>see the gallery</span></a></p>
         </div>
         <span class="ar" aria-hidden="true">↗</span>
       </li>
@@ -779,7 +792,7 @@
           <h3><a href="https://doi.org/10.1111/php.13999" target="_blank" rel="noopener">Nomen omen: <i>Euglena gracilis</i> possesses a rhodopsin‐based photoreceptor</a></h3>
           <p class="au">Lorenzetti G., Barsanti L., <b>Birindelli L.</b>, Gualtieri P., Legnaioli S.</p>
           <p class="src"><em>Photochemistry and Photobiology</em> <span>101(2), 350–358</span><span class="doi">doi:10.1111/php.13999</span></p>
-          <p class="ptag fig"><span data-it>Contributo: esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en>Contribution: carrying out the lab experiments, data processing, plots and figure assembly</span></p>
+          <p class="ptag fig"><span data-it><b>Contributo:</b> esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en><b>Contribution:</b> carrying out the lab experiments, data processing, plots and figure assembly</span></p>
           <p class="ptag"><span data-it>🦠 dal periodo IBF: le euglene dell'hero vengono da qui</span><span data-en>🦠 from my IBF years: the <i>Euglena</i> cells in the hero come from here</span></p>
         </div>
         <span class="ar" aria-hidden="true">↗</span>
@@ -790,7 +803,7 @@
           <h3><a href="https://doi.org/10.3390/ijms24129973" target="_blank" rel="noopener">Advanced Microscopy Techniques for Molecular Biophysics</a></h3>
           <p class="au">Barsanti L., <b>Birindelli L.</b>, Sbrana F., Lombardi G., Gualtieri P.</p>
           <p class="src"><em>International Journal of Molecular Sciences</em> <span>24(12), 9973</span><span class="doi">doi:10.3390/ijms24129973</span></p>
-          <p class="ptag fig"><span data-it>Contributo: elaborazione dei dati, grafici e montaggio delle figure</span><span data-en>Contribution: data processing, plots and figure assembly</span> · <a href="#projects"><span data-it>vedi la galleria</span><span data-en>see the gallery</span></a></p>
+          <p class="ptag fig"><span data-it><b>Contributo:</b> elaborazione dei dati, grafici e montaggio delle figure</span><span data-en><b>Contribution:</b> data processing, plots and figure assembly</span> · <a href="#projects"><span data-it>vedi la galleria</span><span data-en>see the gallery</span></a></p>
         </div>
         <span class="ar" aria-hidden="true">↗</span>
       </li>
@@ -800,7 +813,7 @@
           <h3><a href="https://doi.org/10.3390/ijms23158301" target="_blank" rel="noopener">Paramylon and Other Bioactive Molecules in Micro and Macroalgae</a></h3>
           <p class="au">Barsanti L., <b>Birindelli L.</b>, Gualtieri P.</p>
           <p class="src"><em>International Journal of Molecular Sciences</em> <span>23(15), 8301</span><span class="doi">doi:10.3390/ijms23158301</span></p>
-          <p class="ptag fig"><span data-it>Contributo: esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en>Contribution: carrying out the lab experiments, data processing, plots and figure assembly</span></p>
+          <p class="ptag fig"><span data-it><b>Contributo:</b> esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en><b>Contribution:</b> carrying out the lab experiments, data processing, plots and figure assembly</span></p>
         </div>
         <span class="ar" aria-hidden="true">↗</span>
       </li>
@@ -810,7 +823,7 @@
           <h3><a href="https://doi.org/10.1039/d1em00258a" target="_blank" rel="noopener">Water monitoring by means of digital microscopy identification and classification of microalgae</a></h3>
           <p class="au">Barsanti L., <b>Birindelli L.</b>, Gualtieri P.</p>
           <p class="src"><em>Environmental Science: Processes &amp; Impacts</em> <span>23(10), 1443–1457</span><span class="doi">doi:10.1039/d1em00258a</span></p>
-          <p class="ptag fig"><span data-it>Contributo: esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en>Contribution: carrying out the lab experiments, data processing, plots and figure assembly</span></p>
+          <p class="ptag fig"><span data-it><b>Contributo:</b> esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en><b>Contribution:</b> carrying out the lab experiments, data processing, plots and figure assembly</span></p>
         </div>
         <span class="ar" aria-hidden="true">↗</span>
       </li>
@@ -820,7 +833,7 @@
           <h3><a href="https://doi.org/10.1007/s10811-020-02314-x" target="_blank" rel="noopener">Remediation of dairy wastewater by <i>Euglena gracilis</i> WZSL mutant and β-glucan production</a></h3>
           <p class="au">Barsanti L., Ciurli A., <b>Birindelli L.</b>, Gualtieri P.</p>
           <p class="src"><em>Journal of Applied Phycology</em> <span>33, 431–441</span><span class="doi">doi:10.1007/s10811-020-02314-x</span></p>
-          <p class="ptag fig"><span data-it>Contributo: esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en>Contribution: carrying out the lab experiments, data processing, plots and figure assembly</span></p>
+          <p class="ptag fig"><span data-it><b>Contributo:</b> esecuzione degli esperimenti in laboratorio, elaborazione dei dati, grafici e montaggio delle figure</span><span data-en><b>Contribution:</b> carrying out the lab experiments, data processing, plots and figure assembly</span></p>
         </div>
         <span class="ar" aria-hidden="true">↗</span>
       </li>
@@ -874,7 +887,8 @@
 </footer>
 
 <div class="toast" role="status" aria-live="polite"></div>
-<script src="main.js?v=27" defer></script>
-<script src="lightbox.js?v=2" defer></script>
+<script src="main.js?v=28" defer></script>
+<script src="lightbox.js?v=3" defer></script>
+<script src="motion.js?v=2" defer></script>
 </body>
 </html>

@@ -51,6 +51,7 @@
     prev.setAttribute('aria-label',en()?'Previous image':'Immagine precedente');
     next.setAttribute('aria-label',en()?'Next image':'Immagine successiva');
     closeBtn.setAttribute('aria-label',en()?'Close':'Chiudi');
+    box.setAttribute('aria-label',en()?'Enlarged image':'Immagine ingrandita');
     stage.scrollTo(0,0);
   }
 
