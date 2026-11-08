@@ -867,48 +867,71 @@ html.mo .tlist.in>li,html.mo .nums.in>li,html.mo .cs-demo.in>figure,html.mo .cs-
 .work{scroll-margin-top:110px}
 
 /* =========================================================
-   IMPIANTO COCLEARE (sezione "chi sono"): schema che compare e mostra il percorso del segnale.
+   IMPIANTO COCLEARE (sezione "chi sono"): sezione dell'orecchio con il percorso del segnale.
    Fermo e completo senza JS o con "riduci movimento"; motion.js aggiunge .in (comparsa) e .play (solo se nello schermo).
    ========================================================= */
-.ci-fig{margin:28px 0 0;max-width:62ch;border:1.5px solid var(--line);background:var(--card);padding:16px 16px 14px}
-.ci{display:block;width:100%;height:auto;overflow:visible}
-.ci path,.ci circle,.ci rect,.ci line{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.ci .ci-solid{fill:var(--paper)}
+.ci-fig{margin:clamp(32px,5vw,56px) 0 0;display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:26px;align-items:center;border:1.5px solid var(--line);background:var(--card);padding:18px 22px}
+.ci{display:block;width:100%;height:auto}
+.ci path,.ci circle,.ci rect,.ci ellipse{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ci .ci-tissue{fill:color-mix(in srgb,var(--eye) 9%,var(--paper));stroke:none}
+.ci .ci-bone{fill:color-mix(in srgb,var(--ink) 10%,var(--paper));stroke:none}
+.ci .ci-brain{fill:color-mix(in srgb,var(--eye) 16%,var(--paper));stroke-width:1.4}
+.ci .ci-gyri{stroke:color-mix(in srgb,var(--eye) 45%,var(--paper));stroke-width:1.6}
+.ci .ci-skin{fill:color-mix(in srgb,var(--eye) 14%,var(--paper));stroke-width:1.8}
+.ci .ci-fold{stroke-width:1.4}
+.ci .ci-air{fill:var(--card);stroke-width:1.4}
+.ci .ci-drum{stroke-width:3}
+.ci .ci-oss{stroke-width:4}
+.ci .ci-oss-h{fill:var(--ink)}
+.ci .ci-canal circle{stroke-width:8}
+.ci .ci-canal-in circle{stroke:var(--card);stroke-width:4.5}
+.ci .ci-vest{fill:var(--card);stroke-width:2}
+.ci .ci-coch-out{stroke-width:15}
+.ci .ci-coch-in{stroke:var(--card);stroke-width:11}
+.ci .ci-nerve path{stroke:color-mix(in srgb,var(--eye) 55%,var(--ink));stroke-width:2.2}
+.ci .ci-route{stroke:var(--mute);stroke-dasharray:3 5}
+.ci .ci-cortex{fill:color-mix(in srgb,var(--chl) 45%,transparent);stroke:none}
+.ci .ci-dev{fill:#3b3a36;stroke:var(--ink);stroke-width:1.6}
+.ci .ci-mag{fill:#c9c6bd;stroke:none}
+.ci .ci-hook{stroke:#3b3a36;stroke-width:5}
 .ci .ci-hot{fill:var(--eye);stroke:none}
-.ci .ci-wire{stroke-width:2.5}
-.ci-skin rect{fill:color-mix(in srgb,var(--eye) 14%,transparent);stroke:none}
-.ci-skin line{stroke-dasharray:3 5;stroke-width:1.5}
-.ci .ci-waves path,.ci .ci-rf path{stroke:var(--eye-t)}
-.ci .ci-coch{stroke-width:2.2}
-.ci .ci-el{fill:var(--chl);stroke-width:1.5;transform-box:fill-box;transform-origin:center}
-.ci .ci-nerve path{stroke:var(--mute);stroke-width:1.6}
-.ci .ci-pulse{stroke:var(--eye);stroke-width:3;stroke-dasharray:18 400;stroke-dashoffset:18;opacity:0}
-.ci .ci-sig{fill:var(--eye);stroke:var(--paper);stroke-width:2;opacity:0}
+.ci .ci-cable{stroke-width:2.6}
+.ci .ci-lead{stroke:#3b3a36;stroke-width:2.6}
+.ci .ci-array{stroke:var(--eye);stroke-width:3}
+.ci .ci-el{fill:var(--chl);stroke-width:1;transform-box:fill-box;transform-origin:center}
+.ci .ci-waves path,.ci .ci-rf path{stroke:var(--eye-t);stroke-width:2}
+.ci .ci-pulse{stroke:var(--eye);stroke-width:3.2;stroke-dasharray:22 600;stroke-dashoffset:22;opacity:0}
+.ci .ci-sig{fill:var(--eye);stroke:var(--card);stroke-width:2;opacity:0}
+.ci-lab{font:500 10.5px var(--mono);fill:var(--mute);stroke:none}
 .ci-b circle{fill:var(--ink)!important;stroke:none!important}
 .ci-b text{font:600 11px var(--mono);fill:var(--paper);text-anchor:middle}
-.ci-steps{margin:12px 0 0;padding-left:1.4em;display:grid;gap:5px;font-size:14px;line-height:1.45;color:var(--mute)}
+.ci-kick{font:600 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink)}
+.ci-steps{margin:12px 0 0;padding-left:1.4em;display:grid;gap:6px;font-size:14px;line-height:1.45;color:var(--mute)}
 .ci-steps li::marker{font:600 12px var(--mono);color:var(--ink)}
 .ci-steps b{color:var(--ink)}
-.ci-note{margin-top:10px;font:500 12px/1.45 var(--mono);color:var(--eye-t)}
+.ci-note{margin-top:12px;font:500 12px/1.45 var(--mono);color:var(--eye-t)}
+.ci-src{margin-top:10px;font:500 11px/1.6 var(--mono);color:var(--mute)}
+.ci-src a{color:var(--ink)}
+@media (max-width:900px){.ci-fig{grid-template-columns:1fr;gap:14px;padding:14px}}
+@media (max-width:600px){.ci-labs{display:none}.ci-steps{font-size:13.5px}}
 
-/* comparsa: i pezzi arrivano uno dopo l'altro */
-html.mo .ci-fig:not(.in) .ci-part,html.mo .ci-fig:not(.in) .ci-b{opacity:0;transform:translateY(12px)}
-html.mo .ci-fig:not(.in) .ci-wire,html.mo .ci-fig:not(.in) .ci-nerve{opacity:0}
-html.mo .ci-fig .ci-part,html.mo .ci-fig .ci-b,html.mo .ci-fig .ci-wire,html.mo .ci-fig .ci-nerve{transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--k,3)*140ms)}
+/* comparsa: i pezzi dell'impianto arrivano uno dopo l'altro */
+html.mo .ci-fig:not(.in) .ci-part,html.mo .ci-fig:not(.in) .ci-b{opacity:0;transform:translateY(10px)}
+html.mo .ci-fig:not(.in) .ci-cable,html.mo .ci-fig:not(.in) .ci-lead{opacity:0}
+html.mo .ci-fig .ci-part,html.mo .ci-fig .ci-b,html.mo .ci-fig .ci-cable,html.mo .ci-fig .ci-lead{transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--k,3)*160ms)}
 
-/* il segnale: suono → processore → bobina → pelle → impianto → coclea → nervo → cervello (giro di 5 s) */
-.ci-fig.play .ci-waves path{animation:ciWave 5s ease-out infinite}
+/* il segnale: suono → processore → bobina → pelle → impianto → elettrodi → nervo → corteccia (giro di 6 s) */
+.ci-fig.play .ci-waves path{animation:ciWave 6s ease-out infinite}
 .ci-fig.play .ci-waves path:nth-child(2){animation-delay:.12s}
 .ci-fig.play .ci-waves path:nth-child(3){animation-delay:.24s}
-.ci-fig.play .ci-sig{animation:ciSig 5s cubic-bezier(.45,0,.55,1) infinite}
-.ci-fig.play .ci-rf path{animation:ciRf 5s ease infinite}
-.ci-fig.play .ci-el{animation:ciEl 5s ease infinite;animation-delay:calc(var(--k)*70ms)}
-.ci-fig.play .ci-pulse{animation:ciNerve 5s ease-in infinite}
-.ci-fig.play .ci-brain .ci-solid{animation:ciBrain 5s ease infinite}
-@keyframes ciWave{0%,22%,100%{opacity:.25}8%{opacity:1}}
-@keyframes ciSig{0%,6%{offset-distance:0%;opacity:0}9%{opacity:1}48%{offset-distance:100%;opacity:1}52%,100%{offset-distance:100%;opacity:0}}
-@keyframes ciRf{0%,24%,40%,100%{opacity:.35}30%{opacity:1}}
-@keyframes ciEl{0%,48%,64%,100%{fill:var(--chl);transform:none}52%{fill:var(--eye);transform:scale(1.6)}}
-@keyframes ciNerve{0%,62%{stroke-dashoffset:18;opacity:0}64%{opacity:1}80%{stroke-dashoffset:-150;opacity:1}82%,100%{stroke-dashoffset:-150;opacity:0}}
-@keyframes ciBrain{0%,76%,100%{fill:var(--paper)}84%,90%{fill:var(--chl)}}
-@media (max-width:520px){.ci-fig{padding:12px 10px}.ci-steps{font-size:13.5px}}
+.ci-fig.play .ci-sig{animation:ciSig 6s cubic-bezier(.45,0,.55,1) infinite}
+.ci-fig.play .ci-rf path{animation:ciRf 6s ease infinite}
+.ci-fig.play .ci-el{animation:ciEl 6s ease infinite;animation-delay:calc(var(--k)*70ms)}
+.ci-fig.play .ci-pulse{animation:ciNerve 6s ease-in infinite}
+.ci-fig.play .ci-cortex{animation:ciCortex 6s ease infinite}
+@keyframes ciWave{0%,20%,100%{opacity:.25}7%{opacity:1}}
+@keyframes ciSig{0%,6%{offset-distance:0%;opacity:0}9%{opacity:1}52%{offset-distance:100%;opacity:1}55%,100%{offset-distance:100%;opacity:0}}
+@keyframes ciRf{0%,14%,26%,100%{opacity:.3}19%{opacity:1}}
+@keyframes ciEl{0%,52%,68%,100%{fill:var(--chl);transform:none}56%{fill:var(--eye);transform:scale(1.8)}}
+@keyframes ciNerve{0%,64%{stroke-dashoffset:22;opacity:0}66%{opacity:1}84%{stroke-dashoffset:-280;opacity:1}86%,100%{stroke-dashoffset:-280;opacity:0}}
+@keyframes ciCortex{0%,80%,100%{fill:color-mix(in srgb,var(--chl) 45%,transparent)}86%,93%{fill:var(--chl)}}
