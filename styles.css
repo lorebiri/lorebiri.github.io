@@ -608,3 +608,20 @@ html.lb-open{overflow:hidden}
 .lb-nav{flex:none;width:44px;height:44px;font:700 24px/1 var(--mono);color:var(--ink);background:var(--paper);border:1.5px solid var(--line);cursor:pointer}
 .lb-nav[hidden]{display:none}
 .lb-x:focus-visible,.lb-nav:focus-visible{outline:3px solid var(--eye);outline-offset:2px}
+
+/* scorciatoie ai tool, subito dopo l'hero */
+section.tools{padding:clamp(56px,7vw,88px) 0}
+.tools h2{font-size:clamp(40px,6vw,80px)}
+.tlist{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.tl{height:100%;display:flex;flex-direction:column;gap:8px;padding:18px;text-decoration:none;color:var(--ink);background:var(--card);border:1.5px solid var(--line);transition:transform .2s,box-shadow .2s}
+.tl:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--chl),6px 6px 0 1.5px var(--line)}
+.tl:focus-visible{outline:3px solid var(--eye);outline-offset:3px}
+.tl-ico{font-size:28px;line-height:1}
+.tl-name{font:800 22px/1 var(--display);letter-spacing:-.03em}
+.tl-desc{color:var(--mute);font-size:15px;line-height:1.4}
+.tl-url{margin-top:auto;padding-top:8px;font:500 11px/1.3 var(--mono);color:var(--eye-t);overflow-wrap:anywhere}
+.tnote{margin-top:18px;font:500 12px/1.4 var(--mono);color:var(--mute)}
+.tnote a{color:var(--ink)}
+@media (max-width:1060px){.tlist{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.tlist{grid-template-columns:minmax(0,1fr);gap:12px}.tl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;padding:14px}.tl-ico{grid-row:span 3;align-self:start}.tl-url{padding-top:4px}}
+@media (hover:none){.tl:hover{transform:none;box-shadow:none}}
