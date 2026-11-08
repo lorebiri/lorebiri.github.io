@@ -22,7 +22,7 @@ export function buildAid(THREE) {
   const ribM = mat(THREE.MeshPhysicalMaterial, { color: 0xc9b47a, roughness: .3, clearcoat: .6, opacity: .7, depthWrite: false });
   const metal = mat(THREE.MeshStandardMaterial, { color: 0xb8bcc2, metalness: .9, roughness: .25 });
   const tubeM = mat(THREE.MeshPhysicalMaterial, { color: 0xdfe6e6, roughness: .1, clearcoat: 1, opacity: .42, depthWrite: false });
-  const moldM = mat(THREE.MeshPhysicalMaterial, { color: 0xd5dadc, roughness: .4, clearcoat: .7, clearcoatRoughness: .2, opacity: .3, depthWrite: false, side: THREE.DoubleSide });
+  const moldM = mat(THREE.MeshPhysicalMaterial, { color: 0xd5dadc, roughness: .4, clearcoat: .7, clearcoatRoughness: .2, opacity: .22, depthWrite: false, side: THREE.DoubleSide });
   const aid = new THREE.Group();
 
   /* ---------- corpo ---------- */
@@ -129,7 +129,7 @@ export function buildAid(THREE) {
   const vent = new THREE.Mesh(new THREE.CircleGeometry(.45, 14), holeM); moldG.add(vent); mold.updateMatrixWorld(); ray.set(V(5, -57.2, 30), V(0, 0, -1)); vent.position.set(5, -57.2, (ray.intersectObject(mold)[0]?.point.z ?? MH) + .03);
 
   function setOpacity(o) {
-    for (const m of mats) { m.opacity = m.userData.base * o; m.depthWrite = m.userData.base >= 1 && o >= .999; m.needsUpdate = true; }
+    for (const m of mats) { m.opacity = m.userData.base * o; m.depthWrite = m.userData.base >= 1 && o >= .999; }   // niente needsUpdate: ricompilerebbe a ogni fotogramma
   }
   setOpacity(1);
   /* fit(pose): mette la chiocciola nella posa data (Matrix4 nel riferimento della protesi) e ridisegna il tubicino:
