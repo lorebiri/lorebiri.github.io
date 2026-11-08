@@ -911,3 +911,45 @@ html.mo .ci-fig .ci-b{transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2
 @keyframes ciRf{0%,8%,20%,100%{opacity:.25}13%{opacity:1}}
 @keyframes ciEl{0%,55%,70%,100%{opacity:0;transform:none}58%{opacity:1;transform:scale(1.5)}64%{opacity:1;transform:none}}
 @keyframes ciNerve{0%,66%{stroke-dashoffset:70;opacity:0}68%{opacity:1}88%{stroke-dashoffset:-560;opacity:1}90%,100%{stroke-dashoffset:-560;opacity:0}}
+
+/* cervello sotto l'orecchio: ricostruzione vettoriale di Blausen 0103, animata.
+   Comparsa: il contorno si disegna e poi arrivano colore e ombre. Nel giro di 6 s: una luce scorre sulla
+   corteccia e, quando l'impulso sale dal tronco encefalico, la corteccia uditiva si accende con un'onda. */
+.ci-pics{display:grid;gap:10px}
+.ci-fig{align-items:start}
+.ci-next{font:600 12px/1 var(--mono);color:var(--eye-t);text-align:center}
+.cb-pic{background:#fff}
+.cb{position:static;display:block;width:100%;height:auto}
+.ci .cb-fill{fill:#d49c80}
+.ci .cb-l0{fill:#fff3e8;opacity:.22}.ci .cb-l1{fill:#fff;opacity:.35}
+.ci .cb-d2{fill:#5c2a1b;opacity:.18}.ci .cb-d1{fill:#5c2a1b;opacity:.25}.ci .cb-d0{fill:#3a170e;opacity:.35}
+.ci .cb-aud{fill:#5f86ff;opacity:.6}
+.ci .cb-outline{fill:none;stroke:#6e3424;stroke-width:3}
+.ci .cb-sweep{opacity:0}
+.ci .cb-route{stroke:#ff3b1f;stroke-width:5;stroke-dasharray:4 12;opacity:.5}
+.ci .cb-pulse{stroke:#ff3b1f;stroke-width:12;stroke-dasharray:60 900;stroke-dashoffset:60;opacity:0}
+.ci .cb-ring{stroke:#3d63ff;stroke-width:6;opacity:0;transform-box:fill-box;transform-origin:center}
+.ci .cb-hot{opacity:0;mix-blend-mode:screen}
+.ci .cb-leader{stroke:#111;stroke-width:2}
+.cb-lab{font:400 30px Arial,Helvetica,sans-serif;fill:#111}
+.cb-bold{font-weight:700}
+
+/* comparsa */
+html.mo .ci-fig:not(.in) .cb-outline{stroke-dasharray:1;stroke-dashoffset:1}
+html.mo .ci-fig:not(.in) .cb-fill,html.mo .ci-fig:not(.in) .cb-shade,html.mo .ci-fig:not(.in) .cb-aud{opacity:0}
+html.mo .ci-fig .cb-outline{stroke-dasharray:1;transition:stroke-dashoffset 2.2s cubic-bezier(.65,0,.35,1) .4s}
+html.mo .ci-fig .cb-fill{transition:opacity 1s 1.6s}
+html.mo .ci-fig .cb-shade{transition:opacity 1.2s 2.2s}
+html.mo .ci-fig .cb-aud{transition:opacity 1s 2.8s}
+
+/* giro animato, a tempo con l'orecchio */
+.ci-fig.play .cb-sweep{animation:cbSweep 6s ease-in-out infinite}
+.ci-fig.play .cb-pulse{animation:cbPulse 6s ease-in infinite}
+.ci-fig.play .cb-ring{animation:cbRing 6s ease-out infinite}
+.ci-fig.play .cb-hot{animation:cbHot 6s ease infinite}
+.ci-fig.play .cb-aud{animation:cbAud 6s ease infinite}
+@keyframes cbSweep{0%{opacity:0;transform:translate(300px,300px)}10%{opacity:1}55%{opacity:1;transform:translate(1300px,520px)}65%,100%{opacity:0;transform:translate(1300px,520px)}}
+@keyframes cbPulse{0%,82%{stroke-dashoffset:60;opacity:0}83%{opacity:1}92%{stroke-dashoffset:-400;opacity:1}94%,100%{stroke-dashoffset:-400;opacity:0}}
+@keyframes cbRing{0%,91%{opacity:0;transform:scale(.4)}92%{opacity:.9}100%{opacity:0;transform:scale(4.5)}}
+@keyframes cbHot{0%,90%,100%{opacity:0}93%{opacity:.9}97%{opacity:.35}}
+@keyframes cbAud{0%,90%,100%{opacity:.6}93%{opacity:1}}
