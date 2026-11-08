@@ -38,7 +38,7 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='50' rx='44' ry='18' transform='rotate(-30 50 50)' fill='%23c5f03c' stroke='%23141412' stroke-width='6'/><circle cx='68' cy='36' r='7' fill='%23ff5a2c'/></svg>">
 <link rel="preload" href="fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=29">
+<link rel="stylesheet" href="styles.css?v=30">
 <link rel="stylesheet" href="seasons.css?v=10">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Lorenzo Birindelli","url":"https://lorebiri.github.io/","image":"https://lorebiri.github.io/lorenzo.jpg","jobTitle":"Collaboratore Tecnico Enti di Ricerca (CTER)","description":"CTER at CNR-ICCOM, Pisa: lab and technical support, instrumentation, data, scientific graphics and digital tools.","worksFor":{"@type":"ResearchOrganization","name":"CNR — Istituto di Chimica dei Composti OrganoMetallici (ICCOM)","address":{"@type":"PostalAddress","addressLocality":"Pisa","addressCountry":"IT"},"parentOrganization":{"@type":"GovernmentOrganization","name":"Consiglio Nazionale delle Ricerche (CNR)"}},"alumniOf":{"@type":"EducationalOrganization","name":"ITIS \"Leonardo da Vinci\", Pisa"},"knowsLanguage":["it","en"],"identifier":{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0000-2529-6256"},"sameAs":["https://orcid.org/0009-0000-2529-6256","https://scholar.google.com/citations?user=1BWAMFEAAAAJ","https://github.com/lorebiri"]}
@@ -184,6 +184,61 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
           <p>What I love about this job? It's <strong>versatile and dynamic</strong>: every day is different and you never quite know what to expect. I'm at home where different trades overlap, and when a tool I need doesn't exist, I try to build it. How I got here is further down, in <a href="#journey">The story so far</a>.</p>
           <p class="note-ci">Something about me: I'm <strong>deaf and wear a cochlear implant</strong> 🦻. It has never held me back, it just taught me to adapt. That's why <strong>email</strong> is always the best way to reach me.</p>
         </div>
+        <!-- impianto cocleare: schema animato (stili "IMPIANTO COCLEARE" in styles.css, avvio in motion.js) -->
+        <figure class="ci-fig">
+          <svg class="ci" viewBox="0 20 660 170" role="img" aria-labelledby="ci-t">
+            <title id="ci-t">Schema di un impianto cocleare: dal suono al cervello / How a cochlear implant works: from sound to the brain</title>
+            <g class="ci-waves"><path d="M30 84 q10 16 0 32"/><path d="M42 76 q16 24 0 48"/><path d="M54 68 q22 32 0 64"/></g>
+            <g class="ci-part" style="--k:1">
+              <path class="ci-solid" d="M96 62 c14 0 20 10 18 24 l-6 52 c-1 8 -14 8 -15 0 l-8 -54 c-2 -14 2 -22 11 -22z"/>
+              <path d="M96 62 c-8 -10 -24 -8 -26 6"/>
+              <circle class="ci-hot" cx="100" cy="72" r="3"/>
+            </g>
+            <path class="ci-wire" d="M101 142 C120 175 170 150 190 110"/>
+            <g class="ci-part" style="--k:2"><circle class="ci-solid" cx="204" cy="100" r="16"/><circle class="ci-hot" cx="204" cy="100" r="5"/></g>
+            <g class="ci-skin"><rect x="224" y="36" width="9" height="140"/><line x1="228.5" y1="36" x2="228.5" y2="176"/></g>
+            <g class="ci-rf"><path d="M219 93 q5 7 0 14"/><path d="M236 89 q7 11 0 22"/></g>
+            <g class="ci-part" style="--k:3"><rect class="ci-solid" x="246" y="86" width="46" height="28" rx="8"/><circle class="ci-hot" cx="259" cy="100" r="4"/></g>
+            <path class="ci-wire" d="M292 100 C320 100 340 92 365.5 92.2"/>
+            <g class="ci-part" style="--k:4">
+              <path class="ci-coch" d="M365.5 92.2 L364.4 96.2 L363.7 100.2 L363.2 104.3 L363.0 108.4 L363.1 112.5 L363.5 116.5 L364.2 120.5 L365.2 124.4 L366.4 128.2 L367.9 131.9 L369.7 135.5 L371.7 138.9 L373.9 142.1 L376.4 145.2 L379.0 148.1 L381.9 150.7 L384.9 153.2 L388.0 155.4 L391.3 157.4 L394.8 159.1 L398.3 160.6 L401.9 161.8 L405.5 162.8 L409.2 163.4 L413.0 163.8 L416.7 164.0 L420.4 163.9 L424.1 163.5 L427.7 162.8 L431.3 161.9 L434.7 160.8 L438.1 159.4 L441.3 157.8 L444.4 155.9 L447.4 153.9 L450.2 151.6 L452.8 149.2 L455.2 146.6 L457.4 143.9 L459.4 141.0 L461.2 138.0 L462.7 134.9 L464.0 131.7 L465.1 128.4 L465.9 125.1 L466.5 121.7 L466.9 118.4 L467.0 115.0 L466.9 111.6 L466.5 108.3 L465.9 105.0 L465.0 101.8 L464.0 98.7 L462.7 95.7 L461.2 92.8 L459.6 90.0 L457.7 87.3 L455.7 84.9 L453.5 82.5 L451.1 80.4 L448.6 78.4 L446.0 76.6 L443.3 75.1 L440.5 73.7 L437.6 72.5 L434.7 71.6 L431.7 70.9 L428.7 70.4 L425.7 70.1 L422.7 70.0 L419.7 70.1 L416.7 70.5 L413.8 71.1 L410.9 71.8 L408.2 72.8 L405.5 74.0 L402.9 75.3 L400.4 76.8 L398.1 78.5 L395.9 80.3 L393.8 82.3 L391.9 84.4 L390.2 86.6 L388.7 88.9 L387.3 91.3 L386.1 93.8 L385.1 96.4 L384.3 99.0 L383.7 101.6 L383.3 104.3 L383.0 107.0 L383.0 109.6 L383.1 112.3 L383.5 114.9 L384.0 117.5 L384.7 120.0 L385.6 122.4 L386.6 124.8 L387.8 127.0 L389.2 129.1 L390.7 131.2 L392.3 133.1 L394.0 134.9 L395.9 136.5 L397.9 138.0 L399.9 139.3 L402.0 140.5 L404.2 141.5 L406.4 142.3 L408.7 143.0 L411.0 143.5 L413.3 143.9 L415.7 144.0 L418.0 144.0 L420.3 143.9 L422.5 143.5 L424.7 143.1 L426.9 142.4 L429.0 141.6 L431.0 140.7 L432.9 139.6 L434.7 138.5 L436.4 137.1 L438.1 135.7 L439.6 134.2 L440.9 132.6 L442.2 130.9 L443.3 129.1 L444.3 127.3 L445.1 125.4 L445.8 123.5 L446.3 121.6 L446.7 119.6 L447.0 117.6 L447.1 115.7 L447.0 113.7 L446.9 111.8 L446.6 109.9 L446.1 108.0 L445.5 106.2 L444.8 104.5 L444.0 102.8 L443.1 101.2 L442.1 99.7 L441.0 98.3 L439.7 97.0 L438.5 95.7 L437.1 94.6 L435.7 93.6 L434.2 92.7 L432.6 92.0 L431.1 91.3 L429.5 90.8 L427.9 90.4 L426.2 90.1 L424.6 89.9 L423.0 89.9 L421.4 90.0 L419.8 90.1 L418.3 90.4 L416.8 90.8 L415.3 91.3 L413.9 91.9 L412.6 92.6 L411.3 93.4 L410.1 94.3 L409.0 95.2 L408.0 96.2 L407.1 97.3 L406.2 98.4 L405.4 99.6 L404.8 100.8 L404.2 102.0 L403.7 103.3 L403.4 104.6 L403.1 105.8 L402.9 107.1 L402.8 108.4 L402.8 109.7 L402.9 110.9 L403.1 112.1 L403.4 113.3 L403.8 114.5 L404.2 115.6 L404.7 116.6 L405.3 117.6 L406.0 118.6 L406.7 119.4 L407.4 120.2 L408.2 121.0 L409.0 121.6 L409.9 122.2 L410.8 122.8 L411.8 123.2 L412.7 123.6 L413.6 123.9 L414.6 124.1 L415.6 124.2 L416.5 124.3 L417.4 124.3 L418.3 124.2 L419.2 124.1 L420.1 123.9 L420.9 123.6 L421.7 123.3 L422.5 122.9 L423.2 122.5 L423.8 122.0 L424.4 121.5 L425.0 121.0 L425.5 120.4 L425.9 119.8 L426.3 119.2 L426.7 118.6 L427.0 117.9 L427.2 117.3 L427.3 116.6 L427.5 116.0 L427.5 115.4 L427.5 114.7"/>
+        <circle class="ci-el" cx="363.0" cy="108.4" r="3.6" style="--k:0"/>
+        <circle class="ci-el" cx="381.9" cy="150.7" r="3.6" style="--k:1"/>
+        <circle class="ci-el" cx="424.1" cy="163.5" r="3.6" style="--k:2"/>
+        <circle class="ci-el" cx="459.4" cy="141.0" r="3.6" style="--k:3"/>
+        <circle class="ci-el" cx="465.0" cy="101.8" r="3.6" style="--k:4"/>
+        <circle class="ci-el" cx="440.5" cy="73.7" r="3.6" style="--k:5"/>
+        <circle class="ci-el" cx="402.9" cy="75.3" r="3.6" style="--k:6"/>
+        <circle class="ci-el" cx="383.7" cy="101.6" r="3.6" style="--k:7"/>
+        <circle class="ci-el" cx="390.7" cy="131.2" r="3.6" style="--k:8"/>
+        <circle class="ci-el" cx="415.7" cy="144.0" r="3.6" style="--k:9"/>
+            </g>
+            <g class="ci-nerve"><path d="M432 112 C470 112 482 92 512 96 S548 110 562 104"/><path d="M432 118 C470 120 484 102 512 104 S548 118 564 112"/><path class="ci-pulse" d="M432 112 C470 112 482 92 512 96 S548 110 562 104"/><path class="ci-pulse" d="M432 118 C470 120 484 102 512 104 S548 118 564 112"/></g>
+            <g class="ci-part ci-brain" style="--k:5">
+              <path class="ci-solid" d="M574 108 c-10 -2 -12 -18 -2 -24 c-2 -12 12 -20 22 -14 c6 -10 22 -10 28 0 c12 -4 22 6 18 18 c10 6 8 22 -4 24 c0 10 -12 14 -20 10 c-6 8 -20 8 -26 0 c-10 4 -20 -4 -16 -14z"/>
+              <path d="M580 96 q7 -7 14 0 t14 0 t14 0 M586 108 q6 6 12 0 t12 0 t12 0 M604 80 q-3 8 3 14 M612 118 q4 -6 0 -12"/>
+            </g>
+            <g class="ci-b" style="--k:1"><circle cx="100" cy="40" r="10"/><text x="100" y="44">1</text></g><g class="ci-b" style="--k:2"><circle cx="204" cy="64" r="10"/><text x="204" y="68">2</text></g><g class="ci-b" style="--k:3"><circle cx="269" cy="64" r="10"/><text x="269" y="68">3</text></g><g class="ci-b" style="--k:4"><circle cx="420" cy="34" r="10"/><text x="420" y="38">4</text></g><g class="ci-b" style="--k:5"><circle cx="604" cy="58" r="10"/><text x="604" y="62">5</text></g>
+            <circle class="ci-sig" r="5" style="offset-path:path('M100 72 L101 140 C120 175 170 150 190 110 L246 100 L292 100 C320 100 340 92 365.5 92.2')"/>
+          </svg>
+          <figcaption>
+            <ol class="ci-steps" data-it>
+              <li><b>Processore</b> dietro l'orecchio: il microfono capta il suono e lo trasforma in un segnale digitale.</li>
+              <li><b>Bobina</b>, tenuta da una calamita: trasmette il segnale via radio attraverso la pelle.</li>
+              <li><b>Impianto</b> sotto la pelle: trasforma il segnale in impulsi elettrici.</li>
+              <li><b>Elettrodi nella coclea</b>: stimolano il nervo acustico, i suoni acuti all'inizio della spirale e i gravi più all'interno.</li>
+              <li><b>Nervo acustico e cervello</b>: gli impulsi arrivano al cervello, che li interpreta come suoni.</li>
+            </ol>
+            <ol class="ci-steps" data-en>
+              <li><b>Processor</b> behind the ear: the microphone picks up sound and turns it into a digital signal.</li>
+              <li><b>Coil</b>, held by a magnet: sends the signal by radio through the skin.</li>
+              <li><b>Implant</b> under the skin: turns the signal into electrical pulses.</li>
+              <li><b>Electrodes in the cochlea</b>: they stimulate the auditory nerve, high sounds at the start of the spiral and low ones further in.</li>
+              <li><b>Auditory nerve and brain</b>: the pulses reach the brain, which interprets them as sound.</li>
+            </ol>
+            <p class="ci-note"><span data-it>Non amplifica il suono come un apparecchio acustico: lo trasforma in segnali elettrici.</span><span data-en>Unlike a hearing aid, it doesn't amplify sound: it turns it into electrical signals.</span></p>
+          </figcaption>
+        </figure>
       </div>
       <aside class="spec rv" aria-label="Scheda tecnica / Spec sheet">
         <header><span data-it>scheda tecnica</span><span data-en>spec sheet</span><span>LB-001</span></header>
@@ -888,6 +943,6 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
 <div class="toast" role="status" aria-live="polite"></div>
 <script src="main.js?v=28" defer></script>
 <script src="lightbox.js?v=3" defer></script>
-<script src="motion.js?v=2" defer></script>
+<script src="motion.js?v=3" defer></script>
 </body>
 </html>

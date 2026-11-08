@@ -27,6 +27,12 @@
     $$('.shead,.tlist,.nums,.cs-demo,.cs-pages').forEach(function(el){io.observe(el)});
   } else $$('.shead,.tlist,.nums').forEach(function(el){el.classList.add('in')});
 
+  /* ---------- impianto cocleare: compare una volta, il segnale gira solo quando è nello schermo ---------- */
+  var ci=document.querySelector('.ci-fig');
+  if(ci&&'IntersectionObserver' in window){
+    new IntersectionObserver(function(es){var on=es[0].isIntersecting; if(on) ci.classList.add('in'); ci.classList.toggle('play',on&&ci.classList.contains('in'))},{threshold:.35}).observe(ci);
+  }
+
   /* ---------- numeri del caso studio che contano fino al valore ---------- */
   function countUp(box){
     $$('li b',box).forEach(function(b){
