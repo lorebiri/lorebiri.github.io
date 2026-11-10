@@ -108,7 +108,9 @@ function init(box) {
     // gancio sopra il padiglione, corpo nel solco dietro l'orecchio, batteria in giù dietro il lobo
     procWrap.add(cp.proc); procWrap.position.set(79, 5, -17); procWrap.rotation.x = 25 * Math.PI / 180;
     // bobina sulla pelle, sopra il ricevitore: davanti (+z locale) verso l'esterno, coda verso il processore
-    const coilN = V(1, .42, -.1).normalize(), coilPos = V(67.5, 42, -42);   // appoggiata sulla pelle   // perpendicolare alla teca cranica in quel punto
+    // la bobina si appoggia alla pelle e la calamita la tiene sopra il ricevitore: normale misurata sulla superficie della testa
+    // (piano locale della pelle in (65.5, 42, -42), normale (0.89, 0.09, -0.46)); il retro della bobina tocca la pelle
+    const coilN = V(.89, .09, -.46).normalize(), coilPos = V(65.5, 42, -42).addScaledVector(coilN, 3.5);
     const tail = V(0, -1, .35); tail.addScaledVector(coilN, -tail.dot(coilN)).normalize();
     const cy = tail.clone().negate(), cx = new THREE.Vector3().crossVectors(cy, coilN);
     cp.coil.matrixAutoUpdate = false; cp.coil.matrix.makeBasis(cx, cy, coilN).setPosition(coilPos); impl.add(cp.coil);
@@ -124,7 +126,7 @@ function init(box) {
     /* ---------- impianto interno (schematico): ricevitore sull'osso, filo, elettrodi, MP1 ---------- */
     const ti = new THREE.MeshStandardMaterial({ color: 0xc9cdd4, metalness: .65, roughness: .3 });
     const silicone = new THREE.MeshPhysicalMaterial({ color: 0xe9ecef, roughness: .35, clearcoat: .5 });
-    const recPos = V(59, 37, -41);
+    const recPos = V(65.5, 42, -42).addScaledVector(coilN, -6.5);           // ricevitore sull'osso, sotto la bobina (pelle ~5–6 mm)
     const rec = new THREE.Group(); rec.position.copy(recPos); rec.quaternion.setFromUnitVectors(V(0, 1, 0), coilN); impl.add(rec);
     rec.add(new THREE.Mesh(new THREE.CylinderGeometry(11, 11.5, 3.6, 48), silicone));
     const recBox = new THREE.Mesh(new THREE.BoxGeometry(13, 4.2, 12), ti); recBox.position.set(0, -.2, 13.5); rec.add(recBox);
