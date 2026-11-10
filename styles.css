@@ -924,3 +924,10 @@ html.mo .tlist.in>li,html.mo .nums.in>li,html.mo .cs-demo.in>figure,html.mo .cs-
 .ci-talk ul{margin:8px 0 0;padding-left:1.2em;display:grid;gap:6px;font-size:14.5px;line-height:1.45}
 .ci-talk a{color:var(--ink);font-weight:700;text-decoration-color:var(--eye-t);text-decoration-thickness:2px}
 .ci-music{margin-top:8px;font:500 12px/1.45 var(--mono);color:var(--mute)}
+
+/* riordino: riga DSCTM nel capitolo ICCOM, tool compatti, elenco IBF */
+.chap .ev{margin-top:14px;font:500 13px/1.5 var(--mono);color:var(--mute);border-left:3px solid var(--chl);padding-left:10px}
+.chap .ev a{color:var(--ink);font-weight:600}
+.wrole{font:500 12px/1.45 var(--mono);color:var(--mute)}
+.chap ul.ibf{margin-top:14px;display:grid;gap:6px;padding-left:1.2em;max-width:64ch}
+.work.third .win img{aspect-ratio:16/10;object-fit:cover;object-position:top}

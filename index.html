@@ -38,7 +38,7 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='50' rx='44' ry='18' transform='rotate(-30 50 50)' fill='%23c5f03c' stroke='%23141412' stroke-width='6'/><circle cx='68' cy='36' r='7' fill='%23ff5a2c'/></svg>">
 <link rel="preload" href="fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=46">
+<link rel="stylesheet" href="styles.css?v=47">
 <link rel="stylesheet" href="seasons.css?v=10">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Lorenzo Birindelli","url":"https://lorebiri.github.io/","image":"https://lorebiri.github.io/lorenzo.jpg","jobTitle":"Collaboratore Tecnico Enti di Ricerca (CTER)","description":"CTER at CNR-ICCOM, Pisa: lab and technical support, instrumentation, data, scientific graphics and digital tools.","worksFor":{"@type":"ResearchOrganization","name":"CNR — Istituto di Chimica dei Composti OrganoMetallici (ICCOM)","address":{"@type":"PostalAddress","addressLocality":"Pisa","addressCountry":"IT"},"parentOrganization":{"@type":"GovernmentOrganization","name":"Consiglio Nazionale delle Ricerche (CNR)"}},"alumniOf":{"@type":"EducationalOrganization","name":"ITIS \"Leonardo da Vinci\", Pisa"},"knowsLanguage":["it","en"],"identifier":{"@type":"PropertyValue","propertyID":"ORCID","value":"0009-0000-2529-6256"},"sameAs":["https://orcid.org/0009-0000-2529-6256","https://scholar.google.com/citations?user=1BWAMFEAAAAJ","https://github.com/lorebiri"]}
@@ -175,11 +175,11 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
         <p class="pull" data-it>Sono il <mark>jolly tecnico</mark> del gruppo: faccio funzionare strumenti, dati, figure e tool.</p>
         <p class="pull" data-en>I'm the team's <mark>technical wildcard</mark>: I make instruments, data, figures and tools work.</p>
         <div class="prose" data-it>
-          <p>Al CNR dal 2019, oggi all'<strong>ICCOM</strong> di Pisa. Non faccio ricerca: rendo possibile quella degli altri, con competenze di laboratorio, dati, grafica e codice.</p>
+          <p>Al CNR dal 2019, oggi all'<strong>ICCOM</strong> di Pisa. Non faccio ricerca: rendo possibile quella degli altri.</p>
           <p>Quello che amo di questo lavoro? È <strong>versatile e dinamico</strong>: ogni giorno è diverso e non sai mai cosa aspettarti. Mi trovo bene dove i mestieri si incrociano, e quando uno strumento che serve non esiste, provo a costruirlo. Come ci sono arrivato lo racconto più sotto, in <a href="#journey">La storia finora</a>.</p>
         </div>
         <div class="prose" data-en>
-          <p>At CNR since 2019, now at <strong>ICCOM</strong> in Pisa. I don't do research myself: I make other people's research possible, with lab, data, design and coding skills.</p>
+          <p>At CNR since 2019, now at <strong>ICCOM</strong> in Pisa. I don't do research myself: I make other people's research possible.</p>
           <p>What I love about this job? It's <strong>versatile and dynamic</strong>: every day is different and you never quite know what to expect. I'm at home where different trades overlap, and when a tool I need doesn't exist, I try to build it. How I got here is further down, in <a href="#journey">The story so far</a>.</p>
         </div>
       </div>
@@ -196,7 +196,7 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
       </aside>
     </div>
       <!-- impianto cocleare in 3D: scena in ci3d.js, processore in cp1000.js, modelli e licenze in 3d/README.md -->
-      <figure class="ci-fig">
+      <figure class="ci-fig" id="udito">
         <div class="ci3d">
           <div class="ci3d-stage">
             <img class="ci3d-poster" src="img/orecchio-ci.svg" width="1500" height="1500" loading="lazy" alt="Impianto cocleare: processore dietro l'orecchio, bobina e impianto sotto la pelle, elettrodi nella coclea, nervo acustico" data-alt-en="Cochlear implant: processor behind the ear, coil and implant under the skin, electrodes in the cochlea, hearing nerve">
@@ -255,6 +255,8 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
             <li><b>Hearing nerve and brain</b>: the pulses pass through the cochlear nucleus, the superior olive, the inferior colliculus and the thalamus, and within a few hundredths of a second reach the auditory cortex of both hemispheres, deep in the temporal lobe, mostly the opposite one.</li>
           </ol>
           <p class="ci-med"><span data-it>Nella maggior parte delle sordità neurosensoriali, anche quelle che peggiorano nel tempo, il guasto è nella coclea: le cellule ciliate smettono di trasformare le vibrazioni in segnali, mentre il nervo acustico resta. Per questo l'impianto può funzionare. Il suono arriva ancora a timpano, ossicini e coclea, ma lì non diventa più segnale nervoso: l'impianto salta questo passaggio e stimola direttamente il nervo. A impianto spento non sento; il cervello ha imparato col tempo a interpretare il segnale. Impianto interno ed elettrodi sono schematici: il modello del mio non lo conosco.</span><span data-en>In most sensorineural hearing loss, including the kind that gets worse over time, the fault is in the cochlea: the hair cells stop turning vibrations into signals, while the hearing nerve remains. That is why the implant can work. Sound still reaches my eardrum, ossicles and cochlea, but there it no longer becomes a nerve signal: the implant skips that step and stimulates the nerve directly. With the implant off I can't hear; over time my brain has learned to interpret the signal. The internal implant and electrodes are schematic: I don't know my model.</span></p>
+          </details>
+          <details class="ci-more ci-cred"><summary><span data-it>Crediti e fonti</span><span data-en>Credits &amp; sources</span></summary>
           <p class="ci-src"><span data-it>Modello 3D:</span><span data-en>3D model:</span>
             <a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/" target="_blank" rel="noopener">BodyParts3D</a>, © The Database Center for Life Science (CC BY-SA 2.1 JP) ·
             <a href="https://3d.nih.gov/entries/3DPX-001794" target="_blank" rel="noopener">NIH 3D «Cochlea»</a>, chris@printhuman.org (CC BY 4.0) ·
@@ -409,39 +411,7 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
           <p class="wcat"><b><span data-it>Grafica per convegni</span><span data-en>Event &amp; Conference Design</span></b><span><span data-it>27–29 ott 2026 · concluso ✓</span><span data-en>27–29 Oct 2026 · done ✓</span></span></p>
           <p class="who team"><span data-it>👥 in team · comitato organizzatore</span><span data-en>👥 team effort · organizing committee</span></p>
           <h3>Giornate Scientifiche <span class="serif">DSCTM 2026</span></h3>
-          <p class="wdesc" data-it>Il convegno del Dipartimento di Scienze Chimiche e Tecnologie dei Materiali del CNR, <em>«From Molecules to Materials: Innovative chemistry for shaping the future»</em>, si è svolto dal 27 al 29 ottobre 2026 all'Auditorium dell'Area territoriale di Ricerca di Pisa: 43 comunicazioni orali, 22 interventi flash, 6 progetti PNRR, 2 lecture su invito, una tavola rotonda sull'intelligenza artificiale e 89 poster. Ho fatto parte del comitato organizzatore, occupandomi di tutto ciò che il pubblico vedeva e usava.</p>
-          <p class="wdesc" data-en>The conference of CNR's Department of Chemical Sciences and Materials Technology, <em>«From Molecules to Materials: Innovative chemistry for shaping the future»</em>, took place on 27–29 October 2026 at the Auditorium of the Area territoriale di Ricerca di Pisa: 43 oral talks, 22 flash talks, 6 PNRR projects, 2 invited lectures, a round table on artificial intelligence and 89 posters. I was on the organizing committee, taking care of everything the audience saw and used.</p>
-          <dl class="brief">
-            <dt><span data-it>problema</span><span data-en>problem</span></dt>
-            <dd><span data-it>tre giornate, decine di interventi e 89 poster, una sede in cui orientarsi e diversi schermi da gestire: serviva un'immagine unica e materiali coordinati, su carta e in digitale.</span><span data-en>three days, dozens of talks and 89 posters, a venue to find your way around and several screens to run: it needed a single visual identity and coordinated materials, on paper and on screen.</span></dd>
-            <dt><span data-it>risultato</span><span data-en>result</span></dt>
-            <dd><span data-it>un'identità grafica usata ovunque (locandina, programma, cartelli, schermi) e strumenti digitali che hanno funzionato per tutte e tre le giornate, anche senza internet.</span><span data-en>one visual identity used everywhere (poster, programme, signage, screens) and digital tools that ran for all three days, even without internet.</span></dd>
-            <dt><span data-it>il mio ruolo</span><span data-en>my part</span></dt>
-            <dd><span data-it>grafica e strumenti digitali sono miei; l'organizzazione del convegno è stata un lavoro di squadra.</span><span data-en>the graphics and digital tools are mine; organizing the conference was a team effort.</span></dd>
-          </dl>
-          <details class="wmore"><summary><span data-it>cosa ho realizzato</span><span data-en>what I made</span></summary>
-          <dl class="mine">
-            <dt data-it>cosa ho realizzato</dt><dt data-en>what I made</dt>
-            <dd>
-              <ul data-it>
-                <li>Locandina e identità grafica: disegno a linea continua con lo skyline di Pisa e la mascotte</li>
-                <li>Programma ufficiale: libretto A4 di 20 pagine, aggiornato fino al giorno dell'evento</li>
-                <li>Mappa della sede in prospettiva, cartelli e segnaletica</li>
-                <li>Schermi dell'auditorium e del foyer, funzionanti anche senza internet</li>
-                <li>Totem touch all'ingresso, con programma sincronizzato e cruciverba</li>
-                <li>Wi-Fi ospiti, presentazioni per la regia, scalette per i chair, comunicazioni</li>
-              </ul>
-              <ul data-en>
-                <li>Poster &amp; visual identity: a continuous-line drawing of the Pisa skyline with the mascot</li>
-                <li>Official programme: a 20-page A4 booklet, updated until the day of the event</li>
-                <li>Perspective venue map, signs and wayfinding</li>
-                <li>Auditorium and foyer screens that work even without internet</li>
-                <li>Touch totem at the entrance, with a time-synced programme and a crossword</li>
-                <li>Guest Wi-Fi, presentations for the control room, running orders for chairs, communications</li>
-              </ul>
-            </dd>
-          </dl>
-          </details>
+          <p class="wdesc"><span data-it>un'identità grafica usata ovunque (locandina, programma, cartelli, schermi) e strumenti digitali che hanno funzionato per tutte e tre le giornate, anche senza internet.</span><span data-en>one visual identity used everywhere (poster, programme, signage, screens) and digital tools that ran for all three days, even without internet.</span></p>
           <div class="wfoot">
             <span class="stack">graphic design · <span data-it>impaginazione</span><span data-en>layout</span> · HTML · CSS · JS</span>
             <div class="wlinks">
@@ -460,7 +430,7 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
       </article>
 
       <!-- Acchiappaspettri -->
-      <article class="work wide rv" data-cat="tools">
+      <article class="work feat acch rv" data-cat="tools">
         <a class="win" href="https://lorebiri.github.io/acchiappaspettri/" target="_blank" rel="noopener" tabindex="-1">
           <span class="bar"><i></i><i></i><i></i><span>lorebiri.github.io/acchiappaspettri</span></span>
           <picture><source media="(max-width:860px)" srcset="img/acchiappaspettri-m.jpg" width="490" height="320"><img src="img/acchiappaspettri.jpg" alt="Screenshot di Acchiappaspettri: uno spettro FTIR di esempio con i picchi trovati e nominati in automatico" data-alt-en="Acchiappaspettri screenshot: an example FTIR spectrum with peaks found and labelled automatically" width="960" height="600" loading="lazy"></picture>
@@ -492,7 +462,7 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
       </article>
 
       <!-- Etichette GHS -->
-      <article class="work minor slim rv" data-cat="tools">
+      <article class="work minor third rv" data-cat="tools">
         <a class="win" href="https://lorebiri.github.io/etichette/" target="_blank" rel="noopener" tabindex="-1">
           <span class="bar"><i></i><i></i><i></i><span>lorebiri.github.io/etichette</span></span>
           <picture><source media="(max-width:860px)" srcset="img/etichette-m.jpg" width="340" height="480"><img src="img/etichette.jpg?v=2" alt="Screenshot del generatore di etichette GHS/CLP: etichetta pronta per l'acetone, con pittogrammi, frasi H/P e QR code" data-alt-en="GHS/CLP label maker screenshot: a finished acetone label with pictograms, H/P statements and QR code" width="960" height="600" loading="lazy"></picture>
@@ -503,7 +473,8 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
           <h3><span data-it>Generatore etichette <span class="serif">GHS/CLP</span></span><span data-en>GHS/CLP <span class="serif">label maker</span></span> 🏷️</h3>
           <p class="wdesc" data-it>Assistente guidato per etichettare sostanze e miscele pericolose secondo il Reg. CE 1272/2008 (CLP).</p>
           <p class="wdesc" data-en>A guided assistant to label hazardous substances and mixtures under EC Reg. 1272/2008 (CLP).</p>
-          <details class="wmore"><summary><span data-it>problema, soluzione, risultato</span><span data-en>problem, solution, result</span></summary>
+          <p class="wrole"><span data-it>il mio ruolo:</span><span data-en>my part:</span> <span data-it>idea e sviluppo.</span><span data-en>idea and development.</span></p>
+          <details class="wmore"><summary><span data-it>come funziona</span><span data-en>how it works</span></summary>
           <dl class="brief">
             <dt><span data-it>problema</span><span data-en>problem</span></dt>
             <dd><span data-it>Etichettare un reagente o una soluzione preparata in laboratorio vuol dire ritrovare pittogrammi, avvertenza e frasi H/P giusti.</span><span data-en>Labelling a reagent or a solution prepared in the lab means tracking down the right pictograms, signal word and H/P statements.</span></dd>
@@ -511,8 +482,6 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
             <dd><span data-it>Cerchi la sostanza per nome o numero CAS e la classificazione si compila da sola, da un archivio locale o da PubChem. Gestisce anche le miscele, componente per componente, e ricorda le etichette recenti nel browser.</span><span data-en>Search a substance by name or CAS number and the classification fills itself in, from a local archive or PubChem. It also handles mixtures, component by component, and remembers recent labels in the browser.</span></dd>
             <dt><span data-it>risultato</span><span data-en>result</span></dt>
             <dd><span data-it>Un'etichetta CLP pronta da stampare e ritagliare in 4 passi, con il promemoria di verificare sempre la scheda di sicurezza del fornitore.</span><span data-en>A CLP label ready to print and cut in 4 steps, with a reminder to always check the supplier's safety data sheet.</span></dd>
-            <dt><span data-it>il mio ruolo</span><span data-en>my part</span></dt>
-            <dd><span data-it>idea e sviluppo.</span><span data-en>idea and development.</span></dd>
           </dl>
           </details>
           <div class="wfoot">
@@ -526,7 +495,7 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
       </article>
 
       <!-- ICP tool -->
-      <article class="work minor slim rv" data-cat="tools">
+      <article class="work minor third rv" data-cat="tools">
         <a class="win" href="https://lorebiri.github.io/icp-tool/" target="_blank" rel="noopener" tabindex="-1">
           <span class="bar"><i></i><i></i><i></i><span>lorebiri.github.io/icp-tool</span></span>
           <picture><source media="(max-width:860px)" srcset="img/icp-tool-m.jpg" width="570" height="570"><img src="img/icp-tool.jpg" alt="Screenshot di ICP Tool: tabella di preparazione degli standard per Fe, Cu e Zn" data-alt-en="ICP Tool screenshot: standards preparation table for Fe, Cu and Zn" width="960" height="600" loading="lazy"></picture>
@@ -537,7 +506,8 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
           <h3>ICP <span class="serif">Tool</span> 🧪</h3>
           <p class="wdesc" data-it>Gestione delle analisi ICP-OES, dalla preparazione degli standard al risultato finale.</p>
           <p class="wdesc" data-en>ICP-OES analysis management, from preparing standards to the final result.</p>
-          <details class="wmore"><summary><span data-it>problema, soluzione, risultato</span><span data-en>problem, solution, result</span></summary>
+          <p class="wrole"><span data-it>il mio ruolo:</span><span data-en>my part:</span> <span data-it>idea e sviluppo: nato da un'idea mia, senza una richiesta specifica.</span><span data-en>idea and development: my own idea, not a specific request.</span></p>
+          <details class="wmore"><summary><span data-it>come funziona</span><span data-en>how it works</span></summary>
           <dl class="brief">
             <dt><span data-it>problema</span><span data-en>problem</span></dt>
             <dd><span data-it>Un'analisi ICP-OES passa per tanti calcoli: preparazione degli standard, pesate e volumi dei campioni, conversione delle letture.</span><span data-en>An ICP-OES analysis involves lots of calculations: preparing standards, sample weights and volumes, converting the readings.</span></dd>
@@ -545,8 +515,6 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
             <dd><span data-it>Guida la sessione in 5 passi: parametri dello strumento, standard di calibrazione con tabella di preparazione e archivio, campioni con calcolo del volume finale, letture e risultati in % in peso. Gli ID campione includono la sigla dell'operatore, per evitare duplicati tra PC diversi.</span><span data-en>It walks you through the session in 5 steps: instrument parameters, calibration standards with a preparation table and archive, samples with final-volume calculation, readings and results as weight %. Sample IDs include the operator's initials, to avoid duplicates across PCs.</span></dd>
             <dt><span data-it>risultato</span><span data-en>result</span></dt>
             <dd><span data-it>PDF pronti per preparare standard e campioni e per i risultati; sessioni esportabili e reimportabili in JSON. In italiano e inglese.</span><span data-en>Ready-made PDFs for preparing standards and samples and for the results; sessions can be exported and re-imported as JSON. In Italian and English.</span></dd>
-            <dt><span data-it>il mio ruolo</span><span data-en>my part</span></dt>
-            <dd><span data-it>idea e sviluppo: nato da un'idea mia, senza una richiesta specifica.</span><span data-en>idea and development: my own idea, not a specific request.</span></dd>
           </dl>
           </details>
           <div class="wfoot">
@@ -560,7 +528,7 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
       </article>
 
       <!-- Work time tracker -->
-      <article class="work minor wide rv" data-cat="tools">
+      <article class="work minor third rv" data-cat="tools">
         <a class="win" href="https://lorebiri.github.io/calcolatore-orario/" target="_blank" rel="noopener" tabindex="-1">
           <span class="bar"><i></i><i></i><i></i><span>lorebiri.github.io/calcolatore-orario</span></span>
           <img src="img/calcolatore-orario.jpg" alt="Screenshot del Work Time Tracker: giornata al 56%, ora di fine giornata e del buono pasto" data-alt-en="Work Time Tracker screenshot: day 56% complete, end-of-day and meal-voucher times" width="960" height="600" loading="lazy">
@@ -571,7 +539,8 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
           <h3>Work Time <span class="serif">Tracker</span> ⏱</h3>
           <p class="wdesc" data-it>Un calcolatore dell'orario di lavoro tarato sulla giornata CNR. Zero scienza, massima utilità quotidiana.</p>
           <p class="wdesc" data-en>A work-hours calculator tuned to the CNR workday. Zero science, maximum everyday usefulness.</p>
-          <details class="wmore"><summary><span data-it>problema, soluzione, risultato</span><span data-en>problem, solution, result</span></summary>
+          <p class="wrole"><span data-it>il mio ruolo:</span><span data-en>my part:</span> <span data-it>idea e sviluppo.</span><span data-en>idea and development.</span></p>
+          <details class="wmore"><summary><span data-it>come funziona</span><span data-en>how it works</span></summary>
           <dl class="brief">
             <dt><span data-it>problema</span><span data-en>problem</span></dt>
             <dd><span data-it>Con l'orario CNR da 7h 12m e le pause di mezzo, sapere a che ora si esce è sempre un conto a mente.</span><span data-en>With the 7h 12m CNR workday and breaks in between, working out when you can leave is always mental maths.</span></dd>
@@ -579,8 +548,6 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
             <dd><span data-it>Inserisci l'ingresso e le pause: calcola la fine della giornata e l'ora del buono pasto (aggiungendo da solo la mezz'ora di pausa pranzo se manca), con countdown, percentuale completata e cosa succede se esci adesso.</span><span data-en>Enter your start time and breaks: it works out when the day ends and when the meal voucher kicks in (adding the 30-minute lunch break itself if it's missing), with countdowns, progress and what happens if you leave now.</span></dd>
             <dt><span data-it>risultato</span><span data-en>result</span></dt>
             <dd><span data-it>l'ora di uscita e quella del buono pasto sempre sotto gli occhi, con il conto alla rovescia aggiornato in tempo reale.</span><span data-en>your leaving time and meal-voucher time always in view, with a live countdown.</span></dd>
-            <dt><span data-it>il mio ruolo</span><span data-en>my part</span></dt>
-            <dd><span data-it>idea e sviluppo.</span><span data-en>idea and development.</span></dd>
           </dl>
           </details>
           <div class="wfoot">
@@ -718,18 +685,6 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
     </div>
 
     <div class="chaps">
-      <article class="chap rv">
-        <div class="when"><span class="ch">ch. 03 · ICCOM</span><span class="yr">2026</span></div>
-        <div>
-          <h3 data-it>Comitato organizzatore — <span class="serif">Giornate Scientifiche DSCTM 2026</span> ✨</h3>
-          <h3 data-en>Organizing committee — <span class="serif">Giornate Scientifiche DSCTM 2026</span> ✨</h3>
-          <p class="where"><span data-it>Area territoriale di Ricerca di Pisa · 27–29 ottobre 2026</span><span data-en>Area territoriale di Ricerca di Pisa · 27–29 October 2026</span></p>
-          <p data-it>Il convegno si è svolto dal 27 al 29 ottobre 2026. Ero nel comitato organizzatore delle Giornate Scientifiche del Dipartimento di Scienze Chimiche e Tecnologie dei Materiali del CNR: ho curato l'identità grafica, il programma, la mappa della sede, gli schermi, il totem dell'ingresso e una parte dell'organizzazione.</p>
-          <p data-en>The conference took place on 27–29 October 2026. I was on the organizing committee of the Giornate Scientifiche of CNR's Department of Chemical Sciences and Materials Technology: I handled the visual identity, the programme, the venue map, the screens, the entrance totem and part of the organization.</p>
-          <a class="more" href="dsctm-2026.html"><span data-it>→ il progetto nel dettaglio</span><span data-en>→ the full case study</span></a>
-        </div>
-      </article>
-
       <article class="chap now rv">
         <div class="when"><span class="ch">ch. 02 · ICCOM</span><span class="yr">2025</span><span class="live"><span data-it>gen 2025 → oggi</span><span data-en>Jan 2025 → now</span></span></div>
         <div>
@@ -738,6 +693,7 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
           <p class="where"><span data-it>Istituto di Chimica dei Composti OrganoMetallici · Pisa</span><span data-en>Institute of Chemistry of OrganoMetallic Compounds · Pisa</span></p>
           <p data-it>Il capitolo in corso. Niente più organismi: il lavoro si è spostato su strumenti, dati e comunicazione, e la parte digitale è diventata un pezzo vero del mestiere. Qui sono nati Acchiappaspettri e ICP Tool, e nel 2026 è arrivato il convegno DSCTM.</p>
           <p data-en>The current chapter. No more organisms: the work has shifted to instruments, data and communication, and the digital side has become a real part of the job. This is where Acchiappaspettri and ICP Tool were born, and in 2026 came the DSCTM conference.</p>
+          <p class="ev"><span data-it>2026 · comitato organizzatore delle Giornate Scientifiche DSCTM 2026 (Area territoriale di Ricerca di Pisa, 27–29 ottobre) <a href="dsctm-2026.html">→ il progetto nel dettaglio</a></span><span data-en>2026 · organizing committee, Giornate Scientifiche DSCTM 2026 (Area territoriale di Ricerca di Pisa, 27–29 October) <a href="dsctm-2026.html">→ the full case study</a></span></p>
           <a class="more" href="#expertise"><span data-it>→ cosa faccio oggi, nel dettaglio</span><span data-en>→ what I do today, in detail</span></a>
         </div>
       </article>
@@ -750,25 +706,15 @@ if(q){var c=document.querySelector('link[rel=canonical]');if(c)c.href=location.o
           <p class="where"><span data-it>Istituto di Biofisica · Pisa · gruppo Gualtieri–Barsanti</span><span data-en>Institute of Biophysics · Pisa · Gualtieri–Barsanti group</span></p>
           <p data-it>I miei primi anni da CTER, nel gruppo di P. Gualtieri e L. Barsanti, che lavorava su <em>Euglena</em> e altri organismi. Lì ho imparato il mestiere: colture, strumenti, dati, figure, in un contesto legato allo studio dei fotorecettori e della <strong>fototassi</strong>. Ho anche contribuito come coautore all'articolo sul fotorecettore a rodopsina di <em>Euglena gracilis</em>, e a diversi altri lavori del gruppo.</p>
           <p data-en>My first years as a CTER, in the group of P. Gualtieri and L. Barsanti, working on <em>Euglena</em> and other organisms. That's where I learned the trade: cultures, instruments, data, figures, in a context focused on photoreceptors and <strong>phototaxis</strong>. I also contributed as a co-author to the paper on the rhodopsin-based photoreceptor of <em>Euglena gracilis</em>, and to several other papers by the group.</p>
-          <details class="wmore"><summary><span data-it>cosa facevo, nel dettaglio</span><span data-en>what I did, in detail</span></summary>
-          <ul data-it>
+          <ul class="ibf" data-it>
             <li>Preparazione di terreni di coltura per organismi unicellulari (alghe e protozoi)</li>
-            <li>Gestione e manutenzione della strumentazione (centrifughe, autoclave, spettrofotometro)</li>
-            <li>Supporto agli esperimenti, raccolta ed elaborazione dati</li>
-            <li>Realizzazione di figure scientifiche per gli articoli del gruppo</li>
-            <li>Progettazione della copertina di <em>Algae</em> (3ª ed., CRC Press)</li>
-            <li>Supporto alla stesura di relazioni e pubblicazioni, video e materiale multimediale</li>
-            <li>Gestione del laboratorio e rispetto delle norme di sicurezza</li>
+            <li>Strumentazione, supporto agli esperimenti, dati e figure per gli articoli del gruppo, gestione del laboratorio e sicurezza</li>
+            <li>Copertina di <em>Algae</em> (3ª ed., CRC Press), video e materiale multimediale</li>
           </ul>
-          </details>
-          <ul data-en>
+          <ul class="ibf" data-en>
             <li>Preparing culture media for unicellular organisms (algae and protozoa)</li>
-            <li>Running and maintaining lab instruments (centrifuges, autoclave, spectrophotometer)</li>
-            <li>Experimental support, data collection and analysis</li>
-            <li>Creating scientific figures for the group's papers</li>
-            <li>Designing the cover of <em>Algae</em> (3rd ed., CRC Press)</li>
-            <li>Helping write reports and papers, videos and multimedia content</li>
-            <li>Lab management and safety compliance</li>
+            <li>Instruments, experimental support, data and figures for the group's papers, lab management and safety</li>
+            <li>The <em>Algae</em> cover (3rd ed., CRC Press), videos and multimedia</li>
           </ul>
           <p class="ending" data-it>Il capitolo si è chiuso a dicembre 2024, con il pensionamento del gruppo, e un po' mi manca. Le euglene però sono rimaste: nuotano nell'hero di questo sito. <a href="#top">↑ salutale</a></p>
           <p class="ending" data-en>The chapter closed in December 2024, when the group retired, and I still miss it a little. The <i>Euglena</i> cells stayed, though: they swim in this site's hero. <a href="#top">↑ say hi</a></p>
