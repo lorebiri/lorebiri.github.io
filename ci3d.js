@@ -122,15 +122,22 @@ function init(box) {
     const cableB = cp.anchors.coilCableStart.clone().applyMatrix4(cp.coil.matrixWorld);
     // una sola curva ampia, come nelle foto: esce dallo spinotto e risale verso la coda della bobina
     const coilCable = new THREE.CubicBezierCurve3(cableA, cableA.clone().addScaledVector(plugD, 9), cableB.clone().addScaledVector(tail, 9), cableB);
-    impl.add(cp.cable(coilCable.getPoints(40)));
+    const cableMesh = cp.cable(coilCable.getPoints(40)); impl.add(cableMesh);
     const led = cp.led;
+    // microfoni del CP1000 (anelli nel dorso, da cp1000.js): posizione e normale verso fuori, nel mondo
+    const mics = [];
+    cp.proc.traverse(o => { if (o.geometry && o.geometry.type === 'TorusGeometry' && Math.abs(o.geometry.parameters.radius - .82) < .01) {
+      const m = o.matrixWorld; mics.push({ p: V(0, 0, 0).applyMatrix4(m), n: new THREE.Vector3().setFromMatrixColumn(m, 2).normalize() }); } });
+    const micMid = mics[0].p.clone().lerp(mics[1].p, .5), micN = mics[0].n.clone().add(mics[1].n).normalize();
+    const procC = V(0, 0, 0).applyMatrix4(cp.proc.matrixWorld);
 
     /* ---------- impianto interno (schematico): ricevitore sull'osso, filo, elettrodi, MP1 ---------- */
     const ti = new THREE.MeshStandardMaterial({ color: 0xc9cdd4, metalness: .65, roughness: .3 });
     const silicone = new THREE.MeshPhysicalMaterial({ color: 0xe9ecef, roughness: .35, clearcoat: .5 });
     const recPos = V(65.5, 42, -42).addScaledVector(coilN, -6.5);           // ricevitore sull'osso, sotto la bobina (pelle ~5–6 mm)
     const rec = new THREE.Group(); rec.position.copy(recPos); rec.quaternion.setFromUnitVectors(V(0, 1, 0), coilN); impl.add(rec);
-    rec.add(new THREE.Mesh(new THREE.CylinderGeometry(11, 11.5, 3.6, 48), silicone));
+    const recM = silicone.clone(); recM.color.setHex(0xf4f6f8); recM.metalness = .3; recM.emissive = new THREE.Color(0x6f9bff); recM.emissiveIntensity = 0;   // si accende quando riceve segnale ed energia
+    rec.add(new THREE.Mesh(new THREE.CylinderGeometry(11, 11.5, 3.6, 48), recM));
     const recBox = new THREE.Mesh(new THREE.BoxGeometry(13, 4.2, 12), ti); recBox.position.set(0, -.2, 13.5); rec.add(recBox);
     scene.updateMatrixWorld(true);
     const leadStart = V(0, -.2, 19).applyMatrix4(rec.matrixWorld);
@@ -226,36 +233,83 @@ function init(box) {
     };
     const waves = [0, 1, 2].map(() => ring(V(118, 0, 4), 10, 0xff8a6a));
     const wavesR = [0, 1, 2].map(() => ring(V(-118, 0, 4), 10, 0xff8a6a));
-    const rf = [0, 1].map(() => { const m = ring(coilPos.clone().addScaledVector(coilN, -6), 6, 0x9fb6ff); m.quaternion.setFromUnitVectors(V(0, 0, 1), coilN); return m; });
+    /* ---------- passi 1-3: suono nei microfoni, elaborazione, cavo, radio attraverso la pelle ---------- */
+    const fxRing = (color, r = 1, tubeR = .07) => { const m = new THREE.Mesh(new THREE.TorusGeometry(r, tubeR, 6, 64),
+      new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0, depthWrite: false, depthTest: false })); m.renderOrder = 11; m.visible = false; scene.add(m); return m; };
+    // onde sonore: archi concentrici che arrivano da fuori (di lato e davanti alla testa) e si stringono su ciascun foro.
+    // Stanno nel piano rivolto alla camera del passo 1, aperti verso il lato da cui arriva il suono.
+    const micView = micN.clone().add(V(.3, .4, -.4)).normalize();          // da dove guarda la camera del passo 1
+    const srcDir = V(-.2, 1, -.6);   // da sopra e da dietro: gli archi non attraversano il padiglione srcDir.addScaledVector(micView, -srcDir.dot(micView)).normalize();
+    const ARC = 2.1, arcQ = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(srcDir, new THREE.Vector3().crossVectors(micView, srcDir), micView))
+      .multiply(new THREE.Quaternion().setFromAxisAngle(V(0, 0, 1), -ARC / 2));
+    const micArcs = mics.map(() => [0, 1, 2, 3].map(() => { const m = new THREE.Mesh(new THREE.TorusGeometry(1, .036, 6, 40, ARC),
+      new THREE.MeshBasicMaterial({ color: 0xffa070, transparent: true, opacity: 0, depthWrite: false, depthTest: false })); m.renderOrder = 11; m.visible = false; m.quaternion.copy(arcQ); scene.add(m); return m; }));
+    const micGlow = mics.map(mc => { const s = sprite(4); s.position.copy(mc.p); s.visible = false; return s; });
+    // elaborazione: impulsi luminosi che scorrono dentro il processore, dai microfoni allo spinotto (il colore del corpo non cambia)
+    const bodyPath = new THREE.CatmullRomCurve3([mics[0].p, mics[1].p, procC.clone().lerp(mics[1].p, .3), cableA]);
+    const bodyPulses = [0, 1, 2, 3, 4].map(() => { const s = sprite(3.2, 0x9fc0ff); s.visible = false; return s; });
+    const cableGlowM = new THREE.MeshBasicMaterial({ color: 0xffa060, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending });
+    const cableGlow = new THREE.Mesh(new THREE.TubeGeometry(coilCable, 120, 1.25, 10), cableGlowM); cableGlow.renderOrder = 11; cableGlow.visible = false; scene.add(cableGlow);
+    const coilGlow = sprite(16, 0xffb080); coilGlow.position.copy(coilPos); coilGlow.visible = false;
+    const recTop = recPos.clone().addScaledVector(coilN, 1.8);
+    const rf = [0, 1, 2].map(() => { const m = fxRing(0x9fc0ff, 1, .09); m.quaternion.setFromUnitVectors(V(0, 0, 1), coilN); return m; });
+    const recGlow = sprite(15, 0x9fb6ff); recGlow.position.copy(recPos); recGlow.visible = false;
+    // passo 3: "tassello" in sezione sotto la bobina: pelle (rosata, ~5 mm) e osso (avorio) su cui poggia il ricevitore
+    const skin0 = V(65.5, 42, -42), layers = new THREE.Group(); layers.visible = false; scene.add(layers);
+    const layerM = [new THREE.MeshStandardMaterial({ color: 0xe0705e, roughness: .7, transparent: true, opacity: 0, depthWrite: false }),
+      new THREE.MeshStandardMaterial({ color: 0xf3e9cf, roughness: .9, transparent: true, opacity: 0, depthWrite: false }),
+      new THREE.MeshBasicMaterial({ color: 0x4a2c28, transparent: true, opacity: 0, depthWrite: false })];
+    for (const [d0, d1, m] of [[0, 4.6, layerM[0]], [6.6, 13, layerM[1]]]) {
+      const b = new THREE.Mesh(new THREE.CylinderGeometry(17, 17, d1 - d0, 56), m); b.renderOrder = 4;   // tassello rotondo
+      b.position.copy(skin0).addScaledVector(coilN, -(d0 + d1) / 2); b.quaternion.setFromUnitVectors(V(0, 1, 0), coilN); layers.add(b);
+      for (const d of [d0, d1]) {                                         // bordo sottile scuro sul contorno di ogni strato
+        const e = new THREE.Mesh(new THREE.TorusGeometry(17, .22, 6, 72), layerM[2]); e.renderOrder = 5;
+        e.position.copy(skin0).addScaledVector(coilN, -d); e.quaternion.setFromUnitVectors(V(0, 0, 1), coilN); layers.add(e);
+      }
+    }
 
     /* ---------- tratti del segnale ---------- */
-    const procMic = V(0, 0, 0).applyMatrix4(cp.proc.matrixWorld).add(V(4, 18, 4));
     const seg = {
-      mic: new THREE.LineCurve3(V(118, 6, 4), procMic), cable: coilCable,
-      rf: new THREE.LineCurve3(coilPos, recPos), lead: leadCurve, array: arrCurve, nerve: nerveCurve, path: mainCurve
+      lead: leadCurve, array: arrCurve, nerve: nerveCurve, path: mainCurve
     };
 
     /* ---------- camera ---------- */
     const camera = new THREE.PerspectiveCamera(32, 1, 1, 3000);
+    const sideC = cx.z < 0 ? cx.clone() : cx.clone().negate();      // lungo la pelle, dal lato della nuca
     const shots = {
       f0: [V(250, 45, -95), V(72, 4, -12)],                     // oggi, da fuori: la testa e il CP1000 dietro l'orecchio sinistro
       back1: [V(45, 120, -235), V(0, -8, -4)],                  // da dietro: le due coclee
       back: [V(0, 140, -240), V(0, -6, -6)],                    // da dietro: le due protesi, intere nel riquadro
       coch3: [ccL.clone().add(V(36, 10, 30)), ccL.clone()],     // orecchio interno sinistro da vicino, con gli elettrodi (il filo resta dietro)
-      out: [V(330, 70, 150), V(60, 8, -6)],
-      ear: [V(210, 60, 30), V(76, 14, -14)],
+      // passo 1: da vicino sul dorso del processore, dove ci sono i due microfoni
+      // da dietro e un po' dall'alto: si vede il retro liscio del padiglione, non il bordo aperto della scansione
+      mic: [micMid.clone().lerp(procC, .3).addScaledVector(micView, 100), micMid.clone().lerp(procC, .3)],
+      mic2: [micMid.clone().lerp(procC, .45).addScaledVector(micN.clone().add(V(.35, .5, -.25)).normalize(), 96), micMid.clone().lerp(procC, .45)],
+      // passo 2: la camera segue il cavo dallo spinotto alla bobina
+      // un'unica inquadratura con spinotto e bobina insieme: la camera scivola appena dal processore verso la bobina
+      cab0: [cableA.clone().lerp(coilPos, .4).add(V(1, .25, -.3).normalize().multiplyScalar(165)), cableA.clone().lerp(coilPos, .4)],
+      cab1: [cableA.clone().lerp(coilPos, .62).add(V(1, .25, -.25).normalize().multiplyScalar(150)), cableA.clone().lerp(coilPos, .62)],
+      // passo 3: bobina e ricevitore di sbieco, con la pelle trasparente in mezzo
+      // quasi di taglio, lungo la pelle: sopra la bobina, sotto (attraverso la pelle trasparente) il ricevitore
+      coil: [coilPos.clone().lerp(recPos, .5).add(sideC.clone().multiplyScalar(1).addScaledVector(coilN, .3).add(V(0, .12, 0)).normalize().multiplyScalar(95)), coilPos.clone().lerp(recPos, .5)],
+      coil2: [coilPos.clone().lerp(recPos, .5).add(sideC.clone().multiplyScalar(1).addScaledVector(coilN, .25).add(V(0, .08, 0)).normalize().multiplyScalar(88)), coilPos.clone().lerp(recPos, .5)],
       in: [V(135, -6, 125), V(48, -2, 2)],
       coch: [ccL.clone().add(V(28, 30, 22)), ccL.clone()],
       brain: [V(150, 190, 250), V(0, 4, 8)]
     };
     // F0 (0–2,5 s) oggi, da fuori · poi, in tempo di racconto u = t − F0: 0–2,4 fino a ~15 mesi · 2,4–5,2 con le protesi ·
     // 5,2–7,6 ~8 anni · poi l'impianto (passi 1–5)
-    const F0 = 2.5, T = 22.6 + F0;
-    const tl = { mic: [8.0, 9.2], cable: [9.2, 10.5], rf: [10.5, 11.4], lead: [12.0, 14.2], array: [14.2, 16.2], nerve: [16.4, 17.8], path: [17.8, 19.4] };
-    const camKeys = [[-F0, 'f0'], [-.9, 'f0'], [0, 'back1'], [2.4, 'back1'], [3.2, 'back'], [4.4, 'back'], [5.6, 'coch3'], [6.8, 'coch3'], [8.0, 'out'], [9.2, 'out'], [10.8, 'ear'], [12.8, 'in'], [14.4, 'coch'],
-      [16.4, 'coch'], [18.0, 'brain'], [20.8, 'brain'], [22.6, 'f0']].map(([a, b]) => [a + F0, b]);
-    const steps = [[-F0, 'f0'], [0, 'f1'], [2.4, 'f2'], [5.2, 'f3'], [7.8, 1], [9.2, 2], [10.5, 3], [12.0, 4], [16.4, 5], [20.8, 0]];
-    const stepT = { 1: 8.6 + F0, 2: 9.8 + F0, 3: 11.0 + F0, 4: 15.2 + F0, 5: 19.0 + F0 };
+    // I passi 1-3 (microfoni → processore → cavo → bobina → pelle → ricevitore) durano 3 s in più: nel tempo del racconto ts
+    // occupano 7,8–14,8; da 14,8 in poi tutto è come prima spostato di DX (in frame: t = tempo "vecchio" per il resto della scena)
+    const DX = 3, F0 = 2.5, T = 22.6 + DX + F0;
+    const tl = { lead: [12.0, 14.2], array: [14.2, 16.2], nerve: [16.4, 17.8], path: [17.8, 19.4] };
+    const camKeys = [[-F0, 'f0'], [-.9, 'f0'], [0, 'back1'], [2.4, 'back1'], [3.2, 'back'], [4.4, 'back'], [5.6, 'coch3'], [6.8, 'coch3'],
+      [8.2, 'mic'], [10.5, 'mic2'], [11.3, 'cab0'], [12.7, 'cab1'], [13.4, 'coil'], [14.8, 'coil2'], [15.8, 'in'], [17.4, 'coch'],
+      [19.4, 'coch'], [21.0, 'brain'], [23.8, 'brain'], [25.6, 'f0']].map(([a, b]) => [a + F0, b]);
+    const steps = [[-F0, 'f0'], [0, 'f1'], [2.4, 'f2'], [5.2, 'f3'], [7.8, 1], [10.9, 2], [14.35, 3], [15.0, 4], [19.4, 5], [23.8, 0]];
+    const stepT = { 1: 9.0 + F0, 2: 12.0 + F0, 3: 14.5 + F0, 4: 18.2 + F0, 5: 22.0 + F0 };
+    // etichette piccole che accompagnano il segnale (tempo ts)
+    const tags = { m1: [8.3, 9.9], m2: [9.8, 10.95], m3: [11.05, 13.05], m4: [13.4, 14.95], sk: [13.5, 15.2], bo: [13.5, 15.2] };
     const withLab = { f0: ['f0'], f1: ['f1', 'o12'], f2: ['f2', 'o12'], f3: ['f3', 'o3'] };   // didascalia della fase e orientamento
     const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     const lerp = (a, b, t) => a + (b - a) * t;
@@ -270,13 +324,15 @@ function init(box) {
     const items = [...document.querySelectorAll('.ci-steps:not(.ci-full) li')];
     const itemN = li => [...li.parentElement.children].indexOf(li) + 1;   // passo dentro il proprio elenco (italiano / inglese)
     const labels = [...box.querySelectorAll('.ci3d-lab')];
-    const labelAt = { 1: V(0, 0, 0).applyMatrix4(cp.proc.matrixWorld), 2: coilPos.clone().add(V(4, 10, 0)), 3: recPos.clone(), 4: ccL, 5: AC_R };
+    const labelAt = { 1: procC.clone().addScaledVector(micN, -6).add(V(0, -16, 0)), 2: coilPos.clone().addScaledVector(cy, 21).addScaledVector(coilN, 3), 3: recPos.clone(), 4: ccL, 5: AC_R,
+      m1: micMid.clone().addScaledVector(micN, 4), m2: micMid.clone().addScaledVector(micN, 4), m3: coilCable.getPoint(0), m4: coilPos.clone().addScaledVector(cy, 16).addScaledVector(coilN, 4),
+      sk: V(65.5, 42, -42).addScaledVector(coilN, -2.3).addScaledVector(cy, -17), bo: V(65.5, 42, -42).addScaledVector(coilN, -9.8).addScaledVector(cy, -24) };   // sotto il tassello, sfalsate   // sopra la bobina; l'impianto ha l'etichetta sotto
     let curStep = null;
     function setStep(n) {
       if (n === curStep) return; curStep = n;
       items.forEach(li => li.classList.toggle('on', itemN(li) === n));
       const on = withLab[n] || [String(n)];
-      labels.forEach(l => l.classList.toggle('on', on.includes(l.dataset.n)));
+      labels.forEach(l => { if (!tags[l.dataset.n]) l.classList.toggle('on', on.includes(l.dataset.n)); });
     }
 
     const playBtn = box.querySelector('.ci3d-play');
@@ -299,7 +355,8 @@ function init(box) {
     });
 
     function frame() {
-      const tt = clock(), t = tt - F0;                              // t: tempo del racconto, negativo in F0
+      const tt = clock(), ts = tt - F0;                             // ts: tempo del racconto, negativo in F0
+      const t = ts < 11.8 ? ts : ts < 11.8 + DX ? 11.8 : ts - DX;   // t: tempo "di prima" per tutto ciò che non riguarda i passi 1-3
       let i = 0; while (i < camKeys.length - 2 && tt >= camKeys[i + 1][0]) i++;
       const [ta, sa] = camKeys[i], [tb, sb] = camKeys[i + 1], k = ease(win(tt, ta, tb));
       const pos = shots[sa][0].clone().lerp(shots[sb][0], k), tgt = shots[sa][1].clone().lerp(shots[sb][1], k);
@@ -319,12 +376,17 @@ function init(box) {
       const inside = Math.max(pre, win(t, 11.8, 13.2) * (1 - win(t, 21.0, 22.2)));
       const close = Math.max(win(t, 4.8, 5.6) * (1 - win(t, 6.8, 7.6)), win(t, 13.6, 14.4) * (1 - win(t, 16.4, 17.2)));
       mat.skin.opacity = lerp(lerp(1, .1, inside), .07, pre); mat.skin.depthWrite = inside < .3;   // quasi opaca: scrive la profondità, niente buchi da ordinamento
-      mat.pinna.opacity = mat.skin.opacity; mat.pinna.depthWrite = mat.skin.depthWrite;
+      // passo 3: la pelle si fa trasparente (la camera è vicina alla bobina) e sotto si vede il ricevitore
       mat.skull.opacity = lerp(lerp(lerp(1, .18, inside), .1, pre), .06, close); mat.skull.depthWrite = inside < .3;
+      const skinWin = ts > 13.0 && ts < 16.2 ? win(ts, 13.0, 13.6) : 0;
+      if (skinWin > 0) { mat.skin.opacity = Math.min(mat.skin.opacity, lerp(1, .25, skinWin)); mat.skin.depthWrite = skinWin < .3 && mat.skin.depthWrite;
+        mat.skull.opacity = Math.min(mat.skull.opacity, lerp(1, .12, skinWin)); mat.skull.depthWrite = skinWin < .3 && mat.skull.depthWrite; }
+      mat.pinna.opacity = mat.skin.opacity; mat.pinna.depthWrite = mat.skin.depthWrite;
       const see = inside * (1 - win(t, 20.0, 21.0));
+      const hideBrain = skinWin * (1 - win(ts, 15.0, 15.8));             // passo 3: niente cervello rosa dietro il tassello
       // nelle fasi iniziali cervello più trasparente: coclee e nervi devono staccarsi dal rosa
-      mat.cortex.opacity = lerp(lerp(lerp(1, .3, see), .13, pre), .1, close); mat.cortex.depthWrite = see < .3;
-      mat.white.opacity = lerp(1, 0, see); mat.white.visible = see < .98; mat.white.depthWrite = see < .05;
+      mat.cortex.opacity = lerp(lerp(lerp(lerp(1, .3, see), .13, pre), .1, close), .03, hideBrain); mat.cortex.depthWrite = see < .3 && hideBrain < .05;
+      mat.white.opacity = lerp(1, 0, see) * (1 - hideBrain); mat.white.visible = see < .98 && hideBrain < .95; mat.white.depthWrite = see < .05 && hideBrain < .05;
       mat.cerebellum.opacity = lerp(lerp(1, .45, see), .2, pre); mat.cerebellum.depthWrite = see < .3;
       pathMat.opacity = .7 * win(t, 17.2, 18.0) * (1 - win(t, 20.6, 21.4));
       pathMat.visible = pathMat.opacity > .005;
@@ -365,11 +427,35 @@ function init(box) {
       let p = null;
       for (const [name, [a, b]] of Object.entries(tl)) if (t >= a && t < b) p = seg[name].getPoint(win(t, a, b));
       pulse.visible = !!p; trail.forEach(s => s.visible = !!p);
-      const near = t > 13.4 && t < 16.8 ? .3 : 1;   // da vicino la luce non deve coprire la coclea pulse.scale.setScalar(9 * near); trail.forEach((s, j) => s.scale.setScalar((6 - j * 1.5) * near));
+      const near = t > 13.4 && t < 16.8 ? .3 : 1;   // da vicino la luce non deve coprire la coclea
+      pulse.scale.setScalar(9 * near); trail.forEach((s, j) => s.scale.setScalar((6 - j * 1.5) * near));
       if (p) { trail[2].position.copy(trail[1].position); trail[1].position.copy(trail[0].position); trail[0].position.copy(pulse.position); pulse.position.copy(p); }
       pulse2.visible = t >= tl.path[0] && t < tl.path[1]; if (pulse2.visible) pulse2.position.copy(ipsiCurve.getPoint(win(t, ...tl.path)));
-      if (t > 7.6) waves.forEach((w, j) => { const q = win(t, 7.7 + j * .3, 8.9 + j * .3); w.material.opacity = q > 0 && q < 1 ? .8 * (1 - q) : 0; w.scale.setScalar(.4 + q * 1.4); w.position.x = lerp(128, 96, win(t, 7.8, 9.2)); });
-      rf.forEach((r, j) => { const q = win(t, 10.5 + j * .3, 11.4 + j * .3); r.material.opacity = q > 0 && q < 1 ? .9 * (1 - q) : 0; r.scale.setScalar(.6 + q * 1.8); });
+      // passo 1: onde che si stringono ed entrano nei due fori dei microfoni, i fori si accendono, poi il processore "lavora"
+      micArcs.forEach((rs, i) => rs.forEach((r, j) => {
+        const a = 8.2 + j * .35 + i * .1, q = win(ts, a, a + 1.1);
+        r.visible = q > 0 && q < 1; if (!r.visible) return;
+        r.position.copy(mics[i].p); r.scale.setScalar(lerp(20, 1.2, q));                      // da lontano fino al foro
+        r.material.opacity = (.6 + .35 * q) * Math.min(1, q * 4) * (1 - win(q, .85, 1));   // più nitide vicino al foro
+      }));
+      micGlow.forEach((s, i) => { const b = bump(ts, 8.9 + i * .15, 10.2); s.visible = b > 0; s.material.opacity = .9 * b; s.scale.setScalar(3.5 + 1.5 * Math.sin(ts * 12) ** 2); });
+      bodyPulses.forEach((s, j) => { const q = win(ts, 9.7 + j * .22, 10.5 + j * .22);
+        s.visible = q > 0 && q < 1; if (!s.visible) return;
+        s.position.copy(bodyPath.getPoint(q)); s.material.opacity = .9 * Math.sin(Math.PI * q); s.material.color.setHex(q > .8 ? 0xffb080 : 0x9fc0ff); });
+      // passo 2: il cavo si accende dallo spinotto alla coda della bobina
+      const fc = win(ts, 11.1, 12.7), cOn = ts > 11.05 && ts < 13.5;
+      cableGlow.visible = cOn; if (cOn) { cableGlowM.opacity = .9 * (1 - win(ts, 13.0, 13.5)); cableGlow.geometry.setDrawRange(0, Math.ceil(fc * 120) * 60); }
+      labelAt.m3.copy(coilCable.getPoint(fc));
+      if (ts > 11.05 && ts < 12.75) { pulse.visible = true; pulse.position.copy(coilCable.getPoint(fc)); pulse.scale.setScalar(6); }
+      const cg = bump(ts, 12.6, 13.6); coilGlow.visible = cg > 0; coilGlow.material.opacity = .8 * cg;
+      // passo 3: anelli radio dalla bobina, attraverso la pelle, fino al ricevitore, che si accende
+      rf.forEach((r, j) => { const a = 13.5 + j * .4, q = win(ts, a, a + .9);
+        r.visible = q > 0 && q < 1; if (!r.visible) return;
+        r.position.copy(coilPos).lerp(recTop, q); r.scale.setScalar(lerp(5, 9, q)); r.material.opacity = .95 * Math.min(1, q * 5) * (1 - .5 * q); });
+      const rg = bump(ts, 14.3, 15.1); recGlow.visible = rg > 0; recGlow.material.opacity = .85 * rg;
+      recM.emissiveIntensity = 1.4 * rg * (.7 + .3 * Math.sin(ts * 20));   // il ricevitore riceve segnale ed energia: lampeggia
+      const lw = skinWin * (1 - win(ts, 15.0, 15.6));
+      layers.visible = lw > .01; layerM[0].opacity = .6 * lw; layerM[1].opacity = .95 * lw; layerM[2].opacity = .8 * lw;   // strati ben distinti; il ricevitore sta in mezzo
       if (led) led.material.color && led.material.color.setHex(playing && (tt % 1.5) < .12 ? 0x0c3b1f : 0x2ecc71);
       contacts.forEach((m, j) => { const a = 14.2 + j * .08; m.emissiveIntensity = t >= a && t < 17.2 ? Math.max(0, 1.8 - (t - a) * .9) : 0; });
       const cIC = Math.max(0, 1 - Math.abs(t - 18.5) * 2);
@@ -378,7 +464,8 @@ function init(box) {
       const g = win(t, 19.0, 19.6) * (1 - win(t, 21.0, 22.0));
       acR.material.opacity = g * (.8 + .2 * Math.sin(t * 6)); acR.scale.setScalar(30 + 12 * g);
       acL.material.opacity = .22 * g; acL.scale.setScalar(16);   // il lato opposto all'impianto riceve di più
-      let st = 0; for (const [a, n] of steps) if (t >= a) st = n; setStep(st);
+      let st = 0; for (const [a, n] of steps) if (ts >= a) st = n; setStep(st);
+      labels.forEach(l => { const w = tags[l.dataset.n]; if (w) l.classList.toggle('on', ts >= w[0] && ts < w[1]); });
       labels.forEach(l => {
         const w = labelAt[l.dataset.n]; if (!w) return;
         const s = w.clone().project(camera);
@@ -408,7 +495,7 @@ function init(box) {
     box.classList.add('ci3d-on');
     // per le prove: istante preciso e camera libera
     box.ci3dCam = (p, q) => { dbgCam = p ? [V(...p), V(...q)] : null; frame(); };
-    box.ci3dScene = scene;
+    box.ci3dScene = scene; box.ci3dPts = { micMid, micN, procC, coilPos, cableA };
     box.ci3dSeek = t => { playing = false; tPause = t; playBtn.setAttribute('aria-pressed', 'true'); frame(); };
     kick();
   }
