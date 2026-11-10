@@ -280,12 +280,13 @@ function init(box) {
     const setPlaying = p => {
       if (!p && playing) tPause = clock();
       playing = p; playBtn.setAttribute('aria-pressed', String(!p)); playBtn.classList.toggle('paused', !p);
-      if (p) t0 = performance.now() - tPause * 1000;
+      if (p) t0 = performance.now() - tPause * 1000 / SPEED;
       kick();
     };
     playBtn.addEventListener('click', () => setPlaying(!playing));
     playBtn.classList.toggle('paused', !playing); playBtn.setAttribute('aria-pressed', String(!playing));
-    const clock = () => playing ? ((performance.now() - t0) / 1000) % T : tPause;
+    const SPEED = .65;                                                 // racconto rallentato: un giro dura ~39 s
+    const clock = () => playing ? ((performance.now() - t0) / 1000 * SPEED) % T : tPause;
     // i passi dell'elenco portano la scena a quel punto (anche da tastiera)
     items.forEach(li => {
       li.tabIndex = 0; li.setAttribute('role', 'button');
@@ -300,6 +301,9 @@ function init(box) {
       const pos = shots[sa][0].clone().lerp(shots[sb][0], k), tgt = shots[sa][1].clone().lerp(shots[sb][1], k);
       if (!drag) { yaw *= .97; pitch *= .97; }
       if (dbgCam) { pos.copy(dbgCam[0]); tgt.copy(dbgCam[1]); }
+      // riquadro stretto (telefono): nelle inquadrature del dispositivo il centro si sposta verso processore e bobina, così non escono dal bordo
+      const devW = (/^(out|ear|f0)$/.test(sa) ? 1 - k : 0) + (/^(out|ear|f0)$/.test(sb) ? k : 0);
+      if (camera.aspect < 1.25) tgt.lerp(V(78, 18, -26), devW * Math.min(1, (1.25 - camera.aspect) * 2.2));
       const off = pos.sub(tgt).multiplyScalar(Math.max(1, 1.3 / camera.aspect));   // riquadro quadrato (telefono): un po' più lontano
       const sph = new THREE.Spherical().setFromVector3(off);
       sph.theta += yaw; sph.phi = Math.max(.15, Math.min(Math.PI - .15, sph.phi - pitch));
