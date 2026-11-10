@@ -9,9 +9,8 @@
    causa non nota; schema del caso più frequente): cellule ciliate che funzionano, che si spengono con le protesi,
    poi a ~8 anni l'impianto a sinistra. Poi i passi 1-5 dell'elenco accanto.
    Si carica solo quando la sezione si avvicina; senza WebGL resta l'illustrazione statica. */
-import * as THREE from './3d/three.module.min.js';
-import { buildCP1000 } from './cp1000.js?v=3';
-import { buildAid } from './aid.js?v=5';
+// three.js e i modelli si scaricano solo quando la sezione si avvicina (vedi start)
+let THREE, buildCP1000, buildAid;
 
 const box = document.querySelector('.ci3d');
 if (box) init(box);
@@ -26,6 +25,8 @@ function init(box) {
   io.observe(box);
 
   async function start() {
+    [THREE, { buildCP1000 }, { buildAid }] = await Promise.all([
+      import('./3d/three.module.min.js'), import('./cp1000.js?v=3'), import('./aid.js?v=5')]);
     const canvas = document.createElement('canvas');
     let renderer;
     // telefono: meno pixel e niente antialias (scena più leggera); parte ferma, si avvia con «riproduci»
@@ -134,7 +135,7 @@ function init(box) {
     /* ---------- impianto interno (schematico): ricevitore sull'osso, filo, elettrodi, MP1 ---------- */
     const ti = new THREE.MeshStandardMaterial({ color: 0xc9cdd4, metalness: .65, roughness: .3 });
     const silicone = new THREE.MeshPhysicalMaterial({ color: 0xe9ecef, roughness: .35, clearcoat: .5 });
-    const recPos = V(65.5, 42, -42).addScaledVector(coilN, -6.5);           // ricevitore sull'osso, sotto la bobina (pelle ~5–6 mm)
+    const recPos = V(65.5, 42, -42).addScaledVector(coilN, -6.3);           // ricevitore sull'osso, sotto la bobina (pelle ~5–6 mm)
     const rec = new THREE.Group(); rec.position.copy(recPos); rec.quaternion.setFromUnitVectors(V(0, 1, 0), coilN); impl.add(rec);
     const recM = silicone.clone(); recM.color.setHex(0xf4f6f8); recM.metalness = .3; recM.emissive = new THREE.Color(0x6f9bff); recM.emissiveIntensity = 0;   // si accende quando riceve segnale ed energia
     rec.add(new THREE.Mesh(new THREE.CylinderGeometry(11, 11.5, 3.6, 48), recM));
@@ -254,12 +255,13 @@ function init(box) {
     const recTop = recPos.clone().addScaledVector(coilN, 1.8);
     const rf = [0, 1, 2].map(() => { const m = fxRing(0x9fc0ff, 1, .09); m.quaternion.setFromUnitVectors(V(0, 0, 1), coilN); return m; });
     const recGlow = sprite(15, 0x9fb6ff); recGlow.position.copy(recPos); recGlow.visible = false;
-    // passo 3: "tassello" in sezione sotto la bobina: pelle (rosata, ~5 mm) e osso (avorio) su cui poggia il ricevitore
+    // passo 3: "tassello" in sezione sotto la bobina, dall'esterno: pelle (0–4.5 mm) → ricevitore (4.5–8.1) → osso (da 6.9, incavo ~1 mm)
+    // (revisione otologica: il ricevitore poggia sull'osso, ≤ 6 mm di tessuto tra bobina e ricevitore, calamite sullo stesso asse)
     const skin0 = V(65.5, 42, -42), layers = new THREE.Group(); layers.visible = false; scene.add(layers);
     const layerM = [new THREE.MeshStandardMaterial({ color: 0xe0705e, roughness: .7, transparent: true, opacity: 0, depthWrite: false }),
-      new THREE.MeshStandardMaterial({ color: 0xf3e9cf, roughness: .9, transparent: true, opacity: 0, depthWrite: false }),
+      new THREE.MeshStandardMaterial({ color: 0xcdb27a, roughness: .95, transparent: true, opacity: 0, depthWrite: false }),
       new THREE.MeshBasicMaterial({ color: 0x4a2c28, transparent: true, opacity: 0, depthWrite: false })];
-    for (const [d0, d1, m] of [[0, 4.6, layerM[0]], [6.6, 13, layerM[1]]]) {
+    for (const [d0, d1, m] of [[0, 4.5, layerM[0]], [6.9, 14, layerM[1]]]) {
       const b = new THREE.Mesh(new THREE.CylinderGeometry(17, 17, d1 - d0, 56), m); b.renderOrder = 4;   // tassello rotondo
       b.position.copy(skin0).addScaledVector(coilN, -(d0 + d1) / 2); b.quaternion.setFromUnitVectors(V(0, 1, 0), coilN); layers.add(b);
       for (const d of [d0, d1]) {                                         // bordo sottile scuro sul contorno di ogni strato
@@ -326,7 +328,7 @@ function init(box) {
     const labels = [...box.querySelectorAll('.ci3d-lab')];
     const labelAt = { 1: procC.clone().addScaledVector(micN, -6).add(V(0, -16, 0)), 2: coilPos.clone().addScaledVector(cy, 21).addScaledVector(coilN, 3), 3: recPos.clone(), 4: ccL, 5: AC_R,
       m1: micMid.clone().addScaledVector(micN, 4), m2: micMid.clone().addScaledVector(micN, 4), m3: coilCable.getPoint(0), m4: coilPos.clone().addScaledVector(cy, 16).addScaledVector(coilN, 4),
-      sk: V(65.5, 42, -42).addScaledVector(coilN, -2.3).addScaledVector(cy, -17), bo: V(65.5, 42, -42).addScaledVector(coilN, -9.8).addScaledVector(cy, -24) };   // sotto il tassello, sfalsate   // sopra la bobina; l'impianto ha l'etichetta sotto
+      sk: V(65.5, 42, -42).addScaledVector(coilN, -2.2).addScaledVector(cy, -17), bo: V(65.5, 42, -42).addScaledVector(coilN, -11).addScaledVector(cy, -17) };   // sotto il tassello, sfalsate   // sopra la bobina; l'impianto ha l'etichetta sotto
     let curStep = null;
     function setStep(n) {
       if (n === curStep) return; curStep = n;

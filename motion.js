@@ -54,7 +54,7 @@
       var named=kind==='works'?nameWorks():[];
       if(kind) root.classList.add('vt-'+kind);
       var vt=document.startViewTransition(function(){replay=true;el.click();replay=false});
-      if(kind==='theme') vt.ready.then(function(){circle(el)});
+      if(kind==='theme') vt.ready.then(function(){circle(el)}).catch(function(){});
       vt.finished.then(function(){root.classList.remove('vt-'+kind);named.forEach(function(w){w.style.viewTransitionName=''})});
     },true);
   }
