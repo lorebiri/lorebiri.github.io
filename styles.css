@@ -971,3 +971,6 @@ html.mo .tlist.in>li,html.mo .nums.in>li,html.mo .cs-demo.in>figure,html.mo .cs-
 }
 /* desktop: la scena resta in vista mentre si legge la colonna del testo */
 @media (min-width:901px){.ci-fig>.ci3d{position:sticky;top:76px}}
+/* riquadro sotto la scena (telefono): occupa spazio solo quando c'è una scritta */
+.ci3d-below{min-height:0}
+.ci3d-below:not(:has(.on)){display:none}

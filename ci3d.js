@@ -390,7 +390,12 @@ function init(box) {
       // riquadro stretto (telefono): nelle inquadrature del dispositivo il centro si sposta verso processore e bobina, così non escono dal bordo
       const devW = (/^(out|ear|f0)$/.test(sa) ? 1 - k : 0) + (/^(out|ear|f0)$/.test(sb) ? k : 0);
       if (camera.aspect < 1.25) tgt.lerp(V(78, 18, -26), devW * Math.min(1, (1.25 - camera.aspect) * 2.2));
-      const off = pos.sub(tgt).multiplyScalar(Math.max(1, 1.3 / camera.aspect));   // riquadro quadrato (telefono): un po' più lontano
+      // passi 1-2 (microfoni, cavo) nel riquadro quadrato: il processore è lungo e la bobina sta di lato, quindi
+      // centro tra processore e bobina e camera più lontana, così il dispositivo resta intero (sul desktop non cambia nulla)
+      const closeW = (/^(mic|mic2|cab0|cab1)$/.test(sa) ? 1 - k : 0) + (/^(mic|mic2|cab0|cab1)$/.test(sb) ? k : 0);
+      const sq = camera.aspect < 1.25 ? closeW * Math.min(1, (1.25 - camera.aspect) * 4) : 0;
+      if (sq) tgt.lerp(procC.clone().lerp(coilPos, .45), sq);
+      const off = pos.sub(tgt).multiplyScalar(Math.max(1, 1.3 / camera.aspect) * (1 + .4 * sq));   // riquadro quadrato (telefono): un po' più lontano
       const sph = new THREE.Spherical().setFromVector3(off);
       sph.theta += yaw; sph.phi = Math.max(.15, Math.min(Math.PI - .15, sph.phi - pitch));
       camera.position.copy(tgt).add(new THREE.Vector3().setFromSpherical(sph)); camera.lookAt(tgt);
