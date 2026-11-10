@@ -11,7 +11,7 @@
    Si carica solo quando la sezione si avvicina; senza WebGL resta l'illustrazione statica. */
 import * as THREE from './3d/three.module.min.js';
 import { buildCP1000 } from './cp1000.js?v=3';
-import { buildAid } from './aid.js?v=2';
+import { buildAid } from './aid.js?v=5';
 
 const box = document.querySelector('.ci3d');
 if (box) init(box);
@@ -28,13 +28,15 @@ function init(box) {
   async function start() {
     const canvas = document.createElement('canvas');
     let renderer;
-    try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true }); }
+    // telefono: meno pixel e niente antialias (scena più leggera); parte ferma, si avvia con «riproduci»
+    const small = innerWidth < 700 || matchMedia('(pointer: coarse)').matches;
+    try { renderer = new THREE.WebGLRenderer({ canvas, antialias: !small, alpha: true, powerPreference: 'low-power' }); }
     catch (e) { box.classList.add('ci3d-off'); return; }
     const [man, buf] = await Promise.all([
       fetch('3d/ci-scene.json?v=2').then(r => r.json()),
       fetch('3d/ci-scene.bin?v=2').then(r => r.arrayBuffer())
     ]);
-    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, innerWidth < 700 ? 1.5 : 1.75));
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, small ? 1.25 : 1.75));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     box.querySelector('.ci3d-stage').prepend(canvas);
@@ -167,7 +169,7 @@ function init(box) {
     // padiglione, corpo che scende nel solco dietro il padiglione appoggiato alla testa (come il CP1000), chiocciola nella
     // conca con la punta ~4 mm dentro il condotto uditivo; il tubicino (aid.js, fit) collega gancio e chiocciola.
     // Rotazioni nel riferimento della protesi: beccheggio attorno a z (coda in giù), imbardata attorno a y, rollio attorno a x.
-    const aidPose = { pit: 34, yaw: 6, rol: 0, hook: [83.6, 24.6, -7], tip: [64, -17, 15], moldTilt: [0, 0, -15] };
+    const aidPose = { pit: 34, yaw: 6, rol: 0, hook: [83.6, 24.6, -7], tip: [64, -17, 15], moldTilt: [0, 0, -15], moldScale: .88 };   // chiocciola un po' più piccola: sta tutta nella conca
     function placeAid(a, s, P) {
       const D = Math.PI / 180, base = new THREE.Matrix4().makeBasis(V(0, 0, 1), V(0, 1, 0), V(s, 0, 0));
       const rot = new THREE.Matrix4().makeRotationX(P.rol * D).multiply(new THREE.Matrix4().makeRotationY(P.yaw * D)).multiply(new THREE.Matrix4().makeRotationZ(P.pit * D));
@@ -175,7 +177,7 @@ function init(box) {
       a.aid.matrix.makeTranslation(P.hook[0] * s, P.hook[1], P.hook[2]).multiply(base).multiply(rot);
       // chiocciola: orientata come nel modello (piano del profilo parallelo alla testa), con la punta nel condotto
       const mr = new THREE.Matrix4().makeRotationFromEuler(new THREE.Euler(P.moldTilt[0] * D, P.moldTilt[1] * D, P.moldTilt[2] * D));
-      const mw = base.clone().multiply(mr), tipW = a.anchors.moldTip.clone().applyMatrix4(mw);
+      const mw = base.clone().multiply(mr).multiply(new THREE.Matrix4().makeScale(P.moldScale ?? 1, P.moldScale ?? 1, P.moldScale ?? 1)), tipW = a.anchors.moldTip.clone().applyMatrix4(mw);
       mw.premultiply(new THREE.Matrix4().makeTranslation(P.tip[0] * s - tipW.x, P.tip[1] - tipW.y, P.tip[2] - tipW.z));
       a.fit(a.aid.matrix.clone().invert().multiply(mw), P.bulge ?? 5);
       a.aid.matrixWorldNeedsUpdate = true;
@@ -278,7 +280,7 @@ function init(box) {
     }
 
     const playBtn = box.querySelector('.ci3d-play');
-    let playing = !reduce, t0 = performance.now(), tPause = reduce ? stepT[4] : 0;
+    let playing = !reduce && !small, t0 = performance.now(), tPause = reduce ? stepT[4] : 0;
     const setPlaying = p => {
       if (!p && playing) tPause = clock();
       playing = p; playBtn.setAttribute('aria-pressed', String(!p)); playBtn.classList.toggle('paused', !p);

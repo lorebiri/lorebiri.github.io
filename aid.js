@@ -104,8 +104,8 @@ export function buildAid(THREE) {
   const moldG = new THREE.Group(); aid.add(moldG);      // chiocciola: si può riposizionare con fit() (il tubicino segue)
 
   /* ---------- chiocciola ---------- */
-  const out = [[5.3, -22], [9.3, -21.7], [12, -24.7], [13.3, -29.3], [13.3, -33.3], [11.3, -36.7], [10, -40], [10.7, -42.7], [14, -42], [19.3, -41], [23.3, -42],
-    [25, -45.3], [24, -49.3], [21.3, -53.3], [18.7, -57.3], [15.3, -60.7], [10.7, -62.7], [6, -63], [0, -61.7], [-5.3, -59.3], [-9.3, -55.3], [-11.7, -50],
+  const out = [[5.5, -25.5], [9.3, -25], [12, -27],   // braccio dell'elice un po' più corto: non buca la cimba [13.3, -29.3], [13.3, -33.3], [11.3, -36.7], [10, -40], [10.7, -42.7], [14, -42], [17.5, -41.5], [20.5, -42.5],
+    [22, -45.5], [21.5, -49.5], [19.5, -53.3],   // bordo anteriore più arretrato: resta dietro il trago [18.7, -57.3], [15.3, -60.7], [10.7, -62.7], [6, -63], [0, -61.7], [-5.3, -59.3], [-9.3, -55.3], [-11.7, -50],
     [-11.7, -45.3], [-10, -40.7], [-6.7, -36.7], [-2.7, -35], [.7, -34], [2.7, -30.7], [3.3, -26.7], [4, -23.3]];
   const shape = new THREE.Shape(new THREE.CatmullRomCurve3(out.map(([x, y]) => V(x, y)), true, 'centripetal').getSpacedPoints(200).map(p => new THREE.Vector2(p.x, p.y)));
   const MH = 5.6, rs = 3.2, rz = 3.4;                 // metà spessore e raggi del bordo
@@ -122,10 +122,11 @@ export function buildAid(THREE) {
     mg = new THREE.BufferGeometry(); mg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); mg.setIndex(idx); mg.computeVertexNormals();
   }
   const mold = new THREE.Mesh(mg, moldM); moldG.add(mold);
-  // condotto verso il canale uditivo (dietro, verso la testa) e foro di ventilazione sul davanti
+  // condotto verso il canale uditivo (dietro, verso la testa) e foro di ventilazione sul davanti. Il condotto parte dal bordo
+  // anteriore della conca (x 18): così, con la punta nel condotto uditivo, il resto della chiocciola sta nella conca, dietro il trago
   const canal = new THREE.Mesh(new THREE.CylinderGeometry(3.1, 4.2, 9, 24, 1), moldM);
-  canal.position.set(15.5, -47, -MH - 3.2); canal.rotation.x = Math.PI / 2; canal.rotation.z = .25; moldG.add(canal);
-  const canalTip = new THREE.Mesh(new THREE.SphereGeometry(3.1, 20, 12), moldM); canalTip.position.set(15.5, -47.6, -MH - 7.6); canalTip.scale.z = .5; moldG.add(canalTip);
+  canal.position.set(18, -47, -MH - 3.2); canal.rotation.x = Math.PI / 2; canal.rotation.z = .25; moldG.add(canal);
+  const canalTip = new THREE.Mesh(new THREE.SphereGeometry(3.1, 20, 12), moldM); canalTip.position.set(18, -47.6, -MH - 7.6); canalTip.scale.z = .5; moldG.add(canalTip);
   const vent = new THREE.Mesh(new THREE.CircleGeometry(.45, 14), holeM); moldG.add(vent); mold.updateMatrixWorld(); ray.set(V(5, -57.2, 30), V(0, 0, -1)); vent.position.set(5, -57.2, (ray.intersectObject(mold)[0]?.point.z ?? MH) + .03);
 
   function setOpacity(o) {
@@ -145,5 +146,5 @@ export function buildAid(THREE) {
     tube.geometry.dispose(); tube.geometry = new THREE.TubeGeometry(c, 160, 1.15, 12);
     return c;
   }
-  return { aid, setOpacity, fit, anchors: { hookTop: V(0, 0, 0), mold: V(7, -47, 0), moldTip: V(15.5, -47.6, -13.2) } };
+  return { aid, setOpacity, fit, anchors: { hookTop: V(0, 0, 0), mold: V(7, -47, 0), moldTip: V(18, -47.6, -13.2) } };
 }
