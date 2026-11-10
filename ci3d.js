@@ -17,25 +17,48 @@ if (box) init(box);
 
 function init(box) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const io = new IntersectionObserver(es => {
-    if (!es[0].isIntersecting) return;
-    io.disconnect();
-    start().catch(() => box.classList.add('ci3d-off'));
-  }, { rootMargin: '400px 0px' });
-  io.observe(box);
+  // telefono: meno pixel e niente antialias (scena più leggera)
+  const small = innerWidth < 700 || matchMedia('(pointer: coarse)').matches;
+  // telefono o movimento ridotto: three.js e i modelli (~2,5 MB) si scaricano solo se si tocca «Guarda in 3D» o un passo;
+  // prima si vede il fotogramma statico (poster). Su desktop si carica vicino alla sezione e parte da solo.
+  const gated = small || reduce;
+  box.classList.toggle('ci3d-gated', gated);
+  let loading = null, api = null, pendingStep = null;
+  const load = play => loading || (loading = (box.classList.add('ci3d-loading'), start(play))
+    .catch(() => box.classList.add('ci3d-off')).finally(() => box.classList.remove('ci3d-loading')));
+  if (!gated) {
+    const io = new IntersectionObserver(es => { if (!es[0].isIntersecting) return; io.disconnect(); load(true); }, { rootMargin: '400px 0px' });
+    io.observe(box);
+  }
+  const startBtn = box.querySelector('.ci3d-start');
+  if (startBtn) startBtn.addEventListener('click', () => load(!reduce));
+  // telefono: sopra la scena resta una sola didascalia (fase o passo); l'orientamento va sotto, fuori dal riquadro
+  if (small) {
+    const below = document.createElement('div'); below.className = 'ci3d-below';
+    box.querySelector('.ci3d-stage').after(below);
+    box.querySelectorAll('.ci3d-lab[data-n^="o"]').forEach(l => below.append(l));
+  }
+  // i passi dell'elenco portano la scena a quel punto (pulsanti .ci-go; se mancano, il <li> stesso), anche prima del caricamento
+  const stepItems = [...document.querySelectorAll('.ci-steps:not(.ci-full) li')];
+  const itemN = li => [...li.parentElement.children].indexOf(li) + 1;   // passo dentro il proprio elenco (italiano / inglese)
+  stepItems.forEach(li => {
+    const b = li.querySelector('.ci-go'), go = () => { const n = itemN(li); if (api) api.go(n); else { pendingStep = n; load(false); } };
+    if (b) { b.addEventListener('click', go); return; }
+    li.tabIndex = 0; li.setAttribute('role', 'button');
+    li.addEventListener('click', go); li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+  });
+  box.ci3dLoad = () => load(false);                                      // per le prove
 
-  async function start() {
+  async function start(autoplay) {
     [THREE, { buildCP1000 }, { buildAid }] = await Promise.all([
       import('./3d/three.module.min.js'), import('./cp1000.js?v=3'), import('./aid.js?v=5')]);
     const canvas = document.createElement('canvas');
     let renderer;
-    // telefono: meno pixel e niente antialias (scena più leggera); parte ferma, si avvia con «riproduci»
-    const small = innerWidth < 700 || matchMedia('(pointer: coarse)').matches;
     try { renderer = new THREE.WebGLRenderer({ canvas, antialias: !small, alpha: true, powerPreference: 'low-power' }); }
     catch (e) { box.classList.add('ci3d-off'); return; }
     const [man, buf] = await Promise.all([
-      fetch('3d/ci-scene.json?v=2').then(r => r.json()),
-      fetch('3d/ci-scene.bin?v=2').then(r => r.arrayBuffer())
+      fetch('3d/ci-scene.json?v=3').then(r => r.json()),
+      fetch('3d/ci-scene.bin?v=3').then(r => r.arrayBuffer())
     ]);
     renderer.setPixelRatio(Math.min(devicePixelRatio || 1, small ? 1.25 : 1.75));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -64,8 +87,8 @@ function init(box) {
       labyrinth: new THREE.MeshPhysicalMaterial({ color: 0xa9d8ff, roughness: .25, clearcoat: .7, emissive: 0x1f7dff, emissiveIntensity: .22, transparent: true })
     };
     const stemC = new THREE.Color(0xe2a3a3), icC = new THREE.Color(0xffcf4a);
-    const use = { skin: 'skin', pinna: 'pinna', pinna_r: 'pinna', skull: 'skull', temporal: 'skull', cortex: 'cortex', white: 'white', cerebellum: 'cerebellum',
-      stem: 'stem', colliculus: 'colliculus', labyrinth: 'labyrinth', labyrinth_r: 'labyrinth' };
+    const use = { skin: 'skin', pinna: 'pinna', skull: 'skull', temporal: 'skull', cortex: 'cortex', white: 'white', cerebellum: 'cerebellum',
+      stem: 'stem', colliculus: 'colliculus', labyrinth: 'labyrinth' };
     // il padiglione è una scansione aperta: il bordo (attacco alla testa, sotto il lobo, un buco in cima all'elica) è
     // seghettato. Lo ammorbidisco spostando ogni vertice del bordo verso la media dei suoi due vicini sul bordo.
     function smoothBorder(f, idx, iters) {
@@ -93,6 +116,8 @@ function init(box) {
       const mesh = new THREE.Mesh(g, mat[use[name]] || mat.skin);
       mesh.renderOrder = /skin|pinna/.test(name) ? 3 : /skull|temporal/.test(name) ? 2 : 0;
       root.add(mesh);
+      // orecchio destro: padiglione e labirinto sono gli stessi del sinistro, specchiati (non duplicati nel .bin)
+      if (name === 'pinna' || name === 'labyrinth') { const r = new THREE.Mesh(g, mesh.material); r.renderOrder = mesh.renderOrder; r.scale.x = -1; root.add(r); }
     }
     for (const k of ['skin', 'pinna', 'skull', 'cortex', 'white', 'cerebellum']) { mat[k].transparent = true; mat[k].side = THREE.DoubleSide; }
     mat.stem.transparent = true;
@@ -323,8 +348,7 @@ function init(box) {
     canvas.addEventListener('pointermove', e => { if (!drag) return; yaw = drag.yaw - (e.clientX - drag.x) * .008; pitch = Math.max(-.9, Math.min(.9, drag.pitch + (e.clientY - drag.y) * .006)); kick(); });
     const endDrag = () => { drag = null; }; canvas.addEventListener('pointerup', endDrag); canvas.addEventListener('pointercancel', endDrag);
 
-    const items = [...document.querySelectorAll('.ci-steps:not(.ci-full) li')];
-    const itemN = li => [...li.parentElement.children].indexOf(li) + 1;   // passo dentro il proprio elenco (italiano / inglese)
+    const items = stepItems;
     const labels = [...box.querySelectorAll('.ci3d-lab')];
     const labelAt = { 1: procC.clone().addScaledVector(micN, -6).add(V(0, -16, 0)), 2: coilPos.clone().addScaledVector(cy, 21).addScaledVector(coilN, 3), 3: recPos.clone(), 4: ccL, 5: AC_R,
       m1: micMid.clone().addScaledVector(micN, 4), m2: micMid.clone().addScaledVector(micN, 4), m3: coilCable.getPoint(0), m4: coilPos.clone().addScaledVector(cy, 16).addScaledVector(coilN, 4),
@@ -338,23 +362,22 @@ function init(box) {
     }
 
     const playBtn = box.querySelector('.ci3d-play');
-    let playing = !reduce && !small, t0 = performance.now(), tPause = reduce ? stepT[4] : 0;
+    let playing = false, t0 = performance.now(), tPause = reduce ? stepT[4] : 0;
+    // il pulsante cambia scritta e icona («❚❚ pausa» / «▶ riproduci»): niente aria-pressed, che con un'etichetta che cambia confonde
+    playBtn.removeAttribute('aria-pressed');
+    const showPlay = () => playBtn.classList.toggle('paused', !playing);
     const setPlaying = p => {
       if (!p && playing) tPause = clock();
-      playing = p; playBtn.setAttribute('aria-pressed', String(!p)); playBtn.classList.toggle('paused', !p);
+      playing = p; showPlay();
       if (p) t0 = performance.now() - tPause * 1000 / SPEED;
       kick();
     };
     playBtn.addEventListener('click', () => setPlaying(!playing));
-    playBtn.classList.toggle('paused', !playing); playBtn.setAttribute('aria-pressed', String(!playing));
+    showPlay();
     const SPEED = .65;                                                 // racconto rallentato: un giro dura ~39 s
     const clock = () => playing ? ((performance.now() - t0) / 1000 * SPEED) % T : tPause;
     // i passi dell'elenco portano la scena a quel punto (anche da tastiera)
-    items.forEach(li => {
-      li.tabIndex = 0; li.setAttribute('role', 'button');
-      const go = () => { if (playing) setPlaying(false); tPause = stepT[itemN(li)]; kick(); };
-      li.addEventListener('click', go); li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
-    });
+    const goStep = n => { if (playing) setPlaying(false); tPause = stepT[n]; kick(); };
 
     function frame() {
       const tt = clock(), ts = tt - F0;                             // ts: tempo del racconto, negativo in F0
@@ -498,7 +521,9 @@ function init(box) {
     // per le prove: istante preciso e camera libera
     box.ci3dCam = (p, q) => { dbgCam = p ? [V(...p), V(...q)] : null; frame(); };
     box.ci3dScene = scene; box.ci3dPts = { micMid, micN, procC, coilPos, cableA };
-    box.ci3dSeek = t => { playing = false; tPause = t; playBtn.setAttribute('aria-pressed', 'true'); frame(); };
+    box.ci3dSeek = t => { playing = false; tPause = t; showPlay(); frame(); };
+    api = { go: goStep };
+    if (pendingStep) goStep(pendingStep); else if (autoplay) setPlaying(true);
     kick();
   }
 }
